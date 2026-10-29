@@ -6,17 +6,25 @@ const CONFIG = Object.freeze({
   passwordHashIterations: 3000,
   requestSheet: "Solicitudes",
   memberSheet: "Socios",
-  challengePrefix: "achetsu-totp-",
+  challengePrefix: "achetsu-email-challenge-",
   challengeLifetimeSeconds: 600,
+  challengeMaxAttempts: 5,
+  challengeMaxSends: 3,
+  challengeMaxGlobalSends: 30,
   maxAttachmentBytes: 5 * 1024 * 1024,
-  maxSearchResults: 8
+  maxSearchResults: 8,
+  publicWebAppUrl: "https://script.google.com/macros/s/AKfycbxFIVmTqaf-Yh2VjiN41Wq-AuvcolZjyGKBC5h23KVBnWyof4KJssll97ZrAI5f1lJY/exec",
+  publicSiteUrl: "https://estebancofre-coy.github.io/achetsuweb/",
+  adminNotificationEmail: "esteban.cofre@uaysen.cl"
 });
 
 const REQUEST_HEADERS = [
   "ID", "Fecha", "Estado", "Categoría", "Tipo", "ID socio",
   "Nombre", "Correo", "Teléfono", "Universidad", "Cambios solicitados",
   "ID archivo", "Nombre archivo", "Habilitado 2026",
-  "Revisado por", "Fecha revisión", "Nota administrativa"
+  "Revisado por", "Fecha revisión", "Nota administrativa",
+  "Fecha verificación correo", "Método verificación", "Huella de datos confirmados",
+  "Notificación administrativa"
 ];
 
 const MEMBER_HEADERS = [
@@ -41,6 +49,7 @@ function doGet(event) {
   if (view === "intake") {
     const template = HtmlService.createTemplateFromFile("Intake");
     template.appUrl = publicAppUrl_();
+    template.homeUrl = CONFIG.publicSiteUrl;
     template.memberId = event.parameter.memberId || "";
     template.category = event.parameter.category || "";
     template.requestType = event.parameter.requestType || "";
@@ -70,41 +79,92 @@ function initializeBackend() {
   const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
   ensureSheet_(spreadsheet, CONFIG.requestSheet, REQUEST_HEADERS);
   ensureSheet_(spreadsheet, CONFIG.memberSheet, MEMBER_HEADERS);
+  MailApp.getRemainingDailyQuota();
   return {
     spreadsheetUrl: spreadsheet.getUrl(),
     privateFolderUrl: DriveApp.getFolderById(folderId).getUrl()
   };
 }
 
-function beginTotpChallenge(emailInput) {
-  const email = cleanText_(emailInput, 254).toLowerCase();
-  if (!isValidEmail_(email)) throw new Error("Ingresa un correo válido antes de iniciar la verificación.");
+function beginEmailChallenge(form) {
+  if (!form) throw new Error("No se recibió la solicitud.");
+  const email = cleanText_(form.email, 254).toLowerCase();
+  if (!isValidEmail_(email)) throw new Error("Ingresa un correo válido para recibir el código de verificación.");
+  if (form.consent !== "on") throw new Error("Confirma la declaración antes de solicitar el código.");
+  if (form.website) throw new Error("No se pudo procesar la solicitud.");
+  const requestFingerprint = requestFingerprint_(form);
 
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
   try {
     const cache = CacheService.getScriptCache();
-    const rateKey = "achetsu-totp-rate-" + hashText_(email);
-    const attempts = Number(cache.get(rateKey) || 0);
-    if (attempts >= 3) throw new Error("Se alcanzó el límite de verificaciones para este correo. Intenta nuevamente en 10 minutos.");
-    cache.put(rateKey, String(attempts + 1), CONFIG.challengeLifetimeSeconds);
+    const rateKey = "achetsu-email-rate-" + hashText_(email);
+    const sends = Number(cache.get(rateKey) || 0);
+    if (sends >= CONFIG.challengeMaxSends) {
+      throw new Error("Se alcanzó el límite de códigos para este correo. Intenta nuevamente en 10 minutos.");
+    }
+    const globalRateKey = "achetsu-email-global-rate";
+    const globalSends = Number(cache.get(globalRateKey) || 0);
+    if (globalSends >= CONFIG.challengeMaxGlobalSends) {
+      throw new Error("Se alcanzó el límite temporal de envíos. Intenta nuevamente en 10 minutos.");
+    }
+    if (MailApp.getRemainingDailyQuota() < 1) {
+      throw new Error("El servicio de correo alcanzó su límite diario. Intenta nuevamente más tarde o contacta a ACHETSU.");
+    }
 
-    const secret = createTotpSecret_();
+    const verificationCode = createVerificationCode_();
     const challengeId = Utilities.getUuid();
     const expiresAt = Date.now() + CONFIG.challengeLifetimeSeconds * 1000;
     const payload = JSON.stringify({
-      secret: secret,
+      codeHash: hashText_(challengeId + ":" + verificationCode),
+      requestFingerprint: requestFingerprint,
       email: email,
       createdAt: Date.now(),
       expiresAt: expiresAt,
-      failedAttempts: 0,
-      lastAcceptedStep: -1
+      failedAttempts: 0
     });
-    cache.put(CONFIG.challengePrefix + challengeId, payload, CONFIG.challengeLifetimeSeconds);
+    const cacheKey = CONFIG.challengePrefix + challengeId;
+    cache.put(cacheKey, payload, CONFIG.challengeLifetimeSeconds);
+    cache.put(rateKey, String(sends + 1), CONFIG.challengeLifetimeSeconds);
+    cache.put(globalRateKey, String(globalSends + 1), CONFIG.challengeLifetimeSeconds);
+    try {
+      const expiryMinutes = Math.ceil(CONFIG.challengeLifetimeSeconds / 60);
+      MailApp.sendEmail({
+        to: email,
+        subject: "ACHETSU | Código para confirmar tu solicitud",
+        body: "Tu código de verificación ACHETSU es: " + verificationCode +
+          "\n\nIngresa este código en el formulario para confirmar el envío de los datos y el antecedente adjunto que completaste. " +
+          "Vence en " + expiryMinutes + " minutos y solo puede usarse una vez. No lo compartas.\n\n" +
+          "Este código confirma el acceso a esta casilla y la conformidad con el envío; " +
+          "no es una firma electrónica legal ni acredita por sí solo tu identidad. " +
+          "La solicitud seguirá pendiente de revisión administrativa.\n\n" +
+          "Si no solicitaste este código, puedes ignorar este mensaje.\n\nACHETSU",
+        htmlBody: "<div style=\"font-family:Arial,sans-serif;color:#302d2b;line-height:1.6\">" +
+          "<p>Confirma el envío de los datos y el antecedente adjunto de tu solicitud a ACHETSU con este código:</p>" +
+          "<p style=\"font-size:28px;font-weight:bold;letter-spacing:6px;color:#174e4b\">" +
+          verificationCode + "</p>" +
+          "<p>Vence en " + expiryMinutes + " minutos, solo puede usarse una vez y no debes compartirlo.</p>" +
+          "<p>El código confirma el acceso a esta casilla y la conformidad con el envío. " +
+          "No es una firma electrónica legal ni acredita por sí solo tu identidad. " +
+          "La solicitud seguirá pendiente de revisión administrativa.</p>" +
+          "<p>Si no solicitaste este código, puedes ignorar este mensaje.</p><p>ACHETSU</p></div>",
+        name: "ACHETSU | Solicitudes"
+      });
+    } catch (error) {
+      cache.remove(cacheKey);
+      Logger.log("No se pudo enviar el código de verificación por correo: " + error);
+      throw new Error("No se pudo enviar el código a ese correo. Revisa la dirección o intenta nuevamente más tarde.");
+    }
+
+    const previousId = cleanText_(form.challengeId, 80);
+    if (previousId) {
+      const previousKey = CONFIG.challengePrefix + previousId;
+      const previousText = cache.get(previousKey);
+      if (previousText && JSON.parse(previousText).email === email) cache.remove(previousKey);
+    }
     return {
       challengeId: challengeId,
-      secret: secret,
-      issuer: "ACHETSU",
+      maskedEmail: maskEmail_(email),
       lifetimeSeconds: CONFIG.challengeLifetimeSeconds
     };
   } finally {
@@ -142,7 +202,7 @@ function submitRequest(form) {
   if (isUpdate && !memberId) throw new Error("Selecciona el registro que deseas rectificar.");
   if (!isUpdate && memberId) throw new Error("Una incorporación nueva no debe incluir un ID de socio.");
   const attachment = form.attachment;
-  validateAttachment_(attachment);
+  const requestFingerprint = requestFingerprint_(form);
 
   const lock = LockService.getScriptLock();
   lock.waitLock(10000);
@@ -150,20 +210,29 @@ function submitRequest(form) {
   let requestStored = false;
   try {
     const challengeText = cache.get(cacheKey);
-    if (!challengeText) throw new Error("El código venció o ya fue utilizado. Inicia de nuevo la verificación.");
+    if (!challengeText) throw new Error("El código venció o ya fue utilizado. Solicita uno nuevo.");
     const challenge = JSON.parse(challengeText);
-    if (challenge.email !== email) throw new Error("El correo cambió después de iniciar la verificación. Inicia una nueva verificación.");
-    if (!verifyTotp_(challenge.secret, cleanText_(form.totpCode, 6), challenge.lastAcceptedStep)) {
+    if (Number(challenge.expiresAt) <= Date.now()) {
+      cache.remove(cacheKey);
+      throw new Error("El código venció. Solicita uno nuevo.");
+    }
+    if (challenge.email !== email) {
+      throw new Error("El correo cambió después de solicitar el código. Usa «Enviar otro código» para verificar la nueva dirección.");
+    }
+    if (!constantTimeEquals_(challenge.requestFingerprint, requestFingerprint)) {
+      throw new Error("Los datos o el antecedente cambiaron después de solicitar el código. Usa «Enviar otro código» para confirmar la solicitud actualizada.");
+    }
+    if (!verifyEmailCode_(challengeId, challenge, form.verificationCode)) {
       challenge.failedAttempts = Number(challenge.failedAttempts || 0) + 1;
       const expiresAt = Number(challenge.expiresAt) || 0;
       const remainingSeconds = Math.ceil((expiresAt - Date.now()) / 1000);
-      if (challenge.failedAttempts >= 5 || remainingSeconds <= 0) {
+      if (challenge.failedAttempts >= CONFIG.challengeMaxAttempts || remainingSeconds <= 0) {
         cache.remove(cacheKey);
-        throw new Error("Se agotaron los intentos o venció la verificación. Inicia una nueva verificación.");
+        throw new Error("El código venció o se agotaron los intentos. Solicita un código nuevo.");
       } else {
         cache.put(cacheKey, JSON.stringify(challenge), remainingSeconds);
       }
-      throw new Error("El código no es válido. Revisa la hora de tu teléfono e inténtalo otra vez.");
+      throw new Error("El código no es válido. Revisa el correo e inténtalo nuevamente.");
     }
     cache.remove(cacheKey);
 
@@ -179,19 +248,66 @@ function submitRequest(form) {
     uploadedFile = folder.createFile(attachment.copyBlob().setName(requestId + "-" + safeFileName));
 
     const requestSheet = getSheet_(CONFIG.requestSheet);
+    const requestTypeLabel = requestType === "rectificacion" ? "Rectificación de datos" : "Nueva incorporación";
+    const categoryLabel = category === "naturales" ? "Socio/a natural" : "Representante institucional";
+    const requestRow = requestSheet.getLastRow() + 1;
     requestSheet.appendRow([
       requestId, timestamp, "Pendiente", category, requestType, safeSheetText_(memberId),
       safeSheetText_([surname, givenName].join(", ")),
       safeSheetText_(email), safeSheetText_(phone), safeSheetText_(university), details,
       uploadedFile.getId(), safeSheetText_(safeFileName),
       existingMember ? existingMember.eligible2026 : false,
-      "", "", ""
+      "", "", "", timestamp, "Código de un solo uso; datos y antecedente confirmados",
+      requestFingerprint, "Pendiente"
     ]);
     requestStored = true;
 
+    let adminNotificationSent = true;
+    try {
+      MailApp.sendEmail({
+        to: CONFIG.adminNotificationEmail,
+        subject: "ACHETSU | Nueva solicitud recibida · " + requestId,
+        body: "Se recibió una nueva solicitud para revisión administrativa.\n\n" +
+          "Folio: " + requestId + "\n" +
+          "Fecha: " + Utilities.formatDate(timestamp, Session.getScriptTimeZone(), "dd/MM/yyyy HH:mm") + "\n" +
+          "Tipo: " + requestTypeLabel + "\n" +
+          "Categoría: " + categoryLabel + "\n" +
+          "Nombre: " + surname + ", " + givenName + "\n" +
+          "Correo: " + email + "\n" +
+          "Teléfono: " + phone + "\n" +
+          "Universidad o unidad académica: " + university + "\n" +
+          "Cambios solicitados: " + description + "\n" +
+          "Antecedente adjunto: " + safeFileName + "\n\n" +
+          "Abre el panel administrativo para revisar la solicitud: " + publicAppUrl_() + "?view=admin\n\nACHETSU",
+        name: "ACHETSU | Solicitudes"
+      });
+    } catch (error) {
+      adminNotificationSent = false;
+      Logger.log("La solicitud " + requestId + " se guardó, pero falló el aviso al administrador: " + error);
+    }
+
+    try {
+      requestSheet.getRange(requestRow, REQUEST_HEADERS.length)
+        .setValue(adminNotificationSent ? "Enviada" : "Fallida");
+    } catch (error) {
+      Logger.log("No se pudo registrar el estado del aviso administrativo para " + requestId + ": " + error);
+    }
+
     return {
       requestId: requestId,
-      message: "Solicitud recibida. Los datos y documentos quedan pendientes de revisión administrativa."
+      message: "Solicitud recibida para revisión administrativa.",
+      adminNotificationSent: adminNotificationSent,
+      receipt: {
+        requestType: requestType,
+        category: category,
+        name: [surname, givenName].join(", "),
+        email: email,
+        phone: phone,
+        university: university,
+        description: description,
+        attachmentName: safeFileName,
+        receivedAt: Utilities.formatDate(timestamp, Session.getScriptTimeZone(), "dd/MM/yyyy HH:mm")
+      }
     };
   } catch (error) {
     if (uploadedFile && !requestStored) uploadedFile.setTrashed(true);
@@ -333,7 +449,9 @@ function listPendingRequests(token) {
         currentMember: currentMember ? publicMember_(currentMember) : null,
         hasAttachment: Boolean(row[11]),
         attachmentName: unescapeSheetText_(row[12]),
-        eligible2026: row[13] === true
+        eligible2026: row[13] === true,
+        emailVerifiedAt: row[17] instanceof Date ? row[17].toISOString() : String(row[17] || ""),
+        verificationMethod: unescapeSheetText_(row[18])
       };
     });
 }
@@ -429,6 +547,7 @@ function savePublicWebAppUrl(token, url) {
 function publicAppUrl_() {
   const saved = PropertiesService.getScriptProperties().getProperty("ACHETSU_PUBLIC_WEB_APP_URL");
   if (saved) return saved;
+  if (CONFIG.publicWebAppUrl) return CONFIG.publicWebAppUrl;
   const current = String(ScriptApp.getService().getUrl() || "");
   return /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(current) ? current : "";
 }
@@ -505,89 +624,76 @@ function parseChangeDetails_(text) {
   }
 }
 
-function createTotpSecret_() {
-  const hex = (Utilities.getUuid() + Utilities.getUuid()).replace(/-/g, "");
-  const bytes = [];
-  for (let index = 0; index < hex.length; index += 2) {
-    bytes.push(parseInt(hex.slice(index, index + 2), 16));
-  }
-  return base32Encode_(bytes.slice(0, 20));
+function createVerificationCode_() {
+  const randomHex = Utilities.getUuid().replace(/-/g, "").slice(0, 8);
+  return String(parseInt(randomHex, 16) % 1000000).padStart(6, "0");
 }
 
-function base32Encode_(bytes) {
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
-  let output = "";
-  let buffer = 0;
-  let bits = 0;
-  bytes.forEach((value) => {
-    buffer = (buffer << 8) | (value & 255);
-    bits += 8;
-    while (bits >= 5) {
-      output += alphabet[(buffer >>> (bits - 5)) & 31];
-      bits -= 5;
-    }
-  });
-  if (bits > 0) output += alphabet[(buffer << (5 - bits)) & 31];
-  return output;
+function requestFingerprint_(form) {
+  const attachment = form.attachment;
+  validateAttachment_(attachment);
+  const attachmentHash = Utilities.computeDigest(
+    Utilities.DigestAlgorithm.SHA_256,
+    attachment.getBytes()
+  ).map((byte) => (byte & 255).toString(16).padStart(2, "0")).join("");
+  const snapshot = {
+    category: cleanText_(form.category, 30),
+    requestType: cleanText_(form.requestType, 30),
+    memberId: cleanText_(form.memberId, 80),
+    surname: cleanText_(form.surname, 160),
+    givenName: cleanText_(form.givenName, 160),
+    email: cleanText_(form.email, 254).toLowerCase(),
+    phone: cleanText_(form.phone, 40),
+    university: cleanText_(form.university, 180),
+    description: cleanText_(form.description, 2500),
+    consent: form.consent === "on",
+    attachmentName: sanitizeFileName_(attachment.getName()),
+    attachmentHash: attachmentHash
+  };
+  return hashText_(JSON.stringify(snapshot));
 }
 
-function base32Decode_(secret) {
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
-  const output = [];
-  let buffer = 0;
-  let bits = 0;
-  normalizeText_(secret).toUpperCase().replace(/[^A-Z2-7]/g, "").split("").forEach((character) => {
-    const value = alphabet.indexOf(character);
-    if (value < 0) throw new Error("La clave del autenticador no es válida.");
-    buffer = (buffer << 5) | value;
-    bits += 5;
-    if (bits >= 8) {
-      output.push((buffer >>> (bits - 8)) & 255);
-      bits -= 8;
-    }
-  });
-  return output;
+function verifyEmailCode_(challengeId, challenge, inputCode) {
+  const code = cleanText_(inputCode, 6);
+  return /^\d{6}$/.test(code) &&
+    constantTimeEquals_(hashText_(challengeId + ":" + code), challenge.codeHash);
 }
 
-function verifyTotp_(secret, inputCode, lastAcceptedStep) {
-  if (!/^\d{6}$/.test(inputCode)) return false;
-  const nowStep = Math.floor(Date.now() / 30000);
-  for (let offset = -1; offset <= 1; offset += 1) {
-    const step = nowStep + offset;
-    if (step <= lastAcceptedStep) continue;
-    if (totpAt_(secret, step) === inputCode) return true;
-  }
-  return false;
-}
-
-function totpAt_(secret, step) {
-  let counter = step;
-  const message = new Array(8).fill(0);
-  for (let index = 7; index >= 0; index -= 1) {
-    message[index] = counter & 255;
-    counter = Math.floor(counter / 256);
-  }
-  const digest = Utilities.computeHmacSha1Signature(message, base32Decode_(secret));
-  const offset = digest[digest.length - 1] & 15;
-  const binary = ((digest[offset] & 127) << 24)
-    | ((digest[offset + 1] & 255) << 16)
-    | ((digest[offset + 2] & 255) << 8)
-    | (digest[offset + 3] & 255);
-  return String(binary % 1000000).padStart(6, "0");
+function maskEmail_(email) {
+  const atIndex = email.lastIndexOf("@");
+  return email.slice(0, 1) + "***" + email.slice(atIndex);
 }
 
 function validateAttachment_(attachment) {
   if (!attachment || typeof attachment.getBytes !== "function") {
-    throw new Error("Adjunta un antecedente en PDF, JPG o PNG.");
+    throw new Error("Adjunta un antecedente en PDF o una imagen JPG, PNG, GIF, WEBP, BMP, TIFF, HEIC o HEIF.");
   }
   const name = sanitizeFileName_(attachment.getName());
   const contentType = String(attachment.getContentType() || "").toLowerCase();
-  const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
-  const extensionAllowed = /\.(pdf|jpe?g|png)$/i.test(name);
-  if (!extensionAllowed || (contentType && !allowedTypes.includes(contentType))) {
-    throw new Error("El archivo debe ser PDF, JPG o PNG.");
+  const extension = name.match(/\.([^.]+)$/);
+  const typesByExtension = {
+    pdf: ["application/pdf", "application/x-pdf"],
+    jpg: ["image/jpeg", "image/pjpeg"],
+    jpeg: ["image/jpeg", "image/pjpeg"],
+    png: ["image/png"],
+    gif: ["image/gif"],
+    webp: ["image/webp"],
+    bmp: ["image/bmp", "image/x-ms-bmp"],
+    tif: ["image/tiff"],
+    tiff: ["image/tiff"],
+    heic: ["image/heic", "image/heic-sequence", "image/x-heic"],
+    heif: ["image/heif", "image/heif-sequence", "image/x-heif", "image/heic"]
+  };
+  const allowedTypes = extension ? typesByExtension[extension[1].toLowerCase()] : null;
+  const genericTypes = ["", "application/octet-stream", "binary/octet-stream"];
+  if (!allowedTypes || (!allowedTypes.includes(contentType) && !genericTypes.includes(contentType))) {
+    throw new Error("El archivo debe ser PDF o una imagen JPG, PNG, GIF, WEBP, BMP, TIFF, HEIC o HEIF.");
   }
-  if (attachment.getBytes().length > CONFIG.maxAttachmentBytes) {
+  const fileBytes = attachment.getBytes();
+  if (!fileBytes.length) {
+    throw new Error("El archivo está vacío. Elige un antecedente válido.");
+  }
+  if (fileBytes.length > CONFIG.maxAttachmentBytes) {
     throw new Error("El archivo supera el límite de 5 MB.");
   }
 }
@@ -624,7 +730,21 @@ function constantTimeEquals_(a, b) {
 function ensureSheet_(spreadsheet, name, headers) {
   let sheet = spreadsheet.getSheetByName(name);
   if (!sheet) sheet = spreadsheet.insertSheet(name);
-  if (sheet.getLastRow() === 0) sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+  const lastColumn = sheet.getLastColumn();
+  if (lastColumn === 0) {
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+  } else {
+    const existingHeaders = sheet.getRange(1, 1, 1, Math.min(lastColumn, headers.length)).getDisplayValues()[0];
+    for (let index = 0; index < existingHeaders.length; index += 1) {
+      if (existingHeaders[index] !== headers[index]) {
+        throw new Error("Los encabezados de la hoja " + name + " no coinciden con el esquema esperado.");
+      }
+    }
+    if (lastColumn < headers.length) {
+      sheet.getRange(1, lastColumn + 1, 1, headers.length - lastColumn)
+        .setValues([headers.slice(lastColumn)]);
+    }
+  }
   sheet.setFrozenRows(1);
 }
 

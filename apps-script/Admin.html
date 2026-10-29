@@ -264,6 +264,9 @@
         ["ID de solicitud", request.id],
         ["ID socio", request.memberId || "Nueva incorporación"],
         ["Correo de contacto", request.email],
+        ["Confirmación por correo", request.emailVerifiedAt
+          ? `${new Date(request.emailVerifiedAt).toLocaleString("es-CL")} · ${request.verificationMethod || "Código de un solo uso"}`
+          : "No consta en esta solicitud"],
         ["Teléfono de contacto", request.phone]
       ];
       if (request.currentMember) {

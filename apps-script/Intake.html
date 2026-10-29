@@ -57,19 +57,37 @@
     .button[disabled] { opacity: 0.65; cursor: wait; }
     .challenge { margin-top: 1.5rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
     .challenge[hidden], .success[hidden] { display: none; }
-    .secret { display: block; overflow-wrap: anywhere; padding: 0.8rem; border: 1px dashed var(--teal); background: var(--white); color: var(--teal); font: 700 1rem/1.5 Consolas, monospace; letter-spacing: 0.12em; }
     .small { color: var(--muted); font-size: 0.82rem; }
+    .field-hint { margin: 0; color: var(--muted); font-size: 0.9rem; font-weight: 400; }
     .error { min-height: 1.5em; color: #8d321b; font-weight: 700; }
     .success { padding: 1rem; border: 1px solid var(--teal); background: #e1eee8; }
+    .receipt-brand { margin: 0 0 0.5rem; color: var(--teal); font-weight: 800; letter-spacing: 0.08em; }
+    .receipt-fields { margin: 1.25rem 0; }
+    .receipt-fields div { display: grid; grid-template-columns: minmax(9rem, 0.35fr) minmax(0, 1fr); gap: 1rem; padding: 0.65rem 0; border-bottom: 1px solid var(--line); }
+    .receipt-fields dt { color: var(--muted); font-weight: 700; }
+    .receipt-fields dd { min-width: 0; margin: 0; overflow-wrap: anywhere; }
+    .receipt-description { white-space: pre-wrap; }
+    .receipt-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+    .receipt-actions .button { text-decoration: none; }
+    .button-secondary { border: 1px solid var(--teal); background: transparent; color: var(--teal); }
+    .notification-warning { padding: 0.85rem; border: 1px solid #b94f2d; background: #fff0e8; color: #702b18; }
     .trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
     @media (max-width: 580px) { body { padding: 1rem; } .grid { grid-template-columns: 1fr; } .wide { grid-column: auto; } }
+    @media print {
+      @page { margin: 18mm; }
+      body { padding: 0; background: white; }
+      body * { visibility: hidden !important; }
+      #success, #success * { visibility: visible !important; }
+      #success { position: absolute; inset: 0 auto auto 0; width: 100%; margin: 0; padding: 0; border: 0; background: white; color: #302d2b; }
+      .receipt-actions, .print-note, .notification-warning { display: none !important; }
+    }
   </style>
 </head>
 <body>
   <main data-member-id="<?= memberId ?>" data-category="<?= category ?>" data-request-type="<?= requestType ?>">
     <h1>Enviar una solicitud</h1>
     <p>Solicita una rectificación del padrón o presenta antecedentes para una nueva incorporación. La administración revisará y aprobará cada solicitud antes de aplicar cambios.</p>
-    <p class="notice"><strong>Verificación con Authenticator:</strong> se genera una clave temporal para confirmar este envío. No se envían SMS; el teléfono es un dato de contacto y esta verificación no confirma la identidad ni la titularidad del número. La aprobación administrativa y la revisión de antecedentes son obligatorias.</p>
+    <p class="notice"><strong>Confirmación por correo:</strong> enviaremos un código de un solo uso a la dirección indicada. El código confirma el acceso a esa casilla y la conformidad con el envío; no es una firma electrónica legal ni acredita por sí solo la identidad. La solicitud y sus antecedentes seguirán sujetos a revisión y aprobación administrativa.</p>
 
     <form id="request-form">
       <div class="grid">
@@ -92,38 +110,60 @@
         <label>Correo electrónico<input name="email" type="email" maxlength="254" autocomplete="email" required></label>
         <label>Teléfono de contacto<input name="phone" type="tel" maxlength="40" autocomplete="tel" placeholder="+56 9 1234 5678" required></label>
         <label class="wide">Universidad o unidad académica<input name="university" id="university" maxlength="180" autocomplete="organization" required></label>
-        <label class="wide">Cambios solicitados o antecedentes de incorporación
-          <textarea name="description" maxlength="2500" required></textarea>
+        <label class="wide">Datos que deseas actualizar o antecedentes de incorporación
+          <textarea name="description" id="request-description" maxlength="2500" required aria-describedby="description-hint"></textarea>
+          <small class="field-hint" id="description-hint">Aquí puedes solicitar cambios de correo electrónico, nombres y filiación institucional; informar pagos de membresía y adjuntar comprobantes; u otros antecedentes pertinentes. Describe el cambio o antecedente que presentas.</small>
         </label>
-        <label class="wide">Adjunta un antecedente (PDF, JPG o PNG; máximo 5 MB)
-          <input name="attachment" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" required>
+        <label class="wide">Adjunta un antecedente (PDF o imagen; máximo 5 MB)
+          <input name="attachment" id="attachment" type="file" accept=".pdf,.jpg,.jpeg,.png,.gif,.webp,.bmp,.tif,.tiff,.heic,.heif,application/pdf,image/jpeg,image/png,image/gif,image/webp,image/bmp,image/tiff,image/heic,image/heif" aria-describedby="attachment-hint attachment-status" required>
+          <small class="field-hint" id="attachment-hint">Formatos aceptados: PDF, JPG/JPEG, PNG, GIF, WEBP, BMP, TIFF, HEIC y HEIF.</small>
+          <small class="field-hint" id="attachment-status" aria-live="polite"></small>
         </label>
       </div>
       <label class="trap" aria-hidden="true">No completar<input name="website" tabindex="-1" autocomplete="off"></label>
       <label style="display:flex; grid-template-columns:auto 1fr; align-items:start; gap:.6rem; margin-top:1rem">
         <input name="consent" type="checkbox" required style="width:1rem;min-height:1rem;margin-top:.25rem">
-        <span>Autorizo que ACHETSU revise los datos y documentos enviados para evaluar esta solicitud. Entiendo que solo se publicarán los cambios aprobados.</span>
+        <span>Confirmo que esta solicitud y sus antecedentes corresponden a lo que deseo presentar y autorizo a ACHETSU a revisarlos. Entiendo que el código confirma el acceso a mi correo y el envío, no constituye una firma electrónica legal y que solo se aplicarán los cambios aprobados.</span>
       </label>
-      <button class="button" type="button" id="prepare-button">Continuar a la verificación</button>
+      <button class="button" type="button" id="prepare-button">Enviar código de verificación</button>
+      <p class="error" id="form-error" role="alert"></p>
 
       <section class="challenge" id="challenge" hidden aria-labelledby="challenge-title">
-        <h2 id="challenge-title">Confirma el envío con tu app Authenticator</h2>
-        <p class="small">Agrega una cuenta de tipo TOTP en tu app e introduce manualmente esta clave. La clave dura 10 minutos y se elimina al enviar la solicitud.</p>
-        <code class="secret" id="secret"></code>
+        <h2 id="challenge-title">Confirma el envío desde tu correo</h2>
+        <p class="small" id="email-destination" aria-live="polite"></p>
+        <p class="small">El código confirma estos datos y el antecedente adjunto; si los cambias, solicita otro código. Vence en 10 minutos, se puede usar una sola vez y permite hasta cinco intentos. Puedes pedir hasta tres códigos cada 10 minutos. Si no lo encuentras, revisa la carpeta de correo no deseado.</p>
         <input type="hidden" name="challengeId" id="challenge-id">
         <label style="margin-top:1rem">Código de 6 dígitos
-          <input name="totpCode" id="totp-code" inputmode="numeric" pattern="[0-9]{6}" minlength="6" maxlength="6" autocomplete="one-time-code" required disabled>
+          <input name="verificationCode" id="verification-code" inputmode="numeric" pattern="[0-9]{6}" minlength="6" maxlength="6" autocomplete="one-time-code" required disabled>
         </label>
-        <p class="error" id="form-error" role="alert"></p>
         <button class="button" type="submit" id="submit-button">Enviar para revisión administrativa</button>
-        <button class="button" type="button" id="renew-button" hidden>Iniciar una nueva verificación</button>
+        <button class="button" type="button" id="resend-button">Enviar otro código</button>
       </section>
     </form>
 
     <section class="success" id="success" hidden aria-live="polite">
+      <p class="receipt-brand">ACHETSU · ASOCIACIÓN CHILENA DE ENSEÑANZA DEL TRABAJO SOCIAL UNIVERSITARIO</p>
       <h2>Solicitud recibida</h2>
       <p id="success-message"></p>
-      <p>La información no cambia en el padrón hasta que una persona administradora la revise y apruebe.</p>
+      <dl class="receipt-fields">
+        <div><dt>Folio</dt><dd id="receipt-id"></dd></div>
+        <div><dt>Fecha de recepción</dt><dd id="receipt-date"></dd></div>
+        <div><dt>Tipo de solicitud</dt><dd id="receipt-type"></dd></div>
+        <div><dt>Categoría</dt><dd id="receipt-category"></dd></div>
+        <div><dt>Nombre</dt><dd id="receipt-name"></dd></div>
+        <div><dt>Correo</dt><dd id="receipt-email"></dd></div>
+        <div><dt>Teléfono</dt><dd id="receipt-phone"></dd></div>
+        <div><dt>Universidad o unidad académica</dt><dd id="receipt-university"></dd></div>
+        <div><dt>Datos o antecedentes presentados</dt><dd class="receipt-description" id="receipt-description"></dd></div>
+        <div><dt>Archivo adjunto</dt><dd id="receipt-attachment"></dd></div>
+      </dl>
+      <p>La solicitud queda pendiente de revisión administrativa. El padrón solo cambia después de la aprobación.</p>
+      <p class="notification-warning" id="admin-notification-warning" hidden role="status">La solicitud quedó registrada, pero no se pudo enviar el aviso automático al administrador. No la vuelvas a enviar. Contacta a esteban.cofre@uaysen.cl e indica el folio.</p>
+      <div class="receipt-actions">
+        <button class="button" type="button" id="download-receipt">Descargar comprobante en PDF</button>
+        <a class="button button-secondary" href="<?= homeUrl ?>">Volver al sitio inicial</a>
+      </div>
+      <p class="small print-note">Se abrirá el diálogo de impresión; selecciona «Guardar como PDF» para descargar tu comprobante.</p>
     </section>
   </main>
 
@@ -132,12 +172,47 @@
     const challengePanel = document.getElementById("challenge");
     const prepareButton = document.getElementById("prepare-button");
     const submitButton = document.getElementById("submit-button");
-    const renewButton = document.getElementById("renew-button");
+    const resendButton = document.getElementById("resend-button");
     const errorBox = document.getElementById("form-error");
+    const emailInput = form.querySelector('[name="email"]');
+    const attachmentInput = document.getElementById("attachment");
+    const verificationCodeInput = document.getElementById("verification-code");
+    const challengeIdInput = document.getElementById("challenge-id");
+    const allowedAttachmentExtensions = ["pdf", "jpg", "jpeg", "png", "gif", "webp", "bmp", "tif", "tiff", "heic", "heif"];
 
     function showError(message) {
       errorBox.textContent = message || "No se pudo completar la solicitud. Intenta de nuevo.";
     }
+
+    function validateAttachment() {
+      const file = attachmentInput.files[0];
+      if (!file) return true;
+      const extension = file.name.split(".").pop().toLowerCase();
+      if (!allowedAttachmentExtensions.includes(extension)) {
+        showError("El archivo debe ser PDF o una imagen JPG, PNG, GIF, WEBP, BMP, TIFF, HEIC o HEIF.");
+        attachmentInput.focus();
+        return false;
+      }
+      if (!file.size) {
+        showError("El archivo está vacío. Elige un antecedente válido.");
+        attachmentInput.focus();
+        return false;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        showError("El archivo supera el límite de 5 MB. Elige un archivo más pequeño.");
+        attachmentInput.focus();
+        return false;
+      }
+      return true;
+    }
+
+    attachmentInput.addEventListener("change", () => {
+      const file = attachmentInput.files[0];
+      document.getElementById("attachment-status").textContent = file
+        ? `${file.name} · ${Math.ceil(file.size / 1024)} KB`
+        : "";
+      if (file) validateAttachment();
+    });
 
     function loadMember() {
       const { memberId, category, requestType } = form.closest("main").dataset;
@@ -175,32 +250,52 @@
       }
     });
 
-    prepareButton.addEventListener("click", () => {
-      if (!form.reportValidity()) return;
-      prepareButton.disabled = true;
-      prepareButton.textContent = "Preparando verificación…";
+    function sendVerificationCode(button) {
+      const originalLabel = button.textContent;
+      button.disabled = true;
+      submitButton.disabled = true;
+      resendButton.disabled = true;
+      button.textContent = "Enviando código…";
       errorBox.textContent = "";
       google.script.run
         .withSuccessHandler((challenge) => {
-          document.getElementById("secret").textContent = challenge.secret;
-          document.getElementById("challenge-id").value = challenge.challengeId;
-          document.getElementById("totp-code").disabled = false;
+          challengeIdInput.value = challenge.challengeId;
+          document.getElementById("email-destination").textContent =
+            `Enviamos un código a ${challenge.maskedEmail}.`;
+          verificationCodeInput.value = "";
+          verificationCodeInput.disabled = false;
           challengePanel.hidden = false;
           prepareButton.hidden = true;
-          document.getElementById("totp-code").focus();
+          button.disabled = false;
+          submitButton.disabled = false;
+          resendButton.disabled = false;
+          button.textContent = originalLabel;
+          verificationCodeInput.focus();
         })
         .withFailureHandler((error) => {
-          prepareButton.disabled = false;
-          prepareButton.textContent = "Continuar a la verificación";
+          button.disabled = false;
+          submitButton.disabled = false;
+          resendButton.disabled = false;
+          button.textContent = originalLabel;
           showError(error.message);
         })
-        .beginTotpChallenge(form.querySelector('[name="email"]').value);
+        .beginEmailChallenge(form);
+    }
+
+    prepareButton.addEventListener("click", () => {
+      if (!form.reportValidity() || !validateAttachment()) return;
+      sendVerificationCode(prepareButton);
+    });
+
+    resendButton.addEventListener("click", () => {
+      if (!emailInput.reportValidity()) return;
+      sendVerificationCode(resendButton);
     });
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
-      if (!form.reportValidity()) return;
-      const code = document.getElementById("totp-code");
+      if (!form.reportValidity() || !validateAttachment()) return;
+      const code = verificationCodeInput;
       code.value = code.value.replace(/\D/g, "").slice(0, 6);
       submitButton.disabled = true;
       submitButton.textContent = "Enviando solicitud…";
@@ -209,31 +304,32 @@
         .withSuccessHandler((result) => {
           form.hidden = true;
           document.getElementById("success").hidden = false;
-          document.getElementById("success-message").textContent = result.message;
+          document.getElementById("success-message").textContent =
+            `${result.message} Folio: ${result.requestId}.`;
+          const receipt = result.receipt;
+          document.getElementById("receipt-id").textContent = result.requestId;
+          document.getElementById("receipt-date").textContent = receipt.receivedAt;
+          document.getElementById("receipt-type").textContent =
+            receipt.requestType === "rectificacion" ? "Rectificación de datos" : "Nueva incorporación";
+          document.getElementById("receipt-category").textContent =
+            receipt.category === "naturales" ? "Socio/a natural" : "Representante institucional";
+          document.getElementById("receipt-name").textContent = receipt.name;
+          document.getElementById("receipt-email").textContent = receipt.email;
+          document.getElementById("receipt-phone").textContent = receipt.phone;
+          document.getElementById("receipt-university").textContent = receipt.university;
+          document.getElementById("receipt-description").textContent = receipt.description;
+          document.getElementById("receipt-attachment").textContent = receipt.attachmentName;
+          document.getElementById("admin-notification-warning").hidden = result.adminNotificationSent;
         })
         .withFailureHandler((error) => {
           submitButton.disabled = false;
           submitButton.textContent = "Enviar para revisión administrativa";
           showError(error.message);
-          if (/venció|utilizado|agotaron|correo cambió/i.test(error.message || "")) {
-            renewButton.hidden = false;
-          }
         })
         .submitRequest(form);
     });
 
-    renewButton.addEventListener("click", () => {
-      document.getElementById("totp-code").value = "";
-      document.getElementById("totp-code").disabled = true;
-      document.getElementById("challenge-id").value = "";
-      renewButton.hidden = true;
-      challengePanel.hidden = true;
-      prepareButton.hidden = false;
-      prepareButton.disabled = false;
-      prepareButton.textContent = "Continuar a la verificación";
-      errorBox.textContent = "";
-      prepareButton.focus();
-    });
+    document.getElementById("download-receipt").addEventListener("click", () => window.print());
 
     loadMember();
   </script>

@@ -24,7 +24,7 @@ Usar ACHETSU y la identidad visible en la convocatoria adjunta: isotipo en rojo 
 
 ## Evidence on Hand
 
-Convocatoria de elecciones y comunicación de reactivación provistas por el usuario. La convocatoria adjunta señala período 2026–2029 y votación los días 24 y 25 de noviembre de 2026; la comunicación posterior no confirma esas fechas, por lo que la página no las presenta como vigentes. Se recibió el padrón 2026 con 164 registros y dos marcas de habilitación. Enlaces de inscripción: https://goo.gl/forms/jxwuM2HJWoGAmV332 (institucional) y https://goo.gl/forms/Co3HlLmV6kSUEzwY2 (natural). Los cambios de datos se proponen como solicitudes pendientes, con aprobación administrativa obligatoria. TOTP es solo verificación del envío, no de identidad ni del teléfono.
+Convocatoria de elecciones y comunicación de reactivación provistas por el usuario. La convocatoria adjunta señala período 2026–2029 y votación los días 24 y 25 de noviembre de 2026; la comunicación posterior no confirma esas fechas, por lo que la página no las presenta como vigentes. Se recibió el padrón 2026 con 164 registros y dos marcas de habilitación. Enlaces de inscripción: https://goo.gl/forms/jxwuM2HJWoGAmV332 (institucional) y https://goo.gl/forms/Co3HlLmV6kSUEzwY2 (natural). Los cambios de datos se proponen como solicitudes pendientes, con aprobación administrativa obligatoria. La clave de un solo uso enviada por correo verifica el acceso a la casilla y confirma el envío, pero no es firma electrónica legal ni acredita por sí sola la identidad.
 
 ## Product Principles
 
