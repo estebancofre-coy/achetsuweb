@@ -109,6 +109,8 @@
         url.searchParams.set("category", member.category);
         url.searchParams.set("memberId", member.id);
         link.href = url.toString();
+        link.target = "_blank";
+        link.rel = "noopener";
         result.append(link);
       } else {
         result.append(node("p", "El canal de rectificación todavía no está conectado.", "request-unavailable"));

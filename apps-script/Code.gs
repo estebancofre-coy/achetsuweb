@@ -28,19 +28,19 @@ function doGet(event) {
   const view = event && event.parameter ? event.parameter.view : "";
   if (view === "admin") {
     const template = HtmlService.createTemplateFromFile("Admin");
-    template.publicUrl = PropertiesService.getScriptProperties().getProperty("ACHETSU_PUBLIC_WEB_APP_URL") || "";
+    template.publicUrl = publicAppUrl_();
     return template.evaluate().setTitle("Revisión de solicitudes · ACHETSU");
   }
   if (view === "directory") {
     const template = HtmlService.createTemplateFromFile("Directory");
-    template.appUrl = PropertiesService.getScriptProperties().getProperty("ACHETSU_PUBLIC_WEB_APP_URL") || "";
+    template.appUrl = publicAppUrl_();
     return template.evaluate()
       .setTitle("Consulta del padrón · ACHETSU")
       .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
   }
   if (view === "intake") {
     const template = HtmlService.createTemplateFromFile("Intake");
-    template.appUrl = PropertiesService.getScriptProperties().getProperty("ACHETSU_PUBLIC_WEB_APP_URL") || "";
+    template.appUrl = publicAppUrl_();
     template.memberId = event.parameter.memberId || "";
     template.category = event.parameter.category || "";
     template.requestType = event.parameter.requestType || "";
@@ -424,6 +424,13 @@ function savePublicWebAppUrl(token, url) {
   }
   PropertiesService.getScriptProperties().setProperty("ACHETSU_PUBLIC_WEB_APP_URL", value);
   return { saved: true };
+}
+
+function publicAppUrl_() {
+  const saved = PropertiesService.getScriptProperties().getProperty("ACHETSU_PUBLIC_WEB_APP_URL");
+  if (saved) return saved;
+  const current = String(ScriptApp.getService().getUrl() || "");
+  return /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(current) ? current : "";
 }
 
 function hashText_(value) {

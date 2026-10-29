@@ -1110,6 +1110,21 @@
           ? "El registro tiene una X en la columna 2026."
           : "El registro no tiene una X en la columna 2026; confirma tu situación y regulariza la membresía.";
         result.append(explanation);
+
+        if (publicBackend && record.id) {
+          const rectifyUrl = new URL(publicBackend);
+          rectifyUrl.searchParams.set("view", "intake");
+          rectifyUrl.searchParams.set("requestType", "rectificacion");
+          rectifyUrl.searchParams.set("category", record.category);
+          rectifyUrl.searchParams.set("memberId", record.id);
+          const rectify = document.createElement("a");
+          rectify.className = "document-link";
+          rectify.href = rectifyUrl.toString();
+          rectify.target = "_blank";
+          rectify.rel = "noopener";
+          rectify.textContent = "Solicitar rectificación de este registro ↗";
+          result.append(rectify);
+        }
       };
 
       const setupViewer = (config, records) => {
