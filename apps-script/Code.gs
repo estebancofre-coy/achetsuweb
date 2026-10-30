@@ -333,7 +333,11 @@ function searchMembers(category, query) {
   for (let row = 1; row < values.length && results.length < CONFIG.maxSearchResults; row += 1) {
     const member = memberFromRow_(values[row]);
     if (member.category !== normalizedCategory) continue;
-    const searchable = normalizeText_(member.surname + " " + member.givenName);
+    // Los socios institucionales se buscan por universidad: la institución asociada
+    // cambia con mucha menor frecuencia que su representante.
+    const searchable = normalizedCategory === "institucionales"
+      ? normalizeText_(member.university)
+      : normalizeText_(member.surname + " " + member.givenName);
     if (searchable.includes(normalizedQuery)) results.push(publicMember_(member));
   }
   return results;

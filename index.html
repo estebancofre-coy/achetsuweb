@@ -985,7 +985,7 @@
       <div class="section-inner reveal">
         <div class="section-heading">
           <h2 id="directory-title">Consulta el padrón de socios</h2>
-          <p>Busca por nombre o apellidos. El visor separa socios naturales de representantes de socios institucionales.</p>
+          <p>Busca por nombre o apellidos para socios naturales, y por universidad para representantes institucionales.</p>
         </div>
         <iframe class="directory-frame" id="directory-frame" title="Buscador actualizado del padrón de socios de ACHETSU" loading="lazy" hidden></iframe>
         <div class="directory-fallback" id="directory-fallback">
@@ -1001,11 +1001,11 @@
           </article>
           <article class="member-viewer" data-member-category="institucionales">
             <h3>Representantes institucionales</h3>
-            <p>Personas registradas como representantes de unidades académicas socias; cada resultado identifica su universidad.</p>
-            <label class="member-search-label" for="search-institucionales">Nombre o apellidos</label>
-            <input class="member-search" id="search-institucionales" type="search" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="suggestions-institucionales" aria-expanded="false" placeholder="Empieza a escribir un nombre">
-            <div class="member-suggestions" id="suggestions-institucionales" role="listbox" aria-label="Coincidencias de representantes institucionales" hidden></div>
-            <p class="member-search-status" id="status-institucionales" role="status" aria-live="polite">Escribe al menos dos letras para buscar.</p>
+            <p>Busca por universidad o institución asociada; el representante puede cambiar con más frecuencia que la institución.</p>
+            <label class="member-search-label" for="search-institucionales">Universidad o institución</label>
+            <input class="member-search" id="search-institucionales" type="search" autocomplete="off" spellcheck="false" aria-autocomplete="list" aria-controls="suggestions-institucionales" aria-expanded="false" placeholder="Empieza a escribir el nombre de la universidad">
+            <div class="member-suggestions" id="suggestions-institucionales" role="listbox" aria-label="Coincidencias de universidades socias" hidden></div>
+            <p class="member-search-status" id="status-institucionales" role="status" aria-live="polite">Escribe al menos dos letras del nombre de la universidad.</p>
             <article class="member-result" id="result-institucionales" aria-live="polite" hidden></article>
           </article>
         </div>
@@ -1167,20 +1167,24 @@
         result.replaceChildren();
         result.hidden = false;
 
+        const isInstitutional = record.category === "institucionales";
         const heading = document.createElement("h4");
-        heading.textContent = `${record.surname}, ${record.givenName}`;
+        heading.textContent = isInstitutional
+          ? (record.university || "Universidad no informada")
+          : `${record.surname}, ${record.givenName}`;
         result.append(heading);
 
-        const university = document.createElement("p");
-        university.className = "member-result-university";
-        university.textContent = record.university || "Universidad no informada";
-        result.append(university);
+        if (!isInstitutional) {
+          const university = document.createElement("p");
+          university.className = "member-result-university";
+          university.textContent = record.university || "Universidad no informada";
+          result.append(university);
+        }
 
         const details = document.createElement("dl");
-        const fields = [
-          ["Correo", record.email || "No informado"],
-          ["Universidad", record.university || "No informada"]
-        ];
+        const fields = isInstitutional
+          ? [["Representante", `${record.surname}, ${record.givenName}`], ["Correo", record.email || "No informado"]]
+          : [["Correo", record.email || "No informado"], ["Universidad", record.university || "No informada"]];
         fields.forEach(([label, value]) => {
           const term = document.createElement("dt");
           term.textContent = label;
@@ -1246,13 +1250,20 @@
           closeSuggestions();
 
           if (query.length < 2) {
-            setStatus(status, "Escribe al menos dos letras para buscar.");
+            setStatus(status, config.category === "institucionales"
+              ? "Escribe al menos dos letras del nombre de la universidad."
+              : "Escribe al menos dos letras para buscar.");
             return;
           }
 
-          const matches = members.filter((member) => normalize(`${member.surname} ${member.givenName}`).includes(query));
+          const isInstitutional = config.category === "institucionales";
+          const matches = members.filter((member) => isInstitutional
+            ? normalize(member.university || "").includes(query)
+            : normalize(`${member.surname} ${member.givenName}`).includes(query));
           if (!matches.length) {
-            setStatus(status, "No encontramos coincidencias. Revisa la escritura o prueba con otro apellido.");
+            setStatus(status, isInstitutional
+              ? "No encontramos universidades con ese nombre. Revisa la escritura."
+              : "No encontramos coincidencias. Revisa la escritura o prueba con otro apellido.");
             return;
           }
 
@@ -1264,9 +1275,14 @@
             option.setAttribute("role", "option");
 
             const name = document.createElement("strong");
-            name.textContent = `${member.surname}, ${member.givenName}`;
             const school = document.createElement("span");
-            school.textContent = member.university || "Universidad no informada";
+            if (isInstitutional) {
+              name.textContent = member.university || "Universidad no informada";
+              school.textContent = `${member.surname}, ${member.givenName}`;
+            } else {
+              name.textContent = `${member.surname}, ${member.givenName}`;
+              school.textContent = member.university || "Universidad no informada";
+            }
             option.append(name, school);
             option.addEventListener("click", () => selectRecord(member));
             suggestions.append(option);
@@ -1276,7 +1292,7 @@
           input.setAttribute("aria-expanded", "true");
           setStatus(status, matches.length > 8
             ? `Hay ${matches.length} coincidencias; se muestran las primeras 8. Sigue escribiendo para afinar la búsqueda.`
-            : `${matches.length} ${matches.length === 1 ? "coincidencia" : "coincidencias"}. Selecciona un nombre para ver el registro.`);
+            : `${matches.length} ${matches.length === 1 ? "coincidencia" : "coincidencias"}. Selecciona ${isInstitutional ? "una universidad" : "un nombre"} para ver el registro.`);
         });
 
         input.addEventListener("keydown", (event) => {

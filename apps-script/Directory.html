@@ -58,9 +58,9 @@
     </section>
     <section class="viewer" data-category="institucionales">
       <h2>Representantes institucionales</h2>
-      <p>Busca por nombre o apellidos para consultar el estado del representante.</p>
-      <label for="institutional-search">Nombre o apellidos</label>
-      <input id="institutional-search" type="search" autocomplete="off" placeholder="Escribe al menos dos letras">
+      <p>Busca por universidad o institución asociada; el representante puede cambiar con más frecuencia que la institución.</p>
+      <label for="institutional-search">Universidad o institución</label>
+      <input id="institutional-search" type="search" autocomplete="off" placeholder="Escribe al menos dos letras de la universidad">
       <div class="status" id="institutional-status" role="status" aria-live="polite">Escribe para iniciar la búsqueda.</div>
       <div class="suggestions" id="institutional-suggestions" role="listbox" hidden></div>
       <article class="result" id="institutional-result" hidden></article>
@@ -85,11 +85,17 @@
       const result = document.getElementById(config.result);
       result.replaceChildren();
       result.hidden = false;
-      result.append(node("h3", `${member.surname}, ${member.givenName}`));
+      if (config.category === "institucionales") {
+        result.append(node("h3", member.university || "Universidad no informada"));
+      } else {
+        result.append(node("h3", `${member.surname}, ${member.givenName}`));
+      }
 
       const details = document.createElement("dl");
-      [["Correo", member.email || "No informado"], ["Universidad", member.university || "No informada"]]
-        .forEach(([label, value]) => details.append(node("dt", label), node("dd", value)));
+      const fields = config.category === "institucionales"
+        ? [["Representante", `${member.surname}, ${member.givenName}`], ["Correo", member.email || "No informado"]]
+        : [["Correo", member.email || "No informado"], ["Universidad", member.university || "No informada"]];
+      fields.forEach(([label, value]) => details.append(node("dt", label), node("dd", value)));
       result.append(details);
 
       const eligibility = node(
@@ -133,7 +139,9 @@
         suggestions.replaceChildren();
         suggestions.hidden = true;
         if (query.length < 2) {
-          status.textContent = "Escribe al menos dos letras para buscar.";
+          status.textContent = config.category === "institucionales"
+            ? "Escribe al menos dos letras del nombre de la universidad."
+            : "Escribe al menos dos letras para buscar.";
           return;
         }
         status.textContent = "Buscando…";
@@ -142,15 +150,22 @@
             .withSuccessHandler((matches) => {
               if (current !== sequence) return;
               if (!matches.length) {
-                status.textContent = "No se encontraron coincidencias.";
+                status.textContent = config.category === "institucionales"
+                  ? "No se encontraron universidades con ese nombre."
+                  : "No se encontraron coincidencias.";
                 return;
               }
               matches.forEach((member) => {
                 const option = node("button", null, "suggestion");
                 option.type = "button";
                 option.setAttribute("role", "option");
-                option.append(node("strong", `${member.surname}, ${member.givenName}`));
-                option.append(node("span", member.university || "Universidad no informada"));
+                if (config.category === "institucionales") {
+                  option.append(node("strong", member.university || "Universidad no informada"));
+                  option.append(node("span", `${member.surname}, ${member.givenName}`));
+                } else {
+                  option.append(node("strong", `${member.surname}, ${member.givenName}`));
+                  option.append(node("span", member.university || "Universidad no informada"));
+                }
                 option.addEventListener("click", () => {
                   suggestions.hidden = true;
                   status.textContent = "Registro seleccionado.";
@@ -159,7 +174,7 @@
                 suggestions.append(option);
               });
               suggestions.hidden = false;
-              status.textContent = `Se muestran hasta ${matches.length} coincidencias. Selecciona un nombre para ver el estado.`;
+              status.textContent = `Se muestran hasta ${matches.length} coincidencias. Selecciona ${config.category === "institucionales" ? "una universidad" : "un nombre"} para ver el estado.`;
             })
             .withFailureHandler((error) => {
               if (current !== sequence) return;
