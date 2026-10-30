@@ -120,6 +120,7 @@
     }
 
     .site-nav a {
+      position: relative;
       padding: 0.55rem 0;
       color: var(--muted);
       font-size: 0.76rem;
@@ -128,8 +129,25 @@
       white-space: nowrap;
     }
 
+    .site-nav a:not(.nav-join)::after {
+      position: absolute;
+      bottom: 0.2rem;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--gold);
+      content: "";
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
     .site-nav a:hover,
     .site-nav a[aria-current="location"] { color: var(--rust); }
+
+    .site-nav a:hover:not(.nav-join)::after,
+    .site-nav a:focus-visible:not(.nav-join)::after,
+    .site-nav a[aria-current="location"]:not(.nav-join)::after { transform: scaleX(1); }
 
     .site-nav .nav-join {
       padding: 0.62rem 0.85rem;
@@ -198,11 +216,13 @@
     }
 
     .button {
+      position: relative;
       display: inline-flex;
       min-height: 48px;
       padding: 0.78rem 1.1rem;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
       border: 1px solid transparent;
       background: var(--teal);
       color: var(--white);
@@ -214,7 +234,17 @@
       transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
     }
 
+    .button::after {
+      position: absolute;
+      inset: 0;
+      background: rgb(255 255 255 / 22%);
+      content: "";
+      transform: translateX(-120%) skewX(-12deg);
+      transition: transform 480ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
     .button:hover { transform: translateY(-2px); background: var(--teal-dark); }
+    .button:hover::after { transform: translateX(120%) skewX(-12deg); }
 
     .button-outline {
       border-color: var(--teal);
@@ -755,9 +785,68 @@
       .footer-inner { align-items: flex-start; flex-direction: column; gap: 0.75rem; }
     }
 
+    .page-loader {
+      position: fixed;
+      z-index: 9999;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      background: var(--paper);
+      transition: opacity 420ms cubic-bezier(0.16, 1, 0.3, 1), visibility 420ms;
+    }
+
+    .page-loader.is-hidden { visibility: hidden; opacity: 0; pointer-events: none; }
+
+    .page-loader-mark {
+      font: 400 1.6rem/1 Georgia, "Times New Roman", serif;
+      color: var(--teal-dark);
+      letter-spacing: 0.08em;
+    }
+
+    .page-loader-bar {
+      position: relative;
+      width: 160px;
+      height: 3px;
+      overflow: hidden;
+      border-radius: 2px;
+      background: var(--line);
+    }
+
+    .page-loader-bar::after {
+      position: absolute;
+      inset: 0;
+      width: 40%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--rust), var(--gold));
+      content: "";
+      animation: loader-sweep 1.1s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    }
+
+    @keyframes loader-sweep {
+      0% { transform: translateX(-100%); }
+      60%, 100% { transform: translateX(250%); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 640ms cubic-bezier(0.16, 1, 0.3, 1), transform 640ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
-      *, *::before, *::after { transition-duration: 0.01ms !important; }
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+      .reveal { opacity: 1 !important; transform: none !important; }
+      .page-loader { display: none !important; }
     }
   </style>
 </head>
@@ -769,6 +858,10 @@
   FIRST VIEWPORT: Titular editorial a la izquierda; órbita ACHETSU y dos acciones a la derecha.
   FORM: Página institucional documental; extiende la identidad impresa del llamado electoral.
   -->
+  <div class="page-loader" id="page-loader" role="status" aria-label="Cargando el sitio de ACHETSU">
+    <span class="page-loader-mark">ACHETSU</span>
+    <span class="page-loader-bar"></span>
+  </div>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
   <header class="site-header">
     <div class="header-inner">
@@ -811,7 +904,7 @@
       </div>
 
     <div class="section wrap" id="quienes" aria-labelledby="about-title">
-      <div class="section-inner">
+      <div class="section-inner reveal">
         <div class="section-heading">
           <h2 id="about-title">Quiénes somos</h2>
           <p>Un punto de encuentro para fortalecer la formación universitaria en Trabajo Social.</p>
@@ -833,7 +926,7 @@
     </section>
 
     <section class="section elections" id="elecciones" aria-labelledby="election-title">
-      <div class="section-inner wrap">
+      <div class="section-inner wrap reveal">
         <div class="section-heading">
           <h2 id="election-title">Directiva y elecciones</h2>
           <p>ACHETSU retoma su trabajo asociativo y prepara la elección de una nueva Directiva, conforme a sus Estatutos.</p>
@@ -858,7 +951,7 @@
     </section>
 
     <section class="section wrap" id="socios" aria-labelledby="members-title">
-      <div class="section-inner">
+      <div class="section-inner reveal">
         <div class="section-heading">
           <h2 id="members-title">Socios y regularización</h2>
           <p>Revisa las cuotas ordinarias anuales y actualiza tus antecedentes de contacto y vinculación institucional.</p>
@@ -889,7 +982,7 @@
     </section>
 
     <section class="section wrap" id="padron" aria-labelledby="directory-title">
-      <div class="section-inner">
+      <div class="section-inner reveal">
         <div class="section-heading">
           <h2 id="directory-title">Consulta el padrón de socios</h2>
           <p>Busca por nombre o apellidos. El visor separa socios naturales de representantes de socios institucionales.</p>
@@ -922,7 +1015,7 @@
     </section>
 
     <section class="section documents" id="documentos" aria-labelledby="documents-title">
-      <div class="section-inner wrap">
+      <div class="section-inner wrap reveal">
         <div class="section-heading">
           <h2 id="documents-title">Documentos</h2>
           <p>Documentación institucional para consulta. Los enlaces de Drive en modo solo lectura se añadirán cuando sean entregados.</p>
@@ -957,7 +1050,7 @@
     </section>
 
     <section class="section wrap" id="inscripcion" aria-labelledby="join-title">
-      <div class="section-inner">
+      <div class="section-inner reveal">
         <div class="section-heading">
           <h2 id="join-title">Inscripción de nuevos socios</h2>
           <p>Invitamos a las unidades académicas universitarias, académicas, académicos e investigadores a incorporarse a ACHETSU.</p>
@@ -994,7 +1087,7 @@
     </section>
 
     <section class="section contact-section" id="contacto" aria-labelledby="contact-title">
-      <div class="section-inner wrap">
+      <div class="section-inner wrap reveal">
         <div class="contact-grid">
           <div>
             <h2 id="contact-title">Contacto</h2>
@@ -1213,6 +1306,32 @@
             setStatus(status, "No se pudo cargar el padrón. Recarga la página para volver a intentarlo.", "error");
           });
         });
+    })();
+  </script>
+  <script>
+    (() => {
+      const loader = document.getElementById("page-loader");
+      if (loader) {
+        const hideLoader = () => {
+          loader.classList.add("is-hidden");
+          setTimeout(() => loader.remove(), 500);
+        };
+        if (document.readyState === "complete") hideLoader();
+        else window.addEventListener("load", hideLoader, { once: true });
+      }
+
+      const revealTargets = document.querySelectorAll(".reveal");
+      if (revealTargets.length) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
+        revealTargets.forEach((target) => observer.observe(target));
+      }
     })();
   </script>
 </body>
