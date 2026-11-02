@@ -165,9 +165,11 @@ curl https://estebancofre-coy.github.io/achetsuweb/assets/apps-script-config.js 
 - ✅ Fallback seguro sin exposición
 
 **En Backend (Code.gs):**
-- ✅ Headers HTTP de seguridad (X-Frame-Options, X-Content-Type-Options, etc.)
+- Modo de framing `DEFAULT` de Google para admin, intake y la página inicial
+- `ALLOWALL` solo para directory, necesario para el padrón embebido
 - ✅ Removida configuración hardcodeada de URLs
-- ✅ Función `applySecurityHeaders_()` centralizada
+- No se configuran CSP ni headers HTTP arbitrarios mediante `addMetaTag()`
+- Validación local de rutas: `node --test apps-script/tests/do-get.test.cjs`
 
 **En Workflow (.github/workflows/deploy-pages.yml):**
 - ✅ Paso "Inject Apps Script URL securely" usa GitHub Secrets

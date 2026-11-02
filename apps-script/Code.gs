@@ -31,39 +31,19 @@ const MEMBER_HEADERS = [
   "Universidad", "Habilitado 2026", "Actualizado"
 ];
 
-/**
- * Aplica headers HTTP de seguridad a una respuesta de Apps Script.
- * @param {HtmlOutput} output La salida HTML a asegurar
- * @param {string} xFrameMode El modo XFrameOptions (DENY, SAMEORIGIN, ALLOWALL)
- * @returns {HtmlOutput} La salida con headers de seguridad
- */
-function applySecurityHeaders_(output, xFrameMode) {
-  xFrameMode = xFrameMode || HtmlService.XFrameOptionsMode.DENY;
-  return output
-    .setXFrameOptionsMode(xFrameMode)
-    .addMetaTag("X-UA-Compatible", "IE=edge")
-    .addMetaTag("X-Content-Type-Options", "nosniff")
-    .addMetaTag("X-XSS-Protection", "1; mode=block")
-    .addMetaTag("Referrer-Policy", "strict-origin-when-cross-origin");
-}
-
 function doGet(event) {
   const view = event && event.parameter ? event.parameter.view : "";
   if (view === "admin") {
     const template = HtmlService.createTemplateFromFile("Admin");
     template.publicUrl = publicAppUrl_();
-    return applySecurityHeaders_(
-      template.evaluate().setTitle("Revisión de solicitudes · ACHETSU"),
-      HtmlService.XFrameOptionsMode.DENY
-    );
+    return template.evaluate().setTitle("Revisión de solicitudes · ACHETSU");
   }
   if (view === "directory") {
     const template = HtmlService.createTemplateFromFile("Directory");
     template.appUrl = publicAppUrl_();
-    return applySecurityHeaders_(
-      template.evaluate().setTitle("Consulta del padrón · ACHETSU"),
-      HtmlService.XFrameOptionsMode.ALLOWALL
-    );
+    return template.evaluate()
+      .setTitle("Consulta del padrón · ACHETSU")
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
   }
   if (view === "intake") {
     const template = HtmlService.createTemplateFromFile("Intake");
@@ -72,15 +52,10 @@ function doGet(event) {
     template.memberId = event.parameter.memberId || "";
     template.category = event.parameter.category || "";
     template.requestType = event.parameter.requestType || "";
-    return applySecurityHeaders_(
-      template.evaluate().setTitle("Solicitud de actualización · ACHETSU"),
-      HtmlService.XFrameOptionsMode.DENY
-    );
+    return template.evaluate().setTitle("Solicitud de actualización · ACHETSU");
   }
-  return applySecurityHeaders_(
-    HtmlService.createHtmlOutput("Aplicación de solicitudes de ACHETSU.").setTitle("ACHETSU"),
-    HtmlService.XFrameOptionsMode.DENY
-  );
+  return HtmlService.createHtmlOutput("Aplicación de solicitudes de ACHETSU.")
+    .setTitle("ACHETSU");
 }
 
 function initializeBackend() {

@@ -31,17 +31,20 @@ Haremos nuestro mejor esfuerzo para responder en 48 horas.
 2. Crear secret: `ACHETSU_APPS_SCRIPT_URL`
 3. Pegar la URL completa del `/exec` deployment
 
-#### 2. ✅ Falta de Content-Security-Policy y otros headers (ALTO)
-**Problema:** Apps Script no establecía headers HTTP de seguridad.
+#### 2. Compatibilidad de HtmlService y límites de headers
+**Corrección:** Se retiró `applySecurityHeaders_()`: utilizaba enums inexistentes
+(`DENY`, `SAMEORIGIN`) y nombres de meta tags no permitidos, causando errores al abrir la aplicación.
 
-**Solución implementada:**
-- Nueva función `applySecurityHeaders_()` que agrega:
-  - `X-Frame-Options`: DENY (admin, intake), ALLOWALL (directory/public)
-  - `X-UA-Compatible`: IE=edge (compatibilidad)
-  - `X-Content-Type-Options`: nosniff (previene MIME sniffing)
-  - `X-XSS-Protection`: 1; mode=block (soporte legacy para navegadores antiguos)
-  - `Referrer-Policy`: strict-origin-when-cross-origin (privacidad de referrer)
-- Aplicados a todos los endpoints en `doGet()`
+- Admin, intake y la página inicial conservan el modo `DEFAULT` de Google.
+- Solo directory utiliza `ALLOWALL` para permitir el padrón embebido. Este modo
+  elimina el header `X-Frame-Options`; no restringe qué sitios pueden embeberlo.
+- `addMetaTag()` no permite configurar CSP ni headers HTTP arbitrarios.
+- No se ha implementado CSP personalizada, `nosniff` ni `Referrer-Policy`.
+  Su configuración requiere una arquitectura compatible y queda pendiente.
+
+Referencias oficiales:
+[XFrameOptionsMode](https://developers.google.com/apps-script/reference/html/x-frame-options-mode)
+y [HtmlOutput.addMetaTag](https://developers.google.com/apps-script/reference/html/html-output#addMetaTag(String,String)).
 
 #### 3. ✅ Removida URL hardcodeada de Code.gs (CRÍTICO)
 **Problema:** `CONFIG.publicWebAppUrl` contenía URL del Apps Script.
@@ -127,7 +130,7 @@ Haremos nuestro mejor esfuerzo para responder en 48 horas.
 - ✅ Sesiones con expiración
 - ✅ Uso de `textContent` en lugar de `innerHTML`
 - ✅ Inyección segura de URLs sensitivas via GitHub Secrets
-- ✅ Headers HTTP de seguridad (X-Frame-Options, X-Content-Type-Options, etc.)
+- ✅ Modo de framing predeterminado de Google; excepción `ALLOWALL` solo para directory
 
 ---
 
