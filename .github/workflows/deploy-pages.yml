@@ -30,6 +30,13 @@ jobs:
           mkdir -p _site
           cp index.html elecciones.html _site/
           cp -r assets _site/assets
+      - name: Inject Apps Script URL securely
+        env:
+          APPS_SCRIPT_URL: ${{ secrets.ACHETSU_APPS_SCRIPT_URL }}
+        run: |
+          if [ -n "$APPS_SCRIPT_URL" ]; then
+            sed -i "s|window.ACHETSU_APPS_SCRIPT_URL = \"\";|window.ACHETSU_APPS_SCRIPT_URL = \"$APPS_SCRIPT_URL\";|g" _site/assets/apps-script-config.js
+          fi
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
