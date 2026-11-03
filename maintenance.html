@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f3e8">
+  <meta name="description" content="ACHETSU está en mantenimiento. Pronto estará disponible con nuevas mejoras.">
+  <title>En Mantenimiento — ACHETSU</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f7f3e8;
+      --paper-deep: #eee5d3;
+      --ink: #302d2b;
+      --muted: #716961;
+      --rust: #b94f2d;
+      --gold: #d7a93f;
+      --teal: #1c625e;
+      --teal-dark: #174e4b;
+      --line: #dfd4bf;
+      --white: #fffdf8;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--paper) 0%, var(--paper-deep) 100%);
+      color: var(--ink);
+      font: 16px/1.6 "Segoe UI", Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .skip-link {
+      position: absolute;
+      z-index: 20;
+      top: 0.75rem;
+      left: 0.75rem;
+      padding: 0.7rem 1rem;
+      transform: translateY(-160%);
+      background: var(--ink);
+      color: var(--white);
+      text-decoration: none;
+      border-radius: 4px;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .maintenance-container {
+      text-align: center;
+      padding: 2rem;
+      max-width: 720px;
+      width: 100%;
+    }
+
+    .maintenance-logo {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 2rem;
+      background: linear-gradient(135deg, var(--teal) 0%, var(--rust) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      color: var(--white);
+      box-shadow: 0 8px 32px rgba(28, 98, 94, 0.2);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 400;
+      letter-spacing: -0.5px;
+      margin: 0 0 1rem 0;
+      color: var(--ink);
+      line-height: 1.2;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .tagline {
+      font-size: 1.25rem;
+      color: var(--teal);
+      font-weight: 500;
+      margin: 0 0 2rem 0;
+      letter-spacing: 0.5px;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .message {
+      font-size: 1.125rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin: 0 0 2.5rem 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .message strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--rust) 0%, var(--gold) 100%);
+      margin: 2rem auto;
+      border: none;
+    }
+
+    .info-section {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 2rem;
+      margin: 2rem 0;
+      box-shadow: 0 2px 8px rgba(48, 45, 43, 0.06);
+    }
+
+    .info-section h2 {
+      font-size: 1.25rem;
+      margin: 0 0 1rem 0;
+      color: var(--teal-dark);
+    }
+
+    .info-section p {
+      margin: 0;
+      color: var(--muted);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .contact-list {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0 0;
+    }
+
+    .contact-list li {
+      margin: 0.75rem 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .contact-list a {
+      color: var(--rust);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+
+    .contact-list a:hover {
+      color: var(--teal);
+      text-decoration: underline;
+    }
+
+    .icon {
+      display: inline-block;
+      margin-right: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .footer-note {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    .pulse {
+      animation: pulse-animation 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-animation {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.7;
+      }
+    }
+
+    .status-badge {
+      display: inline-block;
+      background: var(--teal);
+      color: var(--white);
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-top: 1rem;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      .tagline {
+        font-size: 1rem;
+      }
+
+      .maintenance-logo {
+        width: 100px;
+        height: 100px;
+        font-size: 2.5rem;
+      }
+
+      .maintenance-container {
+        padding: 1.5rem;
+      }
+
+      .info-section {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Ir al contenido principal</a>
+
+  <main class="maintenance-container" id="main-content">
+    <div class="maintenance-logo pulse">🔧</div>
+
+    <h1>Estamos trabajando para usted</h1>
+
+    <p class="tagline">El sitio pronto estará disponible</p>
+
+    <div class="message">
+      <p>
+        Agradecemos su paciencia. <strong>ACHETSU</strong> está en proceso de mejora y actualización para ofrecerle una mejor experiencia.
+      </p>
+      <p>
+        Volveremos en breve con contenido renovado, información actualizada y nuevas funcionalidades.
+      </p>
+    </div>
+
+    <hr class="divider">
+
+    <div class="info-section">
+      <h2>Información Institucional</h2>
+      <p>
+        Si requiere información urgente sobre <strong>ACHETSU</strong> o tiene consultas sobre nuestros programas, no dude en contactarnos.
+      </p>
+      <ul class="contact-list">
+        <li>
+          <span class="icon">📧</span>
+          <a href="mailto:contacto@achetsu.cl">contacto@achetsu.cl</a>
+        </li>
+        <li>
+          <span class="icon">🔗</span>
+          <a href="https://www.achetsu.cl" target="_blank" rel="noopener noreferrer">Sitio anterior</a>
+        </li>
+      </ul>
+      <p style="margin-top: 1rem; font-size: 0.9rem;">
+        Para consultas sobre <strong>elecciones 2026</strong>, visite <a href="https://elecciones.achetsu.cl" style="color: var(--rust); font-weight: 500;">elecciones.achetsu.cl</a>.
+      </p>
+    </div>
+
+    <div class="info-section">
+      <h2>Estado del Sitio</h2>
+      <p>
+        Nos encontramos realizando mejoras significativas en la plataforma para proporcionar un servicio de mayor calidad.
+      </p>
+      <span class="status-badge">En mantenimiento</span>
+    </div>
+
+    <div class="footer-note">
+      <p>
+        © 2026 ACHETSU — Asociación Chilena de Enseñanza del Trabajo Social Universitario<br>
+        Estamos comprometidos con mantenerle informado sobre nuestro proceso.
+      </p>
+    </div>
+  </main>
+</body>
+</html>

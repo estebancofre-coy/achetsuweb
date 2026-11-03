@@ -13,7 +13,6 @@ const CONFIG = Object.freeze({
   challengeMaxGlobalSends: 30,
   maxAttachmentBytes: 5 * 1024 * 1024,
   maxSearchResults: 8,
-  publicWebAppUrl: "https://script.google.com/macros/s/AKfycbxFIVmTqaf-Yh2VjiN41Wq-AuvcolZjyGKBC5h23KVBnWyof4KJssll97ZrAI5f1lJY/exec",
   publicSiteUrl: "https://estebancofre-coy.github.io/achetsuweb/",
   adminNotificationEmail: "esteban.cofre@uaysen.cl"
 });
@@ -551,7 +550,6 @@ function savePublicWebAppUrl(token, url) {
 function publicAppUrl_() {
   const saved = PropertiesService.getScriptProperties().getProperty("ACHETSU_PUBLIC_WEB_APP_URL");
   if (saved) return saved;
-  if (CONFIG.publicWebAppUrl) return CONFIG.publicWebAppUrl;
   const current = String(ScriptApp.getService().getUrl() || "");
   return /^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(current) ? current : "";
 }
