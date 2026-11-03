@@ -28,15 +28,21 @@ jobs:
       - name: Prepare public site only
         run: |
           mkdir -p _site
-          cp index.html elecciones.html _site/
+          cp index.html elecciones.html maintenance.html CNAME _site/
           cp -r assets _site/assets
       - name: Inject Apps Script URL securely
         env:
           APPS_SCRIPT_URL: ${{ secrets.ACHETSU_APPS_SCRIPT_URL }}
         run: |
-          if [ -n "$APPS_SCRIPT_URL" ]; then
-            sed -i "s|window.ACHETSU_APPS_SCRIPT_URL = \"\";|window.ACHETSU_APPS_SCRIPT_URL = \"$APPS_SCRIPT_URL\";|g" _site/assets/apps-script-config.js
-          fi
+          node <<'NODE'
+          const fs = require("node:fs");
+          const url = process.env.APPS_SCRIPT_URL;
+          if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(url || "")) {
+            throw new Error("ACHETSU_APPS_SCRIPT_URL must contain a valid Apps Script /exec URL.");
+          }
+          fs.writeFileSync("_site/assets/apps-script-config.js",
+            "window.ACHETSU_APPS_SCRIPT_URL = " + JSON.stringify(url) + ";\n");
+          NODE
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _site
