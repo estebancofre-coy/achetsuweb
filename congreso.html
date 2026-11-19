@@ -1,0 +1,1672 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f3e8">
+  <meta name="description" content="I Congreso ACHETSU 2026: Desafíos de la academia en torno a la formación profesional en clave de nuevas tecnologías y nuevos campos profesionales. 24 y 25 de noviembre de 2026, Universidad Alberto Hurtado, Santiago de Chile.">
+  <title>I Congreso ACHETSU 2026 — Asociación Chilena de Enseñanza en Trabajo Social Universitario</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f7f3e8;
+      --paper-deep: #eee5d3;
+      --ink: #302d2b;
+      --muted: #716961;
+      --rust: #b94f2d;
+      --rust-dark: #943d21;
+      --gold: #d7a93f;
+      --teal: #1c625e;
+      --teal-dark: #174e4b;
+      --line: #dfd4bf;
+      --white: #fffdf8;
+      --page: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 6rem;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 16px/1.65 "Segoe UI", Arial, sans-serif;
+    }
+
+    a { color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    a:focus-visible,
+    button:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid var(--rust);
+      outline-offset: 4px;
+    }
+
+    .skip-link {
+      position: absolute;
+      z-index: 30;
+      top: 0.75rem;
+      left: 0.75rem;
+      padding: 0.7rem 1rem;
+      transform: translateY(-160%);
+      background: var(--ink);
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .skip-link:focus { transform: translateY(0); }
+
+    .site-header {
+      position: sticky;
+      z-index: 10;
+      top: 0;
+      border-bottom: 1px solid var(--line);
+      background: rgb(247 243 232 / 96%);
+      backdrop-filter: blur(12px);
+    }
+
+    .header-inner {
+      display: flex;
+      width: min(100% - 3rem, var(--page));
+      min-height: 82px;
+      margin: 0 auto;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      flex: 0 0 auto;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+    }
+
+    .brand img {
+      width: 54px;
+      height: 44px;
+      object-fit: cover;
+      object-position: center;
+      mix-blend-mode: multiply;
+    }
+
+    .brand-name {
+      display: grid;
+      color: var(--ink);
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+      line-height: 1.15;
+    }
+
+    .brand-name small {
+      margin-top: 0.22rem;
+      color: var(--muted);
+      font-size: 0.59rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: clamp(0.65rem, 1.35vw, 1.25rem);
+    }
+
+    .site-nav a {
+      position: relative;
+      padding: 0.5rem 0;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .site-nav a:not(.nav-back)::after {
+      position: absolute;
+      bottom: 0.15rem;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--gold);
+      content: "";
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .site-nav a:hover,
+    .site-nav a[aria-current="location"] { color: var(--rust); }
+
+    .site-nav a:hover:not(.nav-back)::after,
+    .site-nav a:focus-visible:not(.nav-back)::after,
+    .site-nav a[aria-current="location"]:not(.nav-back)::after { transform: scaleX(1); }
+
+    .site-nav .nav-back {
+      padding: 0.5rem 0.8rem;
+      border: 1px solid var(--teal);
+      color: var(--teal-dark);
+      transition: background 180ms ease, color 180ms ease;
+    }
+
+    .site-nav .nav-back:hover {
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    main { overflow: clip; }
+
+    .wrap {
+      width: min(100% - 3rem, var(--page));
+      margin-inline: auto;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+    }
+
+    /* Hero */
+    .hero-section {
+      padding-block: clamp(2.5rem, 5vw, 4.5rem) clamp(3rem, 6vw, 5rem);
+    }
+
+    .hero-frame {
+      position: relative;
+      padding: clamp(2.2rem, 5vw, 4.2rem) clamp(1.5rem, 4vw, 3.6rem);
+      border: 1px solid var(--ink);
+      background: linear-gradient(180deg, var(--white) 0%, var(--paper) 100%);
+    }
+
+    .hero-frame::before {
+      position: absolute;
+      inset: 0.55rem;
+      border: 1px solid var(--gold);
+      pointer-events: none;
+      content: "";
+    }
+
+    .hero-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.65fr);
+      align-items: center;
+      gap: clamp(2rem, 4vw, 3.5rem);
+    }
+
+    .eyebrow {
+      margin: 0 0 0.85rem;
+      color: var(--rust);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .hero-copy h1 {
+      margin: 0;
+      font-size: clamp(2.6rem, 6vw, 4.7rem);
+      line-height: 1.02;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+
+    .hero-copy h1 span { color: var(--rust); }
+
+    .hero-divider {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      max-width: 320px;
+      margin: 1.2rem 0;
+      color: var(--teal);
+      font-size: 0.75rem;
+    }
+
+    .hero-divider::before,
+    .hero-divider::after {
+      flex: 1;
+      height: 1px;
+      background: var(--gold);
+      content: "";
+    }
+
+    .hero-theme {
+      max-width: 58ch;
+      margin: 0;
+      color: #46403a;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.12rem, 2vw, 1.38rem);
+      line-height: 1.45;
+    }
+
+    .hero-lead {
+      max-width: 60ch;
+      margin: 1rem 0 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-top: 1.8rem;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 46px;
+      padding: 0.72rem 1.2rem;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      border: 1px solid var(--teal);
+      background: var(--teal);
+      color: var(--white);
+      font-size: 0.84rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
+    }
+
+    .button:hover {
+      background: var(--teal-dark);
+      border-color: var(--teal-dark);
+      transform: translateY(-1px);
+    }
+
+    .button-outline {
+      background: transparent;
+      color: var(--teal-dark);
+    }
+
+    .button-outline:hover {
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    .button-rust {
+      border-color: var(--rust);
+      background: transparent;
+      color: var(--rust);
+    }
+
+    .button-rust:hover {
+      background: var(--rust);
+      color: var(--white);
+    }
+
+    .hero-emblem {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: min(100%, 280px);
+      aspect-ratio: 1;
+      margin-inline: auto;
+    }
+
+    .orbit {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgb(215 169 63 / 55%);
+    }
+
+    .orbit.o1 { inset: 0; }
+    .orbit.o2 { inset: 12%; border-style: dashed; border-color: rgb(28 98 94 / 40%); }
+    .orbit.o3 { inset: 24%; border-color: rgb(185 79 45 / 32%); }
+
+    .emblem-core {
+      position: relative;
+      display: grid;
+      place-items: center;
+      gap: 0.3rem;
+      width: 52%;
+      text-align: center;
+    }
+
+    .emblem-core img {
+      width: 112px;
+      height: auto;
+      mix-blend-mode: multiply;
+    }
+
+    .emblem-tag {
+      color: var(--teal-dark);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .facts-strip {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.25rem;
+      margin-top: 2.2rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .fact-card {
+      padding: 0.9rem 1rem;
+      border-left: 3px solid var(--gold);
+      background: rgb(238 229 211 / 55%);
+    }
+
+    .fact-card strong {
+      display: block;
+      color: var(--teal-dark);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .fact-card p {
+      margin: 0.3rem 0 0;
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .fact-card small {
+      display: block;
+      margin-top: 0.2rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 400;
+    }
+
+    .status-banner {
+      display: flex;
+      gap: 0.85rem;
+      align-items: flex-start;
+      margin-top: 1.5rem;
+      padding: 1rem 1.2rem;
+      border: 1px solid #c8b99e;
+      background: var(--paper-deep);
+      color: #4f4842;
+      font-size: 0.88rem;
+    }
+
+    .status-banner .badge {
+      flex: 0 0 auto;
+      padding: 0.18rem 0.55rem;
+      background: var(--teal);
+      color: var(--white);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .status-banner p { margin: 0; }
+
+    /* Sections */
+    .section {
+      padding-block: clamp(3.5rem, 7vw, 5.5rem);
+      border-top: 1px solid var(--line);
+    }
+
+    .section-alt {
+      background: var(--paper-deep);
+    }
+
+    .section-heading {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+      align-items: end;
+      gap: 1.5rem 3rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .section-kicker {
+      display: block;
+      margin-bottom: 0.45rem;
+      color: var(--rust);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .section h2 {
+      margin: 0;
+      font-size: clamp(2.1rem, 4.5vw, 3.3rem);
+      line-height: 1.06;
+      letter-spacing: -0.025em;
+    }
+
+    .section-heading > p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.98rem;
+    }
+
+    /* Presentation & Objectives */
+    .about-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .prose p { margin: 0 0 1.05rem; color: #443e39; }
+    .prose p:last-child { margin-bottom: 0; }
+
+    .pull-quote {
+      margin: 1.5rem 0;
+      padding: 1.25rem 1.5rem;
+      border-left: 3px solid var(--rust);
+      background: var(--white);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.18rem;
+      line-height: 1.45;
+      color: var(--ink);
+    }
+
+    .purpose-box {
+      padding: 1.6rem;
+      border: 1px solid var(--gold);
+      background: var(--white);
+    }
+
+    .purpose-box h3 {
+      margin: 0 0 0.75rem;
+      color: var(--teal-dark);
+      font-size: 1.35rem;
+    }
+
+    .purpose-box p { margin: 0 0 1rem; color: #4a433d; font-size: 0.94rem; }
+    .purpose-box p:last-child { margin-bottom: 0; }
+
+    .election-link-card {
+      margin-top: 1.25rem;
+      padding: 1.25rem 1.4rem;
+      border: 1px solid var(--teal);
+      background: rgb(28 98 94 / 7%);
+    }
+
+    .election-link-card h4 {
+      margin: 0 0 0.45rem;
+      color: var(--teal-dark);
+      font-size: 1.12rem;
+    }
+
+    .election-link-card p {
+      margin: 0 0 0.85rem;
+      font-size: 0.88rem;
+      color: #423c37;
+    }
+
+    .objectives-block {
+      margin-top: 3rem;
+      padding-top: 2.2rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .objectives-block h3 {
+      margin: 0 0 1.4rem;
+      font-size: 1.55rem;
+    }
+
+    .objectives-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.2rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: obj;
+    }
+
+    .objectives-grid li {
+      position: relative;
+      padding: 1.25rem 1.25rem 1.25rem 1.35rem;
+      border: 1px solid var(--line);
+      background: var(--white);
+      font-size: 0.92rem;
+      color: #443e39;
+    }
+
+    .objectives-grid li::before {
+      counter-increment: obj;
+      content: "0" counter(obj);
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--rust);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.25rem;
+    }
+
+    /* Ejes Temáticos */
+    .axes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.4rem;
+    }
+
+    .axis-card {
+      display: flex;
+      flex-direction: column;
+      padding: 1.65rem;
+      border: 1px solid #d1c3aa;
+      border-top: 4px solid var(--teal);
+      background: var(--white);
+    }
+
+    .axis-card:nth-child(2) { border-top-color: var(--rust); }
+    .axis-card:nth-child(3) { border-top-color: var(--gold); }
+
+    .axis-label {
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .axis-card h3 {
+      margin: 0.45rem 0 0.85rem;
+      font-size: 1.42rem;
+      line-height: 1.2;
+    }
+
+    .axis-card p {
+      margin: 0 0 0.9rem;
+      font-size: 0.92rem;
+      color: #4b443e;
+    }
+
+    .axis-questions {
+      margin: auto 0 0;
+      padding: 0.95rem 0 0 1.1rem;
+      border-top: 1px solid var(--line);
+      font-size: 0.86rem;
+      color: #46403a;
+    }
+
+    .axis-questions li { margin-bottom: 0.45rem; }
+    .axis-questions li:last-child { margin-bottom: 0; }
+
+    /* Methodology */
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.4rem;
+    }
+
+    .method-card {
+      padding: 1.55rem;
+      border: 1px solid var(--line);
+      background: var(--white);
+    }
+
+    .method-card h3 {
+      margin: 0 0 0.65rem;
+      color: var(--teal-dark);
+      font-size: 1.32rem;
+    }
+
+    .method-card p { margin: 0 0 0.75rem; font-size: 0.92rem; color: #47413b; }
+    .method-card p:last-child { margin-bottom: 0; }
+
+    .method-card ul {
+      margin: 0.5rem 0 0;
+      padding-left: 1.15rem;
+      font-size: 0.89rem;
+      color: #47413b;
+    }
+
+    .method-card li { margin-bottom: 0.35rem; }
+
+    /* Tabs (Programa & Conversatorios) */
+    .tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1.6rem;
+      border-bottom: 1px solid #cfc2aa;
+      padding-bottom: 0.85rem;
+    }
+
+    .tab-btn {
+      padding: 0.68rem 1.15rem;
+      border: 1px solid #c8b99e;
+      background: var(--white);
+      color: var(--ink);
+      font: 700 0.84rem/1.2 "Segoe UI", Arial, sans-serif;
+      cursor: pointer;
+      transition: background 180ms ease, color 180ms ease, border-color 180ms ease;
+    }
+
+    .tab-btn:hover {
+      border-color: var(--teal);
+      color: var(--teal-dark);
+    }
+
+    .tab-btn[aria-selected="true"] {
+      border-color: var(--teal);
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    .tab-panel[hidden] { display: none; }
+
+    /* Schedule */
+    .schedule-note {
+      margin-bottom: 1.5rem;
+      padding: 0.95rem 1.2rem;
+      border-left: 3px solid var(--rust);
+      background: var(--white);
+      font-size: 0.88rem;
+      color: #4c453f;
+    }
+
+    .schedule-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid #cfc2aa;
+    }
+
+    .schedule-item {
+      display: grid;
+      grid-template-columns: 10.5rem minmax(0, 1fr);
+      gap: 1.5rem;
+      padding: 1.15rem 0.75rem;
+      border-bottom: 1px solid #cfc2aa;
+      background: rgb(255 253 248 / 65%);
+    }
+
+    .schedule-item:nth-child(even) {
+      background: transparent;
+    }
+
+    .schedule-time {
+      color: var(--rust);
+      font-weight: 800;
+      font-size: 0.86rem;
+      white-space: nowrap;
+    }
+
+    .schedule-body h3 {
+      margin: 0;
+      font-size: 1.15rem;
+      color: var(--ink);
+    }
+
+    .schedule-body p {
+      margin: 0.35rem 0 0;
+      font-size: 0.89rem;
+      color: var(--muted);
+    }
+
+    .tag-pending {
+      display: inline-block;
+      margin-left: 0.4rem;
+      padding: 0.1rem 0.45rem;
+      border: 1px solid #cbb99a;
+      background: var(--paper-deep);
+      color: #6b5638;
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 0.7rem;
+      font-weight: 700;
+      vertical-align: middle;
+    }
+
+    /* Orientaciones Ponencias */
+    .summary-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .pill {
+      padding: 0.5rem 0.9rem;
+      border: 1px solid #cfc2aa;
+      background: var(--white);
+      font-size: 0.82rem;
+      color: #46403a;
+    }
+
+    .pill strong { color: var(--teal-dark); }
+
+    .guidelines-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.15rem;
+    }
+
+    .guide-card {
+      padding: 1.3rem 1.4rem;
+      border: 1px solid var(--line);
+      background: var(--white);
+    }
+
+    .guide-card h3 {
+      margin: 0 0 0.6rem;
+      font-size: 1.15rem;
+      color: var(--teal-dark);
+    }
+
+    .guide-card p {
+      margin: 0 0 0.55rem;
+      font-size: 0.89rem;
+      color: #49423c;
+    }
+
+    .guide-card p:last-child { margin-bottom: 0; }
+
+    .guide-card ul {
+      margin: 0.45rem 0 0;
+      padding-left: 1.1rem;
+      font-size: 0.87rem;
+      color: #49423c;
+    }
+
+    .guide-card li { margin-bottom: 0.3rem; }
+
+    /* Conversatorio Forms */
+    .form-purpose {
+      margin: 0 0 1.5rem;
+      padding: 1.15rem 1.35rem;
+      border: 1px solid var(--gold);
+      background: var(--white);
+      font-size: 0.93rem;
+      color: #443e39;
+    }
+
+    .form-purpose strong { color: var(--teal-dark); }
+
+    .question-block {
+      margin-bottom: 1.15rem;
+      padding: 1.3rem 1.45rem;
+      border: 1px solid #d4c6ae;
+      background: var(--white);
+    }
+
+    .question-block h3 {
+      margin: 0 0 0.65rem;
+      color: var(--rust);
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .question-text {
+      margin: 0 0 0.7rem;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.05rem;
+      line-height: 1.48;
+      color: var(--ink);
+    }
+
+    .question-text:last-child { margin-bottom: 0; }
+
+    .question-guide {
+      margin: 0;
+      padding-top: 0.65rem;
+      border-top: 1px dashed var(--line);
+      font-size: 0.86rem;
+      color: var(--muted);
+    }
+
+    /* Institutions */
+    .inst-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 0.95rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .inst-grid li {
+      padding: 1rem 1.15rem;
+      border: 1px solid var(--line);
+      background: var(--white);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .inst-grid li small {
+      display: block;
+      margin-top: 0.2rem;
+      font-size: 0.78rem;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .inst-grid li.host {
+      border-color: var(--teal);
+      border-left: 4px solid var(--teal);
+    }
+
+    /* Footer */
+    .site-footer {
+      padding: 2.5rem 0;
+      background: var(--ink);
+      color: var(--paper);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem 2rem;
+    }
+
+    .footer-inner p { margin: 0; font-size: 0.82rem; }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+    }
+
+    .footer-links a {
+      color: #f2cf70;
+      font-size: 0.82rem;
+      text-underline-offset: 0.2em;
+    }
+
+    /* Loader & Reveal */
+    .page-loader {
+      position: fixed;
+      z-index: 9999;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      background: var(--paper);
+      transition: opacity 420ms cubic-bezier(0.16, 1, 0.3, 1), visibility 420ms;
+    }
+
+    .page-loader.is-hidden { visibility: hidden; opacity: 0; pointer-events: none; }
+
+    .page-loader-mark {
+      font: 400 1.6rem/1 Georgia, "Times New Roman", serif;
+      color: var(--teal-dark);
+      letter-spacing: 0.08em;
+    }
+
+    .page-loader-bar {
+      position: relative;
+      width: 160px;
+      height: 3px;
+      overflow: hidden;
+      border-radius: 2px;
+      background: var(--line);
+    }
+
+    .page-loader-bar::after {
+      position: absolute;
+      inset: 0;
+      width: 40%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--rust), var(--gold));
+      content: "";
+      animation: loader-sweep 1.1s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    }
+
+    @keyframes loader-sweep {
+      0% { transform: translateX(-100%); }
+      60%, 100% { transform: translateX(250%); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 600ms cubic-bezier(0.16, 1, 0.3, 1), transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 960px) {
+      .header-inner { width: min(100% - 2rem, var(--page)); min-height: 74px; gap: 1rem; }
+      .site-nav { max-width: 66vw; overflow-x: auto; gap: 1rem; scrollbar-width: none; }
+      .site-nav::-webkit-scrollbar { display: none; }
+      .hero-grid,
+      .about-grid,
+      .section-heading { grid-template-columns: 1fr; }
+      .hero-emblem { width: 210px; }
+      .facts-strip,
+      .axes-grid,
+      .objectives-grid { grid-template-columns: 1fr; }
+      .method-grid,
+      .guidelines-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      html { scroll-padding-top: 5.5rem; }
+      .header-inner { display: block; width: 100%; padding: 0.65rem 0 0; }
+      .brand { margin: 0 1rem 0.5rem; }
+      .brand img { width: 46px; height: 38px; }
+      .site-nav {
+        max-width: none;
+        padding: 0.25rem 1rem 0.65rem;
+        border-top: 1px solid var(--line);
+        gap: 1.05rem;
+      }
+      .wrap { width: min(100% - 2rem, var(--page)); }
+      .hero-frame { padding: 1.8rem 1.2rem; }
+      .schedule-item { grid-template-columns: 1fr; gap: 0.35rem; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+      .reveal { opacity: 1 !important; transform: none !important; }
+      .page-loader { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-loader" id="page-loader" role="status" aria-label="Cargando I Congreso ACHETSU 2026">
+    <span class="page-loader-mark">I CONGRESO ACHETSU 2026</span>
+    <span class="page-loader-bar"></span>
+  </div>
+
+  <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html#inicio" aria-label="ACHETSU, volver al sitio principal">
+        <img src="assets/achet-su-logo.png" alt="">
+        <span class="brand-name">ACHETSU<small>I Congreso 2026</small></span>
+      </a>
+      <nav class="site-nav" aria-label="Navegación del Congreso">
+        <a href="#presentacion">Presentación</a>
+        <a href="#ejes">Ejes</a>
+        <a href="#metodologia">Metodología</a>
+        <a href="#programa">Programa</a>
+        <a href="#ponencias">Ponencias</a>
+        <a href="#conversatorios">Conversatorios</a>
+        <a href="#instituciones">Instituciones</a>
+        <a class="nav-back" href="index.html">← Sitio principal</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+    <section class="hero-section" id="inicio" aria-labelledby="congress-title">
+      <div class="wrap">
+        <div class="hero-frame">
+          <div class="hero-grid">
+            <div class="hero-copy">
+              <p class="eyebrow">Asociación Chilena de Enseñanza en Trabajo Social Universitario</p>
+              <h1 id="congress-title">I Congreso <span>ACHETSU 2026</span></h1>
+              <div class="hero-divider" aria-hidden="true">◆</div>
+              <p class="hero-theme">Desafíos de la academia en torno a la formación profesional en clave de nuevas tecnologías y nuevos campos profesionales.</p>
+              <p class="hero-lead">Un espacio de diálogo, reflexión y construcción colectiva entre 14 instituciones formadoras en Trabajo Social del país, proyectado hacia la Agenda ACHETSU 2026–2029.</p>
+              <div class="hero-actions">
+                <a class="button" href="#programa">Ver programa preliminar ↓</a>
+                <a class="button button-outline" href="#ponencias">Orientaciones de ponencias</a>
+                <a class="button button-rust" href="elecciones.html">Elecciones de Directiva →</a>
+              </div>
+            </div>
+
+            <div class="hero-emblem" aria-hidden="true">
+              <span class="orbit o1"></span>
+              <span class="orbit o2"></span>
+              <span class="orbit o3"></span>
+              <div class="emblem-core">
+                <img src="assets/achet-su-logo.png" alt="">
+                <span class="emblem-tag">24 y 25 Nov · 2026</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="facts-strip">
+            <div class="fact-card">
+              <strong>Fechas confirmadas</strong>
+              <p>24 y 25 de noviembre de 2026</p>
+              <small>Acreditación desde las 09:00 h · horarios definitivos por confirmar</small>
+            </div>
+            <div class="fact-card">
+              <strong>Sede anfitriona</strong>
+              <p>Universidad Alberto Hurtado</p>
+              <small>Av. Libertador Bernardo O'Higgins 1825, Santiago (Metro Los Héroes)</small>
+            </div>
+            <div class="fact-card">
+              <strong>Convoca</strong>
+              <p>ACHETSU · 14 universidades</p>
+              <small>Incluye elecciones de la nueva Directiva de la Asociación</small>
+            </div>
+          </div>
+
+          <div class="status-banner" role="note">
+            <span class="badge">Información</span>
+            <p><strong>Datos confirmados y antecedentes en preparación:</strong> las fechas (24 y 25 de noviembre de 2026), la sede (Universidad Alberto Hurtado), los tres ejes temáticos, las orientaciones para ponencias y los formularios de conversatorio se encuentran publicados en esta página. El detalle final de ponentes, horarios definitivos y los canales de inscripción o envío de trabajos se encuentran <strong>pendientes de confirmación oficial</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="presentacion" aria-labelledby="presentation-title">
+      <div class="wrap reveal">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Sentido del encuentro</span>
+            <h2 id="presentation-title">Presentación y propósito</h2>
+          </div>
+          <p>Repensar la enseñanza universitaria del Trabajo Social frente a la transformación tecnológica, los campos emergentes y el fortalecimiento asociativo.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="prose">
+            <p>El Trabajo Social se encuentra ante un escenario en el que las fronteras que tradicionalmente han delimitado la formación, el ejercicio profesional y los problemas sociales están nuevamente en movimiento. Las tecnologías digitales, la inteligencia artificial, las nuevas configuraciones del trabajo, las transformaciones de las políticas públicas y la aparición de escenarios inéditos de intervención modifican cómo se produce conocimiento, se construyen vínculos, se toman decisiones y se despliega la acción profesional.</p>
+            <p>La academia está llamada a revisar sus propuestas formativas, sus currículos, sus estrategias pedagógicas y sus vínculos con los espacios profesionales, desde una perspectiva crítica, ética, situada y comprometida con los derechos humanos y la justicia social.</p>
+            <blockquote class="pull-quote">
+              «El Congreso ACHETSU 2026 propone desplazar la conversación desde “¿cómo adaptar la formación a los cambios?” hacia una interrogación más amplia: ¿qué Trabajo Social estamos formando para un campo profesional que está cambiando sus coordenadas?»
+            </blockquote>
+            <p>Junto a los espacios tradicionales de desempeño emergen ámbitos vinculados con la transformación digital, las desigualdades contemporáneas, las crisis socioambientales, las migraciones, las violencias, los cuidados, las transformaciones del mundo laboral, los derechos humanos, la salud, el envejecimiento, el territorio y la participación social.</p>
+            <p>Las propuestas elaboradas durante ambas jornadas se sistematizarán en un documento de síntesis denominado <strong>Agenda ACHETSU 2026–2029: desafíos y propuestas para la enseñanza del Trabajo Social en Chile</strong>.</p>
+          </div>
+
+          <div>
+            <div class="purpose-box">
+              <h3>Propósito del I Congreso</h3>
+              <p>Generar un espacio académico, asociativo y deliberativo para analizar las transformaciones actuales que desafían la formación profesional en Trabajo Social, intercambiar experiencias entre las instituciones participantes y construir orientaciones y propuestas para el desarrollo de ACHETSU durante el período 2026–2029.</p>
+            </div>
+
+            <div class="election-link-card">
+              <h4>Elecciones de la nueva Directiva de ACHETSU</h4>
+              <p>En el marco del mismo Congreso se llevarán a cabo las elecciones de la nueva Directiva. Al finalizar el primer día (24 de noviembre) se presentarán las candidaturas y al día siguiente (25 de noviembre) se realizarán las votaciones.</p>
+              <a class="button button-outline" href="elecciones.html#calendario">Revisar calendario electoral →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="objectives-block">
+          <h3>Objetivos específicos</h3>
+          <ol class="objectives-grid">
+            <li>Promover el intercambio entre escuelas, departamentos y carreras de Trabajo Social respecto de las transformaciones que experimentan los procesos de formación profesional.</li>
+            <li>Analizar los desafíos que plantean las nuevas tecnologías y la inteligencia artificial para la enseñanza, investigación e intervención en Trabajo Social.</li>
+            <li>Reconocer y discutir la emergencia de nuevos campos profesionales y sus implicancias para los procesos formativos del Trabajo Social chileno.</li>
+            <li>Generar un espacio de diálogo entre las instituciones integrantes de ACHETSU respecto de sus experiencias, desafíos y proyecciones.</li>
+            <li>Construir colectivamente propuestas y lineamientos de trabajo para ACHETSU durante el período 2026–2029.</li>
+            <li>Favorecer un espacio informado de diálogo asociativo en torno al proceso de renovación de la Directiva de ACHETSU.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="ejes" aria-labelledby="axes-title">
+      <div class="wrap reveal">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Estructura temática</span>
+            <h2 id="axes-title">Tres ejes temáticos</h2>
+          </div>
+          <p>Las ponencias, los conversatorios y los grupos de trabajo se organizan en torno a tres ejes complementarios.</p>
+        </div>
+
+        <div class="axes-grid">
+          <article class="axis-card">
+            <span class="axis-label">Eje 1</span>
+            <h3>Formación profesional y nuevas tecnologías</h3>
+            <p>Aborda las transformaciones que las tecnologías digitales y la inteligencia artificial están produciendo en la educación superior y en el ejercicio profesional del Trabajo Social, discutiendo sus implicancias curriculares, pedagógicas, éticas y profesionales.</p>
+            <ul class="axis-questions">
+              <li>¿Qué desafíos plantea la inteligencia artificial para la formación profesional?</li>
+              <li>¿Qué competencias requieren las y los futuros trabajadores sociales en contextos de transformación tecnológica?</li>
+              <li>¿Cómo incorporar las tecnologías desde una perspectiva crítica, ética y responsable?</li>
+              <li>¿Qué transformaciones requieren los currículos y las estrategias pedagógicas?</li>
+            </ul>
+          </article>
+
+          <article class="axis-card">
+            <span class="axis-label">Eje 2</span>
+            <h3>Nuevos campos profesionales y transformaciones del Trabajo Social</h3>
+            <p>Busca reconocer las transformaciones que experimenta el campo profesional y los nuevos espacios de actuación, compartiendo experiencias institucionales y profesionales para identificar demandas emergentes e implicancias formativas.</p>
+            <ul class="axis-questions">
+              <li>Ámbitos: transformación digital, políticas sociales, género, migraciones, crisis socioambiental, derechos humanos, salud, envejecimiento, trabajo, territorio y participación social.</li>
+              <li>¿Qué nuevos conocimientos, competencias y perspectivas requieren las y los profesionales frente a estos escenarios?</li>
+            </ul>
+          </article>
+
+          <article class="axis-card">
+            <span class="axis-label">Eje 3</span>
+            <h3>El futuro de la enseñanza del Trabajo Social y los desafíos para ACHETSU 2026–2029</h3>
+            <p>Orientado a discutir el papel de ACHETSU como espacio de articulación, intercambio y fortalecimiento de las instituciones formadoras de Trabajo Social en Chile, proyectando prioridades para la nueva Directiva.</p>
+            <ul class="axis-questions">
+              <li>Colaboración académica, investigación e innovación curricular.</li>
+              <li>Formación continua, intercambio de experiencias y vinculación con el medio.</li>
+              <li>Fortalecimiento de la profesión y agenda compartida para el período 2026–2029.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="metodologia" aria-labelledby="method-title">
+      <div class="wrap reveal">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Modalidades de participación</span>
+            <h2 id="method-title">Metodología del encuentro</h2>
+          </div>
+          <p>El Congreso combina cuatro instancias para articular presentación institucional, diálogo transversal, deliberación y construcción de agenda.</p>
+        </div>
+
+        <div class="method-grid">
+          <article class="method-card">
+            <h3>1. Presentación de directoras y directores</h3>
+            <p>Como representantes institucionales, las directoras y directores de departamentos, escuelas o carreras de Trabajo Social realizarán ponencias vinculadas a los tres ejes temáticos.</p>
+            <p>Compartirán experiencias académicas, investigaciones, innovaciones curriculares, prácticas pedagógicas y propuestas orientadas a las transformaciones de la formación y del campo profesional.</p>
+          </article>
+
+          <article class="method-card">
+            <h3>2. Conversatorio</h3>
+            <p>Espacio transversal de diálogo entre representantes de las instituciones participantes, académicas, académicos y socias/os, orientado a problematizar los desafíos actuales de la enseñanza del Trabajo Social y las respuestas que requiere la academia.</p>
+            <p><a href="#conversatorios">Revisar los formularios de preguntas por eje ↓</a></p>
+          </article>
+
+          <article class="method-card">
+            <h3>3. Grupos de trabajo</h3>
+            <p>Las personas participantes se distribuirán en grupos asociados a los tres ejes del Congreso para analizar desafíos y elaborar propuestas en torno a tres preguntas guía:</p>
+            <ul>
+              <li>¿Cuáles son los principales desafíos que enfrenta la enseñanza del Trabajo Social?</li>
+              <li>¿Qué respuestas y acciones debería promover ACHETSU?</li>
+              <li>¿Qué prioridades debieran orientar el período 2026–2029?</li>
+            </ul>
+          </article>
+
+          <article class="method-card">
+            <h3>4. Plenario y Agenda ACHETSU 2026–2029</h3>
+            <p>El encuentro culmina con la presentación de las conclusiones de los grupos de trabajo y la identificación de prioridades comunes.</p>
+            <p>Sus resultados se sistematizarán en la <strong>Agenda ACHETSU 2026–2029</strong> como hoja de ruta compartida para el trabajo asociativo y la nueva Directiva.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="programa" aria-labelledby="program-title">
+      <div class="wrap reveal">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Agenda de las jornadas</span>
+            <h2 id="program-title">Programa preliminar</h2>
+          </div>
+          <p>Organizado en dos jornadas presenciales en la Universidad Alberto Hurtado (24 y 25 de noviembre de 2026).</p>
+        </div>
+
+        <div class="schedule-note" role="note">
+          <strong>Programa preliminar:</strong> los bloques, títulos de ponencias y nómina de expositoras/es institucionales pueden presentar ajustes hasta la publicación del programa definitivo.
+        </div>
+
+        <div class="tab-bar" role="tablist" aria-label="Jornadas del Congreso">
+          <button class="tab-btn" type="button" role="tab" id="tab-dia1" aria-selected="true" aria-controls="panel-dia1">Martes 24 de noviembre</button>
+          <button class="tab-btn" type="button" role="tab" id="tab-dia2" aria-selected="false" aria-controls="panel-dia2">Miércoles 25 de noviembre</button>
+        </div>
+
+        <div class="tab-panel" id="panel-dia1" role="tabpanel" aria-labelledby="tab-dia1">
+          <ol class="schedule-list">
+            <li class="schedule-item">
+              <span class="schedule-time">09:00 – 09:30</span>
+              <div class="schedule-body">
+                <h3>Recepción, acreditación y café</h3>
+              </div>
+            </li>
+            <li class="schedule-item">
+              <span class="schedule-time">09:30 – 09:45</span>
+              <div class="schedule-body">
+                <h3>Palabras de bienvenida</h3>
+                <p>Asociación Chilena de Enseñanza en Trabajo Social Universitario (ACHETSU).</p>
+              </div>
+            </li>
+            <li class="schedule-item">
+              <span class="schedule-time">09:45 – 10:00</span>
+              <div class="schedule-body">
+                <h3>Saludo institucional</h3>
+                <p>Palabras del Rector de la Universidad Alberto Hurtado (UAH).</p>
+              </div>
+            </li>
+            <li class="schedule-item">
+              <span class="schedule-time">10:00 – 10:15</span>
+              <div class="schedule-body">
+                <h3>Historia de ACHETSU — 11 años de historia</h3>
+                <p>Exposición de Ruth Lizana.</p>
+              </div>
+            </li>
+            <li class="schedule-item">
+              <span class="schedule-time">10:15 – 10:25</span>
+              <div class="schedule-body">
+                <h3>Ponencia: Historias póstumas</h3>
+                <p>Exposición de Gabriela Rubilar y Camila Véliz.</p>
+              </div>
+            </li>
+            <li class="schedule-item">
+              <span class="schedule-time">10:30 – 12:10</span>
+              <div class="schedule-body">
+                <h3>Eje 1 · Ponencias de directoras y directores <span class="tag-pending">Nómina por confirmar</span></h3>
+                <p>Experiencias y desafíos de las instituciones universitarias en torno a la formación profesional (5 presentaciones institucionales).</p>
+              </div>
+            </li>
+            <li class="schedule-item">
+              <span class="schedule-time">12:10 – 13:30</span>
+              <div class="schedule-body">
+                <h3>Almuerzo <span class="tag-pending">Horario referencial</span></h3>
+              </div>
+            </li>
+            <li class="schedule-item">
+              <span class="schedule-time">13:30 – 15:10</span>
+              <div class="schedule-body">
+                <h3>Eje 2 · Ponencias de directoras y directores <span class="tag-pending">Nómina por confirmar</span></h3>
+                <p>Presentación de experiencias e investigaciones vinculadas con transformación tecnológica, inteligencia artificial, innovación pedagógica y formación profesional (5 presentaciones institucionales).</p>
+              </div>
+            </li>
+            <li class="schedule-item">
+              <span class="schedule-time">Cierre de jornada</span>
+              <div class="schedule-body">
+                <h3>Conversatorio de proyecciones y presentación de candidaturas a la Directiva</h3>
+                <p>Diálogo con participantes y presentación de la o las candidaturas para conducir ACHETSU en el marco del proceso electoral.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <div class="tab-panel" id="panel-dia2" role="tabpanel" aria-labelledby="tab-dia2" hidden>
+          <ol class="schedule-list">
+            <li class="schedule-item">
+              <span class="schedule-time">09:30 – 09:45</span>
+              <div class="schedule-body">
+                <h3>Apertura de la jornada</h3>
+              </div>
+            </li>
+            <li class="schedule-item">
+              <span class="schedule-time">09:45 – 10:05</span>
+              <div class="schedule-body">
+                <h3>Presentación de Sandra Iturrieta <span class="tag-pending">Título por confirmar</span></h3>
+              </div>
+            </li>
+            <li class="schedule-item">
+              <span class="schedule-time">10:10 – 11:15</span>
+              <div class="schedule-body">
+                <h3>Ponencias y conversatorio: Nuevos campos profesionales y transformaciones del Trabajo Social <span class="tag-pending">Horario por ajustar</span></h3>
+                <p>Presentación de experiencias institucionales y diálogo abierto en torno a la pregunta: <em>¿Qué Trabajo Social necesitamos formar para los nuevos escenarios?</em></p>
+              </div>
+            </li>
+            <li class="schedule-item">
+              <span class="schedule-time">11:15 – 11:30</span>
+              <div class="schedule-body">
+                <h3>Pausa — café</h3>
+              </div>
+            </li>
+            <li class="schedule-item">
+              <span class="schedule-time">11:30 – 12:30</span>
+              <div class="schedule-body">
+                <h3>Grupos de trabajo: desafíos y propuestas para ACHETSU 2026–2029</h3>
+                <p>Trabajo colectivo organizado en torno a los tres ejes temáticos del Congreso.</p>
+              </div>
+            </li>
+            <li class="schedule-item">
+              <span class="schedule-time">12:30 – 12:55</span>
+              <div class="schedule-body">
+                <h3>Plenario: propuestas y prioridades para ACHETSU 2026–2029</h3>
+                <p>Presentación de las conclusiones de los grupos de trabajo y construcción de prioridades comunes.</p>
+              </div>
+            </li>
+            <li class="schedule-item">
+              <span class="schedule-time">12:55 – 13:00</span>
+              <div class="schedule-body">
+                <h3>Cierre y elecciones de Directiva</h3>
+                <p>Palabras finales, proyección del trabajo asociativo y desarrollo de votaciones para la renovación de la Directiva de ACHETSU.</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="ponencias" aria-labelledby="papers-title">
+      <div class="wrap reveal">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Guía para autoras y autores</span>
+            <h2 id="papers-title">Orientaciones para ponencias</h2>
+          </div>
+          <p>Estructura oficial sugerida para la presentación de ponencias en el I Congreso ACHETSU 2026.</p>
+        </div>
+
+        <div class="summary-pills">
+          <span class="pill"><strong>Resumen:</strong> 200 a 250 palabras</span>
+          <span class="pill"><strong>Palabras clave:</strong> 3 a 5 términos</span>
+          <span class="pill"><strong>Reseña académica:</strong> máx. 100 palabras por autor/a</span>
+          <span class="pill"><strong>Plazo y canal de envío:</strong> pendientes de publicación</span>
+        </div>
+
+        <div class="guidelines-grid">
+          <article class="guide-card">
+            <h3>1. Identificación de la ponencia</h3>
+            <ul>
+              <li>Título de la ponencia.</li>
+              <li>Eje temático al que se adscribe.</li>
+              <li>Nombre completo de autoras y autores.</li>
+              <li>Institución de procedencia y correo electrónico de contacto.</li>
+              <li>Breve reseña académica de cada autor/a (máximo 100 palabras).</li>
+            </ul>
+          </article>
+
+          <article class="guide-card">
+            <h3>2. Resumen (200 a 250 palabras)</h3>
+            <p>Debe presentar de forma sintética:</p>
+            <ul>
+              <li>El problema o desafío que aborda y el propósito del trabajo.</li>
+              <li>La perspectiva conceptual o teórica y la metodología, cuando corresponda.</li>
+              <li>Los principales argumentos, resultados o aprendizajes.</li>
+              <li>Las contribuciones a la formación y enseñanza del Trabajo Social.</li>
+              <li>Palabras clave: entre 3 y 5.</li>
+            </ul>
+          </article>
+
+          <article class="guide-card">
+            <h3>3. Introducción: problema y contexto</h3>
+            <p>Presentar el tema, su relevancia para el Trabajo Social y su relación con las transformaciones contemporáneas de la formación profesional y/o del campo de ejercicio.</p>
+            <p>Identificar el problema, pregunta o desafío que organiza la reflexión.</p>
+          </article>
+
+          <article class="guide-card">
+            <h3>4. Fundamentos conceptuales y perspectiva de análisis</h3>
+            <p>Desarrollar los principales conceptos, enfoques teóricos y debates que permiten comprender el problema abordado.</p>
+            <p>Se espera una perspectiva situada y crítica que dialogue con los debates actuales del Trabajo Social.</p>
+          </article>
+
+          <article class="guide-card">
+            <h3>5. Desarrollo: experiencias, resultados y discusión</h3>
+            <p>Núcleo de la ponencia. Puede adoptar distintas modalidades: resultados de investigaciones, sistematización de experiencias académicas o profesionales, innovaciones curriculares y pedagógicas, análisis institucionales, reflexiones teóricas y político-profesionales, o propuestas de formación e intervención.</p>
+            <p>Explicitar qué se ha realizado, aprendizajes obtenidos, tensiones identificadas e interrogantes abiertas. En investigaciones, incluir antecedentes metodológicos y resultados; en sistematizaciones, explicitar la experiencia y su proceso de análisis.</p>
+          </article>
+
+          <article class="guide-card">
+            <h3>6. Desafíos para la formación profesional y las universidades</h3>
+            <p>Identificar las implicancias del tema para:</p>
+            <ul>
+              <li>Los perfiles de egreso y las competencias profesionales.</li>
+              <li>Los planes de estudio y las estrategias pedagógicas.</li>
+              <li>La investigación y la producción de conocimiento.</li>
+              <li>La formación práctica y la relación con los espacios profesionales.</li>
+              <li>La dimensión ética, política y de derechos humanos del Trabajo Social.</li>
+            </ul>
+          </article>
+
+          <article class="guide-card">
+            <h3>7. Propuestas y proyecciones</h3>
+            <p>Desarrollar propuestas concretas para fortalecer la enseñanza del Trabajo Social, considerando posibilidades de implementación en las universidades y espacios de colaboración interinstitucional.</p>
+            <p>Identificar, cuando corresponda, acciones que podrían ser promovidas por ACHETSU.</p>
+          </article>
+
+          <article class="guide-card">
+            <h3>8. Conclusiones y 9. Referencias bibliográficas</h3>
+            <p><strong>Conclusiones:</strong> sintetizar los principales aportes de la ponencia, sus contribuciones al debate académico y los desafíos que deja planteados para el desarrollo de la formación profesional.</p>
+            <p><strong>Referencias bibliográficas:</strong> incluir las fuentes citadas en el trabajo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="conversatorios" aria-labelledby="forms-title">
+      <div class="wrap reveal">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Guías de diálogo por eje</span>
+            <h2 id="forms-title">Formularios de conversatorio</h2>
+          </div>
+          <p>Preguntas y orientaciones oficiales que guiarán la reflexión colectiva de cada eje durante el Congreso.</p>
+        </div>
+
+        <div class="tab-bar" role="tablist" aria-label="Formularios por eje temático">
+          <button class="tab-btn" type="button" role="tab" id="tab-eje1" aria-selected="true" aria-controls="panel-eje1">Formulario 1 · Eje 1</button>
+          <button class="tab-btn" type="button" role="tab" id="tab-eje2" aria-selected="false" aria-controls="panel-eje2">Formulario 2 · Eje 2</button>
+          <button class="tab-btn" type="button" role="tab" id="tab-eje3" aria-selected="false" aria-controls="panel-eje3">Formulario 3 · Eje 3</button>
+        </div>
+
+        <div class="tab-panel" id="panel-eje1" role="tabpanel" aria-labelledby="tab-eje1">
+          <div class="form-purpose">
+            <strong>Eje 1. Formación profesional y nuevas tecnologías · Propósito:</strong> generar una reflexión colectiva sobre las transformaciones que experimenta la formación profesional en Trabajo Social ante el desarrollo de las tecnologías digitales y la inteligencia artificial, examinando sus implicancias epistemológicas, pedagógicas, éticas, políticas e institucionales.
+          </div>
+
+          <article class="question-block">
+            <h3>I. Formación profesional: proyecto y horizontes de la enseñanza</h3>
+            <p class="question-text">1. ¿Qué concepción de Trabajo Social y qué proyecto de formación profesional estamos construyendo frente a las transformaciones tecnológicas, sociales y culturales contemporáneas, y qué conocimientos, capacidades y posicionamientos ético-políticos deberían formar parte de la preparación de las nuevas generaciones de trabajadoras y trabajadores sociales en una sociedad crecientemente digitalizada?</p>
+            <p class="question-guide"><strong>Orientación:</strong> conversar sobre los fundamentos epistemológicos, ético-políticos y disciplinares de nuestros proyectos formativos; identificar avances, vacíos formativos y tensiones curriculares que requieren revisión colectiva; considerar pensamiento crítico, juicio profesional, derechos humanos, protección de datos y desigualdades digitales.</p>
+          </article>
+
+          <article class="question-block">
+            <h3>II. Investigación y producción de conocimiento</h3>
+            <p class="question-text">2. ¿Qué interrogantes epistemológicas, teóricas y metodológicas plantea la incorporación de la inteligencia artificial y las tecnologías digitales para la producción de conocimiento en Trabajo Social, y qué líneas de investigación deberían fortalecerse desde las escuelas y departamentos para comprender críticamente sus efectos en la vida social, las instituciones y las formas de intervención?</p>
+            <p class="question-guide"><strong>Orientación:</strong> discutir la construcción de evidencia, la autoría, la validez del conocimiento, los sesgos algorítmicos y las relaciones entre tecnología, poder y desigualdad; identificar vacíos de conocimiento, enfoques interdisciplinarios y posibilidades de investigación colaborativa.</p>
+          </article>
+
+          <article class="question-block">
+            <h3>III. Posicionamiento académico y profesional</h3>
+            <p class="question-text">3. ¿Qué lugar debería ocupar el Trabajo Social en los debates universitarios y nacionales sobre inteligencia artificial, transformación digital, derechos, desigualdades y regulación tecnológica, y qué capacidades institucionales necesitamos para incidir en ellos?</p>
+            <p class="question-guide"><strong>Orientación:</strong> reflexionar sobre la contribución específica de nuestra profesión y disciplina a estos debates.</p>
+          </article>
+
+          <article class="question-block">
+            <h3>IV. Articulación entre universidades y proyección de ACHETSU</h3>
+            <p class="question-text">4. ¿Qué experiencias y capacidades podrían compartir las escuelas, departamentos y carreras de Trabajo Social para fortalecer colectivamente la formación en este ámbito, y qué agenda de trabajo debería impulsar ACHETSU durante el período 2026–2029, con cuáles tres iniciativas nacionales prioritarias?</p>
+            <p class="question-guide"><strong>Orientación:</strong> identificar experiencias y capacidades disponibles; proponer iniciativas (investigación colaborativa, intercambio docente, innovación curricular, posicionamiento público), instituciones que podrían contribuir a su desarrollo y mecanismos de implementación.</p>
+          </article>
+
+          <article class="question-block">
+            <h3>V. Proyección colectiva y compromisos institucionales</h3>
+            <p class="question-text">5. ¿Qué capacidades, experiencias o recursos de su escuela, departamento o carrera podría poner a disposición y qué iniciativa concreta estaría en condiciones de desarrollar junto a otras instituciones de ACHETSU durante el período 2026–2029?</p>
+            <p class="question-text">6. Desde su perspectiva, ¿cuál es la principal responsabilidad que tenemos como instituciones formadoras frente al futuro del Trabajo Social en Chile?</p>
+          </article>
+        </div>
+
+        <div class="tab-panel" id="panel-eje2" role="tabpanel" aria-labelledby="tab-eje2" hidden>
+          <div class="form-purpose">
+            <strong>Eje 2. Nuevos campos profesionales y transformaciones del Trabajo Social · Propósito:</strong> discutir las transformaciones del campo profesional, las nuevas configuraciones de los problemas sociales y las demandas que emergen para el Trabajo Social. Interesa reconocer cómo estos cambios interpelan la formación, la investigación, la identidad profesional y la capacidad de incidencia de las escuelas universitarias.
+          </div>
+
+          <article class="question-block">
+            <h3>I. Formación profesional y transformaciones del campo</h3>
+            <p class="question-text">1. ¿Cómo están cambiando los escenarios de desempeño profesional del Trabajo Social y qué transformaciones sociales, políticas, económicas, culturales y ambientales explican la emergencia de nuevos campos de actuación, y qué conocimientos necesitamos incorporar en la formación para comprenderlos e intervenir en ellos sin caer en una formación fragmentada, instrumental o subordinada a las demandas inmediatas del mercado laboral?</p>
+            <p class="question-guide"><strong>Orientación:</strong> considerar las transformaciones del Estado, las políticas sociales, el mundo del trabajo, las relaciones de género, las migraciones, las crisis socioambientales, los cuidados, las tecnologías, las violencias, la salud, los derechos humanos y las dinámicas territoriales; discutir la relación entre fundamentos del Trabajo Social, formación teórica, investigación social, competencias profesionales y contextos institucionales y territoriales, en un proyecto formativo integral y crítico.</p>
+          </article>
+
+          <article class="question-block">
+            <h3>II. Investigación y producción de conocimiento</h3>
+            <p class="question-text">2. ¿Qué problemas y transformaciones del campo profesional están insuficientemente investigados desde el Trabajo Social en Chile y cómo podemos fortalecer la relación entre investigación, formación académica y ejercicio profesional para producir conocimiento que oriente las políticas públicas y los procesos de intervención?</p>
+            <p class="question-guide"><strong>Orientación:</strong> identificar vacíos de investigación, problemas emergentes, poblaciones y territorios poco estudiados; considerar investigación situada, sistematización de experiencias, vinculación con organizaciones y participación de profesionales y comunidades.</p>
+          </article>
+
+          <article class="question-block">
+            <h3>III. Posicionamiento disciplinar, profesional y público</h3>
+            <p class="question-text">3. ¿Qué contribución específica puede realizar el Trabajo Social frente a las actuales transformaciones de la sociedad chilena, cómo podemos fortalecer su reconocimiento en los espacios de decisión y en el debate público, y qué tensiones enfrenta su identidad ante los nuevos campos profesionales, la interdisciplinariedad y las transformaciones del empleo?</p>
+            <p class="question-guide"><strong>Orientación:</strong> discutir la legitimidad del conocimiento profesional, la autonomía, la incidencia y el reconocimiento de la profesión; examinar identidad, especificidad disciplinar, trabajo interdisciplinario y condiciones laborales, y cómo abordarlos desde la formación universitaria.</p>
+          </article>
+
+          <article class="question-block">
+            <h3>IV. Articulación entre universidades y proyección de ACHETSU</h3>
+            <p class="question-text">4. ¿Cómo podrían las universidades construir una agenda compartida de investigación y fortalecer sus vínculos con organizaciones profesionales, servicios públicos y comunidades, y qué papel y acciones debería asumir ACHETSU para contribuir al reconocimiento de los nuevos campos profesionales y posicionar al Trabajo Social en los debates sobre las transformaciones del país?</p>
+            <p class="question-guide"><strong>Orientación:</strong> identificar posibilidades de investigación conjunta, alianzas y espacios de colaboración; considerar observatorios, publicaciones, encuentros nacionales y otros espacios de incidencia.</p>
+          </article>
+
+          <article class="question-block">
+            <h3>V. Proyección colectiva y compromisos institucionales</h3>
+            <p class="question-text">5. ¿Qué capacidades, experiencias o recursos de su escuela, departamento o carrera podría poner a disposición y qué iniciativa concreta estaría en condiciones de desarrollar junto a otras instituciones de ACHETSU durante el período 2026–2029?</p>
+            <p class="question-text">6. Desde su perspectiva, ¿cuál es la principal responsabilidad que tenemos como instituciones formadoras frente al futuro del Trabajo Social en Chile?</p>
+          </article>
+        </div>
+
+        <div class="tab-panel" id="panel-eje3" role="tabpanel" aria-labelledby="tab-eje3" hidden>
+          <div class="form-purpose">
+            <strong>Eje 3. El futuro de la enseñanza del Trabajo Social y los desafíos para ACHETSU 2026–2029 · Propósito:</strong> construir una reflexión colectiva sobre el proyecto académico, disciplinar y político de la enseñanza del Trabajo Social en Chile, reconociendo los desafíos compartidos por las instituciones universitarias y definiendo el papel que ACHETSU puede asumir como espacio de articulación, producción de conocimiento, representación e incidencia estratégica para la nueva Directiva.
+          </div>
+
+          <article class="question-block">
+            <h3>I. Proyecto académico y futuro de la enseñanza del Trabajo Social</h3>
+            <p class="question-text">1. ¿Qué proyecto de formación profesional y qué horizonte de desarrollo disciplinar queremos construir colectivamente para el Trabajo Social en Chile durante los próximos años, y cuáles son los principales desafíos que enfrentan las escuelas, departamentos y carreras para sostener una formación de calidad, pertinente, crítica y comprometida con las necesidades del país?</p>
+            <p class="question-guide"><strong>Orientación:</strong> reflexionar sobre los fundamentos epistemológicos, históricos, ético-políticos y pedagógicos de la formación; revisar perfiles de egreso, formación teórica, prácticas, interdisciplinariedad y evaluación; considerar condiciones institucionales, dotación académica, infraestructura, financiamiento, acreditación y relación con el medio profesional.</p>
+          </article>
+
+          <article class="question-block">
+            <h3>II. Investigación y desarrollo disciplinar</h3>
+            <p class="question-text">2. ¿Qué condiciones necesitamos construir para fortalecer la investigación en Trabajo Social desde nuestras universidades y qué líneas de investigación deberían constituir prioridades compartidas entre las escuelas del país, articulando investigación, docencia, prácticas profesionales y vinculación con el medio?</p>
+            <p class="question-guide"><strong>Orientación:</strong> considerar políticas de investigación, formación de investigadores, fondos concursables, redes académicas, publicaciones y reconocimiento institucional; identificar temáticas estratégicas, vacíos de conocimiento y mecanismos de colaboración interuniversitaria con estudiantes, profesionales, organizaciones sociales y comunidades.</p>
+          </article>
+
+          <article class="question-block">
+            <h3>III. Posicionamiento y reconocimiento del Trabajo Social</h3>
+            <p class="question-text">3. ¿Qué lugar ocupa actualmente el Trabajo Social en el sistema de educación superior chileno y qué desafíos y posicionamientos colectivos necesitamos construir para fortalecer su reconocimiento académico, disciplinar y profesional frente a las transformaciones de las políticas públicas, las desigualdades, las violencias y los cambios tecnológicos?</p>
+            <p class="question-guide"><strong>Orientación:</strong> examinar la valoración de la disciplina, su presencia en los espacios universitarios y las condiciones de desarrollo académico; reflexionar sobre la responsabilidad pública de las escuelas, la producción de conocimiento y la capacidad de incidencia académica y profesional.</p>
+          </article>
+
+          <article class="question-block">
+            <h3>IV. Articulación y fortalecimiento de ACHETSU</h3>
+            <p class="question-text">4. ¿Qué significa construir una asociación nacional que represente y articule efectivamente a las instituciones universitarias que imparten Trabajo Social y, para el período 2026–2029, qué papel, mecanismos permanentes de colaboración y cinco prioridades estratégicas debería asumir ACHETSU?</p>
+            <p class="question-guide"><strong>Orientación:</strong> discutir representatividad, participación, comunicación, toma de decisiones y construcción de acuerdos; considerar redes temáticas, encuentros académicos, movilidad docente, proyectos interuniversitarios y la interlocución con universidades, organismos públicos y asociaciones profesionales; proponer prioridades, responsables institucionales, mecanismos de implementación y resultados esperados.</p>
+          </article>
+
+          <article class="question-block">
+            <h3>V. Proyección colectiva y compromisos institucionales</h3>
+            <p class="question-text">5. ¿Qué capacidades, experiencias o recursos de su escuela, departamento o carrera podría poner a disposición y qué iniciativa concreta estaría en condiciones de desarrollar junto a otras instituciones de ACHETSU durante el período 2026–2029?</p>
+            <p class="question-text">6. Desde su perspectiva, ¿cuál es la principal responsabilidad que tenemos como instituciones formadoras frente al futuro del Trabajo Social en Chile?</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="instituciones" aria-labelledby="inst-title">
+      <div class="wrap reveal">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Red universitaria</span>
+            <h2 id="inst-title">14 instituciones participantes</h2>
+          </div>
+          <p>Escuelas, departamentos y carreras de Trabajo Social convocantes del I Congreso ACHETSU 2026.</p>
+        </div>
+
+        <ul class="inst-grid">
+          <li class="host">Universidad Alberto Hurtado (UAH)<small>Sede anfitriona · Carrera de Trabajo Social, Facultad de Ciencias Sociales</small></li>
+          <li>Pontificia Universidad Católica de Chile<small>Escuela de Trabajo Social, Facultad de Ciencias Sociales</small></li>
+          <li>Universidad de Chile<small>Departamento de Trabajo Social, Facultad de Ciencias Sociales</small></li>
+          <li>Universidad de Las Américas (UDLA)<small>Trabajo Social</small></li>
+          <li>Universidad Católica del Maule (UCM)<small>Escuela de Trabajo Social</small></li>
+          <li>Universidad Bernardo O'Higgins (UBO)<small>Escuela de Trabajo Social, Facultad de Ciencias Humanas</small></li>
+          <li>Universidad Santo Tomás (UST)<small>Trabajo Social</small></li>
+          <li>Universidad Andrés Bello (UNAB)<small>Trabajo Social</small></li>
+          <li>Universidad Autónoma de Chile<small>Trabajo Social</small></li>
+          <li>Universidad Católica Silva Henríquez (UCSH)<small>Trabajo Social</small></li>
+          <li>Universidad Austral de Chile (UACh)<small>Trabajo Social</small></li>
+          <li>Universidad Academia de Humanismo Cristiano<small>Trabajo Social</small></li>
+          <li>Universidad Central de Chile (UCEN)<small>Facultad de Derecho y Humanidades · Trabajo Social</small></li>
+          <li>Universidad Miguel de Cervantes (UMC)<small>Trabajo Social</small></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner wrap">
+      <p>I Congreso ACHETSU 2026 · Asociación Chilena de Enseñanza del Trabajo Social Universitario</p>
+      <div class="footer-links">
+        <a href="index.html">Sitio principal</a>
+        <a href="elecciones.html">Proceso electoral</a>
+        <a href="#inicio">Volver arriba ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const loader = document.getElementById("page-loader");
+      if (loader) {
+        const hideLoader = () => {
+          loader.classList.add("is-hidden");
+          setTimeout(() => loader.remove(), 500);
+        };
+        if (document.readyState === "complete") hideLoader();
+        else window.addEventListener("load", hideLoader, { once: true });
+      }
+
+      const revealTargets = document.querySelectorAll(".reveal");
+      if (revealTargets.length && "IntersectionObserver" in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.08, rootMargin: "0px 0px -6% 0px" });
+        revealTargets.forEach((target) => observer.observe(target));
+      } else {
+        revealTargets.forEach((target) => target.classList.add("in-view"));
+      }
+
+      document.querySelectorAll('[role="tablist"]').forEach((tablist) => {
+        const tabs = Array.from(tablist.querySelectorAll('[role="tab"]'));
+        const activate = (selectedTab) => {
+          tabs.forEach((tab) => {
+            const isSelected = tab === selectedTab;
+            tab.setAttribute("aria-selected", String(isSelected));
+            const panel = document.getElementById(tab.getAttribute("aria-controls"));
+            if (panel) panel.hidden = !isSelected;
+          });
+        };
+
+        tabs.forEach((tab, index) => {
+          tab.addEventListener("click", () => activate(tab));
+          tab.addEventListener("keydown", (event) => {
+            let nextIndex = null;
+            if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+            else if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+            if (nextIndex !== null) {
+              event.preventDefault();
+              tabs[nextIndex].focus();
+              activate(tabs[nextIndex]);
+            }
+          });
+        });
+      });
+
+      const navLinks = Array.from(document.querySelectorAll('.site-nav a[href^="#"]'));
+      const sections = navLinks
+        .map((link) => document.querySelector(link.getAttribute("href")))
+        .filter(Boolean);
+
+      if (sections.length && "IntersectionObserver" in window) {
+        const navObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const id = "#" + entry.target.id;
+              navLinks.forEach((link) => {
+                if (link.getAttribute("href") === id) link.setAttribute("aria-current", "location");
+                else link.removeAttribute("aria-current");
+              });
+            }
+          });
+        }, { rootMargin: "-25% 0px -65% 0px" });
+        sections.forEach((section) => navObserver.observe(section));
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -159,6 +159,20 @@
 
     .site-nav .nav-directory { color: var(--teal-dark); }
 
+    .site-nav .nav-congress {
+      padding: 0.45rem 0.72rem;
+      border: 1px solid var(--rust);
+      color: var(--rust);
+      transition: background 180ms ease, color 180ms ease;
+    }
+
+    .site-nav .nav-congress:hover {
+      background: var(--rust);
+      color: var(--white);
+    }
+
+    .site-nav .nav-congress::after { display: none; }
+
     main { overflow: clip; }
 
     .wrap {
@@ -871,6 +885,7 @@
       </a>
       <nav class="site-nav" aria-label="Navegación principal">
         <a href="#quienes">Quiénes somos</a>
+        <a class="nav-congress" href="congreso.html">I Congreso 2026</a>
         <a href="#elecciones">Elecciones</a>
         <a href="#socios">Socios</a>
         <a href="#documentos">Documentos</a>
