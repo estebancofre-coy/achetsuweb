@@ -28,7 +28,7 @@ jobs:
       - name: Prepare public site only
         run: |
           mkdir -p _site
-          cp index.html elecciones.html maintenance.html CNAME _site/
+          cp index.html elecciones.html congreso.html maintenance.html CNAME _site/
           cp -r assets _site/assets
       - name: Inject Apps Script URL securely
         env:

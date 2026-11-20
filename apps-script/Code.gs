@@ -6,6 +6,11 @@ const CONFIG = Object.freeze({
   passwordHashIterations: 3000,
   requestSheet: "Solicitudes",
   memberSheet: "Socios",
+  congressSpreadsheetId: "1YByh_TEXxJn41cZju-cdfWoid40gOYTXuhlVgO3OSz0",
+  congressSheet: "Inscripciones",
+  congressMaxSendsPerEmail: 3,
+  congressMaxGlobalSends: 60,
+  congressRateWindowSeconds: 600,
   challengePrefix: "achetsu-email-challenge-",
   challengeLifetimeSeconds: 600,
   challengeMaxAttempts: 5,
@@ -16,6 +21,30 @@ const CONFIG = Object.freeze({
   publicSiteUrl: "https://estebancofre-coy.github.io/achetsuweb/",
   adminNotificationEmail: "esteban.cofre@uaysen.cl"
 });
+
+const ACHETSU_UNIVERSITIES = Object.freeze([
+  "Universidad Alberto Hurtado (UAH)",
+  "Pontificia Universidad Católica de Chile (PUC)",
+  "Universidad de Chile",
+  "Universidad de Las Américas (UDLA)",
+  "Universidad Católica del Maule (UCM)",
+  "Universidad Bernardo O'Higgins (UBO)",
+  "Universidad Santo Tomás (UST)",
+  "Universidad Andrés Bello (UNAB)",
+  "Universidad Autónoma de Chile",
+  "Universidad Católica Cardenal Silva Henríquez (UCSH)",
+  "Universidad Austral de Chile (UACh)",
+  "Universidad Academia de Humanismo Cristiano (UAHC)",
+  "Universidad Central de Chile (UCEN)",
+  "Universidad Miguel de Cervantes (UMC)"
+]);
+
+const CONGRESS_HEADERS = [
+  "Folio", "Fecha de inscripción", "Tipo de participante",
+  "Nombre completo", "Correo electrónico", "Cargo",
+  "Pertenencia ACHETSU", "Universidad o institución", "Jornadas de asistencia",
+  "Confirmación al inscrito", "Notificación administrativa"
+];
 
 const REQUEST_HEADERS = [
   "ID", "Fecha", "Estado", "Categoría", "Tipo", "ID socio",
@@ -54,8 +83,39 @@ function doGet(event) {
     template.requestType = event.parameter.requestType || "";
     return template.evaluate().setTitle("Solicitud de actualización · ACHETSU");
   }
+  if (view === "congreso") {
+    const template = HtmlService.createTemplateFromFile("Congreso");
+    template.appUrl = publicAppUrl_();
+    template.homeUrl = CONFIG.publicSiteUrl + "congreso.html";
+    return template.evaluate()
+      .setTitle("Inscripción · I Congreso ACHETSU 2026")
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+  }
   return HtmlService.createHtmlOutput("Aplicación de solicitudes de ACHETSU.")
     .setTitle("ACHETSU");
+}
+
+function doPost(event) {
+  try {
+    const raw = event && event.postData && event.postData.contents ? event.postData.contents : "";
+    const payload = raw ? JSON.parse(raw) : (event && event.parameter ? event.parameter : {});
+    if (payload && payload.action === "registerCongress") {
+      const result = submitCongressRegistration(payload);
+      return jsonResponse_({ ok: true, result: result });
+    }
+    return jsonResponse_({ ok: false, error: "Acción no válida." });
+  } catch (error) {
+    return jsonResponse_({
+      ok: false,
+      error: error && error.message ? error.message : "No se pudo procesar la solicitud."
+    });
+  }
+}
+
+function jsonResponse_(payload) {
+  return ContentService
+    .createTextOutput(JSON.stringify(payload))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 
 function initializeBackend() {
@@ -78,11 +138,241 @@ function initializeBackend() {
   const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
   ensureSheet_(spreadsheet, CONFIG.requestSheet, REQUEST_HEADERS);
   ensureSheet_(spreadsheet, CONFIG.memberSheet, MEMBER_HEADERS);
+  const congressSheet = getCongressSheet_();
   MailApp.getRemainingDailyQuota();
   return {
     spreadsheetUrl: spreadsheet.getUrl(),
+    congressSpreadsheetUrl: congressSheet.getParent().getUrl(),
     privateFolderUrl: DriveApp.getFolderById(folderId).getUrl()
   };
+}
+
+function submitCongressRegistration(form) {
+  if (!form || typeof form !== "object") {
+    throw new Error("No se recibieron los datos de inscripción.");
+  }
+  if (form.website) {
+    throw new Error("No se pudo procesar la inscripción.");
+  }
+
+  const fullName = cleanText_(form.fullName, 160);
+  const email = cleanText_(form.email, 254).toLowerCase();
+  const rawRole = cleanText_(form.role, 80);
+  const otherRole = cleanText_(form.otherRole, 120);
+  const universitySelection = cleanText_(form.university, 180);
+  const otherInstitution = cleanText_(form.otherInstitution, 180);
+  const rawAttendance = cleanText_(form.attendance, 140);
+
+  if (fullName.length < 3) {
+    throw new Error("Ingresa tu nombre completo.");
+  }
+  if (!isValidEmail_(email)) {
+    throw new Error("Ingresa un correo electrónico válido para enviarte la confirmación.");
+  }
+
+  const roleMap = {
+    "academico": "Académico/a",
+    "Académico/a": "Académico/a",
+    "Académico": "Académico/a",
+    "docente_colaborador": "Docente colaborador/a",
+    "Docente colaborador/a": "Docente colaborador/a",
+    "Docente colaborador": "Docente colaborador/a",
+    "otro": "Otro",
+    "Otro": "Otro"
+  };
+  const normalizedRole = roleMap[rawRole];
+  if (!normalizedRole) {
+    throw new Error("Selecciona un cargo válido (Académico/a, Docente colaborador/a u Otro).");
+  }
+  const roleLabel = normalizedRole === "Otro" && otherRole
+    ? "Otro (" + otherRole + ")"
+    : normalizedRole;
+
+  const isAchetsuUniversity = ACHETSU_UNIVERSITIES.includes(universitySelection);
+  const isOtherInstitution = universitySelection === "Otra institución" || universitySelection === "otra";
+  if (!isAchetsuUniversity && !isOtherInstitution) {
+    throw new Error("Selecciona una de las 14 universidades de ACHETSU o la opción «Otra institución».");
+  }
+  if (isOtherInstitution && otherInstitution.length < 2) {
+    throw new Error("Indica el nombre de tu institución en el campo «Nombre de la institución».");
+  }
+
+  const institutionType = isAchetsuUniversity ? "Universidad ACHETSU" : "Otra institución";
+  const finalInstitution = isAchetsuUniversity ? universitySelection : otherInstitution;
+
+  const attendanceMap = {
+    "ambas": "Ambas jornadas (martes 24 y miércoles 25 de noviembre)",
+    "Ambas jornadas (martes 24 y miércoles 25 de noviembre)": "Ambas jornadas (martes 24 y miércoles 25 de noviembre)",
+    "dia1": "Solo martes 24 de noviembre",
+    "Solo martes 24 de noviembre": "Solo martes 24 de noviembre",
+    "dia2": "Solo miércoles 25 de noviembre",
+    "Solo miércoles 25 de noviembre": "Solo miércoles 25 de noviembre"
+  };
+  const attendanceLabel = attendanceMap[rawAttendance] || "Ambas jornadas (martes 24 y miércoles 25 de noviembre)";
+
+  const lock = LockService.getScriptLock();
+  lock.waitLock(10000);
+  try {
+    const cache = CacheService.getScriptCache();
+    const emailRateKey = "achetsu-congress-rate-" + hashText_(email);
+    const emailSends = Number(cache.get(emailRateKey) || 0);
+    if (emailSends >= CONFIG.congressMaxSendsPerEmail) {
+      throw new Error("Ya registramos solicitudes recientes con este correo. Revisa tu bandeja de entrada o intenta en 10 minutos.");
+    }
+    const globalRateKey = "achetsu-congress-global-rate";
+    const globalSends = Number(cache.get(globalRateKey) || 0);
+    if (globalSends >= CONFIG.congressMaxGlobalSends) {
+      throw new Error("El sistema está recibiendo muchas inscripciones en este momento. Intenta nuevamente en unos minutos.");
+    }
+
+    const sheet = getCongressSheet_();
+    const folio = "CONG-2026-" + Utilities.getUuid().slice(0, 8).toUpperCase();
+    const timestamp = new Date();
+    const formattedDate = Utilities.formatDate(timestamp, Session.getScriptTimeZone(), "dd/MM/yyyy HH:mm");
+    const rowNumber = sheet.getLastRow() + 1;
+
+    sheet.appendRow([
+      safeSheetText_(folio),
+      timestamp,
+      "Persona natural",
+      safeSheetText_(fullName),
+      safeSheetText_(email),
+      safeSheetText_(roleLabel),
+      safeSheetText_(institutionType),
+      safeSheetText_(finalInstitution),
+      safeSheetText_(attendanceLabel),
+      "Pendiente",
+      "Pendiente"
+    ]);
+
+    cache.put(emailRateKey, String(emailSends + 1), CONFIG.congressRateWindowSeconds);
+    cache.put(globalRateKey, String(globalSends + 1), CONFIG.congressRateWindowSeconds);
+
+    let participantEmailSent = true;
+    try {
+      MailApp.sendEmail({
+        to: email,
+        replyTo: CONFIG.adminNotificationEmail,
+        subject: "ACHETSU | Confirmación de inscripción · I Congreso ACHETSU 2026 (" + folio + ")",
+        body: "Estimado/a " + fullName + ",\n\n" +
+          "Confirmamos tu inscripción como persona natural al I Congreso ACHETSU 2026: " +
+          "«Desafíos de la academia en torno a la formación profesional en clave de nuevas tecnologías y nuevos campos profesionales».\n\n" +
+          "DETALLE DE TU INSCRIPCIÓN\n" +
+          "- Folio: " + folio + "\n" +
+          "- Fecha de registro: " + formattedDate + "\n" +
+          "- Nombre: " + fullName + "\n" +
+          "- Correo: " + email + "\n" +
+          "- Cargo: " + roleLabel + "\n" +
+          "- Universidad / Institución: " + finalInstitution + " (" + institutionType + ")\n" +
+          "- Participación declarada: " + attendanceLabel + "\n\n" +
+          "INFORMACIÓN IMPORTANTE DEL ENCUENTRO\n" +
+          "- Fechas: Martes 24 y miércoles 25 de noviembre de 2026 (acreditación desde las 09:00 h).\n" +
+          "- Lugar: Universidad Alberto Hurtado (Av. Libertador Bernardo O'Higgins 1825, Santiago — Metro Los Héroes).\n" +
+          "- Costo: Asistir al seminario y a las actividades del Congreso NO tiene costo.\n" +
+          "- Participación: Se prefiere que las personas inscritas participen en ambas jornadas para acompañar las ponencias, los grupos de trabajo y el plenario de la Agenda ACHETSU 2026–2029.\n\n" +
+          "Programa e información actualizada: " + CONFIG.publicSiteUrl + "congreso.html\n\n" +
+          "Atentamente,\n" +
+          "Equipo Organizador · I Congreso ACHETSU 2026\n" +
+          "Asociación Chilena de Enseñanza en Trabajo Social Universitario",
+        htmlBody: "<div style=\"font-family:'Segoe UI',Arial,sans-serif;max-width:640px;margin:0 auto;color:#302d2b;line-height:1.6;background:#f7f3e8;padding:24px;border:1px solid #dfd4bf\">" +
+          "<p style=\"margin:0 0 6px;color:#b94f2d;font-size:12px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase\">Asociación Chilena de Enseñanza en Trabajo Social Universitario</p>" +
+          "<h2 style=\"margin:0 0 14px;font-family:Georgia,serif;font-weight:400;font-size:26px;color:#174e4b\">Confirmación de inscripción · I Congreso ACHETSU 2026</h2>" +
+          "<p>Estimado/a <strong>" + escapeHtml_(fullName) + "</strong>,</p>" +
+          "<p>Hemos registrado tu inscripción como <strong>persona natural</strong> para el <strong>I Congreso ACHETSU 2026</strong>: <em>«Desafíos de la academia en torno a la formación profesional en clave de nuevas tecnologías y nuevos campos profesionales»</em>.</p>" +
+          "<div style=\"background:#fffdf8;border:1px solid #d7a93f;padding:16px;margin:18px 0\">" +
+          "<p style=\"margin:0 0 10px;font-weight:800;color:#174e4b;font-size:13px;letter-spacing:0.08em;text-transform:uppercase\">Resumen de tu inscripción</p>" +
+          "<p style=\"margin:4px 0\"><strong>Folio:</strong> " + escapeHtml_(folio) + "</p>" +
+          "<p style=\"margin:4px 0\"><strong>Fecha de registro:</strong> " + escapeHtml_(formattedDate) + "</p>" +
+          "<p style=\"margin:4px 0\"><strong>Nombre completo:</strong> " + escapeHtml_(fullName) + "</p>" +
+          "<p style=\"margin:4px 0\"><strong>Correo electrónico:</strong> " + escapeHtml_(email) + "</p>" +
+          "<p style=\"margin:4px 0\"><strong>Cargo:</strong> " + escapeHtml_(roleLabel) + "</p>" +
+          "<p style=\"margin:4px 0\"><strong>Universidad / Institución:</strong> " + escapeHtml_(finalInstitution) + " (" + escapeHtml_(institutionType) + ")</p>" +
+          "<p style=\"margin:4px 0\"><strong>Jornadas:</strong> " + escapeHtml_(attendanceLabel) + "</p>" +
+          "</div>" +
+          "<div style=\"background:#eee5d3;border-left:4px solid #1c625e;padding:14px 16px;margin:18px 0;font-size:14px\">" +
+          "<p style=\"margin:0 0 6px\"><strong>Coordenadas del encuentro:</strong></p>" +
+          "<p style=\"margin:4px 0\">• <strong>Fechas:</strong> Martes 24 y miércoles 25 de noviembre de 2026 (recepción y acreditación desde las 09:00 h).</p>" +
+          "<p style=\"margin:4px 0\">• <strong>Sede:</strong> Universidad Alberto Hurtado, Av. Libertador Bernardo O'Higgins 1825, Santiago (Metro Los Héroes).</p>" +
+          "<p style=\"margin:4px 0\">• <strong>Actividad gratuita:</strong> Asistir al seminario y al Congreso <strong>no tiene costo</strong>.</p>" +
+          "<p style=\"margin:4px 0\">• <strong>Participación:</strong> Se prefiere que las y los participantes asistan a <strong>ambas jornadas</strong> para acompañar las ponencias, el conversatorio y el plenario de la Agenda ACHETSU 2026–2029.</p>" +
+          "</div>" +
+          "<p style=\"font-size:14px\">Puedes revisar el programa completo en <a href=\"" + CONFIG.publicSiteUrl + "congreso.html\" style=\"color:#b94f2d;font-weight:700\">la página oficial del I Congreso ACHETSU 2026</a>.</p>" +
+          "<p style=\"margin:18px 0 0;font-size:13px;color:#716961\">Equipo Organizador · I Congreso ACHETSU 2026</p>" +
+          "</div>",
+        name: "I Congreso ACHETSU 2026"
+      });
+    } catch (error) {
+      participantEmailSent = false;
+      Logger.log("Error al enviar correo de confirmación al inscrito (" + folio + "): " + error);
+    }
+
+    let adminNotificationSent = true;
+    try {
+      const sheetUrl = "https://docs.google.com/spreadsheets/d/" +
+        (PropertiesService.getScriptProperties().getProperty("ACHETSU_CONGRESS_SPREADSHEET_ID") || CONFIG.congressSpreadsheetId) +
+        "/edit";
+      MailApp.sendEmail({
+        to: CONFIG.adminNotificationEmail,
+        replyTo: email,
+        subject: "ACHETSU | Nueva inscripción Congreso 2026 · " + fullName + " (" + folio + ")",
+        body: "Se ha registrado una nueva inscripción de persona natural al I Congreso ACHETSU 2026.\n\n" +
+          "Folio: " + folio + "\n" +
+          "Fecha: " + formattedDate + "\n" +
+          "Nombre completo: " + fullName + "\n" +
+          "Correo electrónico: " + email + "\n" +
+          "Cargo: " + roleLabel + "\n" +
+          "Pertenencia: " + institutionType + "\n" +
+          "Universidad / Institución: " + finalInstitution + "\n" +
+          "Jornadas: " + attendanceLabel + "\n" +
+          "Confirmación enviada al inscrito: " + (participantEmailSent ? "Sí" : "Fallida") + "\n\n" +
+          "Ver planilla de inscritos en Google Sheets:\n" + sheetUrl + "\n\nACHETSU",
+        htmlBody: "<div style=\"font-family:'Segoe UI',Arial,sans-serif;max-width:600px;color:#302d2b;line-height:1.55\">" +
+          "<h2 style=\"margin:0 0 12px;font-family:Georgia,serif;color:#174e4b\">Nueva inscripción al I Congreso ACHETSU 2026</h2>" +
+          "<p style=\"margin:0 0 12px\">Se registró una nueva inscripción de <strong>persona natural</strong> en la planilla del Congreso:</p>" +
+          "<table style=\"width:100%;border-collapse:collapse;background:#fffdf8;border:1px solid #dfd4bf;font-size:14px\">" +
+          "<tr><td style=\"padding:8px 12px;border-bottom:1px solid #dfd4bf;font-weight:700;width:38%\">Folio</td><td style=\"padding:8px 12px;border-bottom:1px solid #dfd4bf\">" + escapeHtml_(folio) + "</td></tr>" +
+          "<tr><td style=\"padding:8px 12px;border-bottom:1px solid #dfd4bf;font-weight:700\">Fecha y hora</td><td style=\"padding:8px 12px;border-bottom:1px solid #dfd4bf\">" + escapeHtml_(formattedDate) + "</td></tr>" +
+          "<tr><td style=\"padding:8px 12px;border-bottom:1px solid #dfd4bf;font-weight:700\">Nombre completo</td><td style=\"padding:8px 12px;border-bottom:1px solid #dfd4bf\">" + escapeHtml_(fullName) + "</td></tr>" +
+          "<tr><td style=\"padding:8px 12px;border-bottom:1px solid #dfd4bf;font-weight:700\">Correo electrónico</td><td style=\"padding:8px 12px;border-bottom:1px solid #dfd4bf\">" + escapeHtml_(email) + "</td></tr>" +
+          "<tr><td style=\"padding:8px 12px;border-bottom:1px solid #dfd4bf;font-weight:700\">Cargo</td><td style=\"padding:8px 12px;border-bottom:1px solid #dfd4bf\">" + escapeHtml_(roleLabel) + "</td></tr>" +
+          "<tr><td style=\"padding:8px 12px;border-bottom:1px solid #dfd4bf;font-weight:700\">Pertenencia</td><td style=\"padding:8px 12px;border-bottom:1px solid #dfd4bf\">" + escapeHtml_(institutionType) + "</td></tr>" +
+          "<tr><td style=\"padding:8px 12px;border-bottom:1px solid #dfd4bf;font-weight:700\">Universidad / Institución</td><td style=\"padding:8px 12px;border-bottom:1px solid #dfd4bf\">" + escapeHtml_(finalInstitution) + "</td></tr>" +
+          "<tr><td style=\"padding:8px 12px;border-bottom:1px solid #dfd4bf;font-weight:700\">Jornadas</td><td style=\"padding:8px 12px;border-bottom:1px solid #dfd4bf\">" + escapeHtml_(attendanceLabel) + "</td></tr>" +
+          "<tr><td style=\"padding:8px 12px;font-weight:700\">Correo al inscrito</td><td style=\"padding:8px 12px\">" + (participantEmailSent ? "Enviado correctamente" : "No se pudo enviar") + "</td></tr>" +
+          "</table>" +
+          "<p style=\"margin:16px 0 0\"><a href=\"" + sheetUrl + "\" style=\"display:inline-block;padding:10px 16px;background:#1c625e;color:#ffffff;text-decoration:none;font-weight:700;font-size:13px\">Abrir planilla Google Sheets ↗</a></p>" +
+          "</div>",
+        name: "I Congreso ACHETSU 2026"
+      });
+    } catch (error) {
+      adminNotificationSent = false;
+      Logger.log("Error al enviar notificación administrativa de inscripción (" + folio + "): " + error);
+    }
+
+    try {
+      sheet.getRange(rowNumber, 10, 1, 2).setValues([[
+        participantEmailSent ? "Enviada" : "Fallida",
+        adminNotificationSent ? "Enviada" : "Fallida"
+      ]]);
+    } catch (error) {
+      Logger.log("No se pudo actualizar el estado de correo para la fila " + rowNumber + ": " + error);
+    }
+
+    return {
+      folio: folio,
+      receivedAt: formattedDate,
+      fullName: fullName,
+      email: email,
+      role: roleLabel,
+      institutionType: institutionType,
+      institution: finalInstitution,
+      attendance: attendanceLabel,
+      participantEmailSent: participantEmailSent,
+      adminNotificationSent: adminNotificationSent
+    };
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 function beginEmailChallenge(form) {
@@ -837,4 +1127,29 @@ function isValidPhone_(value) {
 
 function sanitizeFileName_(value) {
   return cleanText_(value, 120).replace(/[\\/:*?"<>|]/g, "_") || "antecedente";
+}
+
+function getCongressSheet_() {
+  const properties = PropertiesService.getScriptProperties();
+  const spreadsheetId = properties.getProperty("ACHETSU_CONGRESS_SPREADSHEET_ID") || CONFIG.congressSpreadsheetId;
+  const spreadsheet = SpreadsheetApp.openById(spreadsheetId);
+  let sheet = spreadsheet.getSheetByName(CONFIG.congressSheet);
+  if (!sheet) {
+    const sheets = spreadsheet.getSheets();
+    if (sheets.length === 1 && sheets[0].getLastRow() === 0 && sheets[0].getLastColumn() === 0) {
+      sheet = sheets[0];
+      sheet.setName(CONFIG.congressSheet);
+    }
+  }
+  ensureSheet_(spreadsheet, CONFIG.congressSheet, CONGRESS_HEADERS);
+  return spreadsheet.getSheetByName(CONFIG.congressSheet);
+}
+
+function escapeHtml_(value) {
+  return String(value == null ? "" : value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 }

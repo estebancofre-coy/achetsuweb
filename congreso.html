@@ -711,6 +711,235 @@
       color: var(--muted);
     }
 
+    .schedule-presentations {
+      margin: 0.8rem 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .schedule-presentations li {
+      padding: 0.75rem 0.95rem;
+      border-left: 3px solid var(--teal);
+      background: var(--paper);
+      font-size: 0.88rem;
+      color: #413b36;
+    }
+
+    .schedule-presentations li strong {
+      display: block;
+      color: var(--ink);
+      font-size: 0.91rem;
+    }
+
+    .schedule-presentations li em {
+      display: block;
+      margin-top: 0.2rem;
+      color: var(--rust-dark);
+      font-family: Georgia, "Times New Roman", serif;
+      font-style: normal;
+      font-size: 0.95rem;
+    }
+
+    /* Poster card in Hero */
+    .hero-poster {
+      margin: 0;
+      padding: 0.6rem;
+      border: 1px solid var(--gold);
+      background: var(--white);
+      box-shadow: 0 12px 28px rgb(48 45 43 / 8%);
+    }
+
+    .hero-poster img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Equipo & Expositores */
+    .sub-heading {
+      margin: 2.4rem 0 1.2rem;
+      padding-bottom: 0.55rem;
+      border-bottom: 1px solid var(--line);
+      color: var(--teal-dark);
+      font-size: 1.5rem;
+    }
+
+    .sub-heading:first-of-type {
+      margin-top: 0;
+    }
+
+    .people-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .person-card {
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--line);
+      background: var(--white);
+      overflow: hidden;
+    }
+
+    .person-photo {
+      width: 100%;
+      aspect-ratio: 4 / 4.5;
+      overflow: hidden;
+      background: var(--paper-deep);
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .person-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+    }
+
+    .person-info {
+      padding: 0.95rem 1.05rem;
+    }
+
+    .person-role {
+      display: block;
+      color: var(--rust);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .person-info h4 {
+      margin: 0.25rem 0 0;
+      font-size: 1.12rem;
+      color: var(--ink);
+    }
+
+    .person-info p {
+      margin: 0.35rem 0 0;
+      font-size: 0.84rem;
+      color: var(--muted);
+    }
+
+    .speakers-axis-group {
+      margin-top: 2.4rem;
+    }
+
+    .speakers-axis-header {
+      margin-bottom: 1.15rem;
+      padding: 0.9rem 1.15rem;
+      border-left: 4px solid var(--teal);
+      background: var(--white);
+    }
+
+    .speakers-axis-group:nth-of-type(2) .speakers-axis-header {
+      border-left-color: var(--rust);
+    }
+
+    .speakers-axis-group:nth-of-type(3) .speakers-axis-header {
+      border-left-color: var(--gold);
+    }
+
+    .speakers-axis-header span {
+      display: block;
+      color: var(--rust);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    .speakers-axis-header h3 {
+      margin: 0.2rem 0 0;
+      font-size: 1.35rem;
+      color: var(--ink);
+    }
+
+    .speakers-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+
+    .speaker-card {
+      display: grid;
+      grid-template-columns: 140px minmax(0, 1fr);
+      border: 1px solid #d4c6ae;
+      background: var(--white);
+      overflow: hidden;
+    }
+
+    .speaker-card.speaker-duo {
+      grid-template-columns: 180px minmax(0, 1fr);
+    }
+
+    .speaker-media {
+      display: flex;
+      background: var(--paper-deep);
+      border-right: 2px solid var(--gold);
+      min-height: 175px;
+    }
+
+    .speaker-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+    }
+
+    .speaker-media.duo-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--gold);
+    }
+
+    .speaker-body {
+      padding: 1.1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .speaker-inst {
+      color: var(--teal-dark);
+      font-size: 0.71rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .speaker-body h4 {
+      margin: 0.25rem 0 0.2rem;
+      font-size: 1.15rem;
+      line-height: 1.25;
+      color: var(--ink);
+    }
+
+    .speaker-cargo {
+      margin: 0 0 0.65rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .speaker-paper {
+      margin: auto 0 0;
+      padding-top: 0.6rem;
+      border-top: 1px dashed var(--line);
+      font-size: 0.88rem;
+      color: #3f3934;
+    }
+
+    .speaker-paper strong {
+      color: var(--rust);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
     .tag-pending {
       display: inline-block;
       margin-left: 0.4rem;
@@ -856,6 +1085,194 @@
       border-left: 4px solid var(--teal);
     }
 
+    /* Registration Section */
+    .reg-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 2.2rem;
+      align-items: start;
+    }
+
+    .reg-highlights {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .reg-highlight-card {
+      padding: 1.25rem 1.35rem;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--teal);
+      background: var(--white);
+    }
+
+    .reg-highlight-card.rust {
+      border-left-color: var(--rust);
+    }
+
+    .reg-highlight-card.gold {
+      border-left-color: var(--gold);
+    }
+
+    .reg-highlight-card strong {
+      display: block;
+      margin-bottom: 0.3rem;
+      color: var(--teal-dark);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .reg-highlight-card.rust strong {
+      color: var(--rust);
+    }
+
+    .reg-highlight-card h3 {
+      margin: 0 0 0.45rem;
+      font-size: 1.22rem;
+      color: var(--ink);
+    }
+
+    .reg-highlight-card p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #4a433d;
+    }
+
+    .reg-form-card {
+      padding: clamp(1.4rem, 3vw, 2.1rem);
+      border: 1px solid #cfc2aa;
+      border-top: 4px solid var(--teal);
+      background: var(--white);
+    }
+
+    .reg-form-card h3 {
+      margin: 0 0 0.35rem;
+      font-size: 1.5rem;
+      color: var(--ink);
+    }
+
+    .reg-form-card > p {
+      margin: 0 0 1.3rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .reg-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.05rem;
+    }
+
+    .reg-field {
+      display: grid;
+      gap: 0.35rem;
+      color: #46403a;
+      font-size: 0.83rem;
+      font-weight: 700;
+    }
+
+    .reg-field.wide {
+      grid-column: 1 / -1;
+    }
+
+    .reg-field[hidden] {
+      display: none;
+    }
+
+    .reg-field input,
+    .reg-field select {
+      width: 100%;
+      min-height: 46px;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid #c9c0b2;
+      border-radius: 0;
+      background: var(--white);
+      color: var(--ink);
+      font: 400 0.95rem/1.4 "Segoe UI", Arial, sans-serif;
+    }
+
+    .reg-field input:focus-visible,
+    .reg-field select:focus-visible {
+      outline: 3px solid var(--rust);
+      outline-offset: 2px;
+    }
+
+    .reg-hint {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-weight: 400;
+    }
+
+    .reg-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.85rem;
+      margin-top: 1.25rem;
+    }
+
+    .reg-error {
+      min-height: 1.4em;
+      margin: 0.75rem 0 0;
+      color: #8d321b;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .reg-success {
+      padding: 1.5rem;
+      border: 1px solid var(--teal);
+      background: #e1eee8;
+    }
+
+    .reg-success[hidden] {
+      display: none;
+    }
+
+    .reg-receipt-brand {
+      margin: 0 0 0.4rem;
+      color: var(--teal-dark);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .reg-receipt-list {
+      margin: 1rem 0 1.25rem;
+    }
+
+    .reg-receipt-list div {
+      display: grid;
+      grid-template-columns: minmax(9rem, 0.38fr) minmax(0, 1fr);
+      gap: 0.75rem;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid #c3d7ce;
+      font-size: 0.89rem;
+    }
+
+    .reg-receipt-list dt {
+      color: #3d5a56;
+      font-weight: 700;
+    }
+
+    .reg-receipt-list dd {
+      margin: 0;
+      color: var(--ink);
+      font-weight: 600;
+      overflow-wrap: anywhere;
+    }
+
+    .reg-trap {
+      position: absolute;
+      left: -10000px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
     /* Footer */
     .site-footer {
       padding: 2.5rem 0;
@@ -951,7 +1368,9 @@
       .axes-grid,
       .objectives-grid { grid-template-columns: 1fr; }
       .method-grid,
-      .guidelines-grid { grid-template-columns: 1fr; }
+      .guidelines-grid,
+      .speakers-grid,
+      .reg-layout { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 680px) {
@@ -968,6 +1387,16 @@
       .wrap { width: min(100% - 2rem, var(--page)); }
       .hero-frame { padding: 1.8rem 1.2rem; }
       .schedule-item { grid-template-columns: 1fr; gap: 0.35rem; }
+      .speaker-card,
+      .speaker-card.speaker-duo { grid-template-columns: 1fr; }
+      .speaker-media {
+        border-right: none;
+        border-bottom: 2px solid var(--gold);
+        max-height: 260px;
+      }
+      .reg-grid { grid-template-columns: 1fr; }
+      .reg-field.wide { grid-column: auto; }
+      .reg-receipt-list div { grid-template-columns: 1fr; gap: 0.15rem; }
       .footer-inner { align-items: flex-start; flex-direction: column; }
     }
 
@@ -1000,10 +1429,12 @@
       <nav class="site-nav" aria-label="Navegación del Congreso">
         <a href="#presentacion">Presentación</a>
         <a href="#ejes">Ejes</a>
-        <a href="#metodologia">Metodología</a>
+        <a href="#expositores">Expositores</a>
         <a href="#programa">Programa</a>
+        <a href="#metodologia">Metodología</a>
         <a href="#ponencias">Ponencias</a>
         <a href="#conversatorios">Conversatorios</a>
+        <a href="#inscripcion">Inscripción</a>
         <a href="#instituciones">Instituciones</a>
         <a class="nav-back" href="index.html">← Sitio principal</a>
       </nav>
@@ -1020,30 +1451,24 @@
               <h1 id="congress-title">I Congreso <span>ACHETSU 2026</span></h1>
               <div class="hero-divider" aria-hidden="true">◆</div>
               <p class="hero-theme">Desafíos de la academia en torno a la formación profesional en clave de nuevas tecnologías y nuevos campos profesionales.</p>
-              <p class="hero-lead">Un espacio de diálogo, reflexión y construcción colectiva entre 14 instituciones formadoras en Trabajo Social del país, proyectado hacia la Agenda ACHETSU 2026–2029.</p>
+              <p class="hero-lead">Un espacio de diálogo, reflexión y construcción colectiva entre las instituciones formadoras en Trabajo Social del país, proyectado hacia la Agenda ACHETSU 2026–2029 y la consolidación de ponencias en formato libro.</p>
               <div class="hero-actions">
-                <a class="button" href="#programa">Ver programa preliminar ↓</a>
-                <a class="button button-outline" href="#ponencias">Orientaciones de ponencias</a>
+                <a class="button" href="#inscripcion">Inscribirse al Congreso ↓</a>
+                <a class="button button-outline" href="#programa">Ver programa por día</a>
                 <a class="button button-rust" href="elecciones.html">Elecciones de Directiva →</a>
               </div>
             </div>
 
-            <div class="hero-emblem" aria-hidden="true">
-              <span class="orbit o1"></span>
-              <span class="orbit o2"></span>
-              <span class="orbit o3"></span>
-              <div class="emblem-core">
-                <img src="assets/achet-su-logo.png" alt="">
-                <span class="emblem-tag">24 y 25 Nov · 2026</span>
-              </div>
-            </div>
+            <figure class="hero-poster">
+              <img src="assets/congreso/afiche-congreso-2026.png" alt="Afiche oficial del I Congreso ACHETSU 2026 — 24 y 25 de noviembre de 2026 con los escudos de las universidades participantes" loading="eager">
+            </figure>
           </div>
 
           <div class="facts-strip">
             <div class="fact-card">
               <strong>Fechas confirmadas</strong>
               <p>24 y 25 de noviembre de 2026</p>
-              <small>Acreditación desde las 09:00 h · horarios definitivos por confirmar</small>
+              <small>Recepción y acreditación desde las 09:00 h (con inscripción presencial disponible)</small>
             </div>
             <div class="fact-card">
               <strong>Sede anfitriona</strong>
@@ -1052,14 +1477,14 @@
             </div>
             <div class="fact-card">
               <strong>Convoca</strong>
-              <p>ACHETSU · 14 universidades</p>
-              <small>Incluye elecciones de la nueva Directiva de la Asociación</small>
+              <p>ACHETSU · Red Universitaria</p>
+              <small>Agenda 2026–2029, publicación en libro y renovación de Directiva</small>
             </div>
           </div>
 
           <div class="status-banner" role="note">
             <span class="badge">Información</span>
-            <p><strong>Datos confirmados y antecedentes en preparación:</strong> las fechas (24 y 25 de noviembre de 2026), la sede (Universidad Alberto Hurtado), los tres ejes temáticos, las orientaciones para ponencias y los formularios de conversatorio se encuentran publicados en esta página. El detalle final de ponentes, horarios definitivos y los canales de inscripción o envío de trabajos se encuentran <strong>pendientes de confirmación oficial</strong>.</p>
+            <p><strong>Programación y nómina actualizada:</strong> esta página incorpora el equipo organizador de ACHETSU, las expositoras invitadas, las ponencias de directoras, directores y representantes por universidad en los tres ejes temáticos, y el programa detallado para el martes 24 y miércoles 25 de noviembre de 2026.</p>
           </div>
         </div>
       </div>
@@ -1083,7 +1508,7 @@
               «El Congreso ACHETSU 2026 propone desplazar la conversación desde “¿cómo adaptar la formación a los cambios?” hacia una interrogación más amplia: ¿qué Trabajo Social estamos formando para un campo profesional que está cambiando sus coordenadas?»
             </blockquote>
             <p>Junto a los espacios tradicionales de desempeño emergen ámbitos vinculados con la transformación digital, las desigualdades contemporáneas, las crisis socioambientales, las migraciones, las violencias, los cuidados, las transformaciones del mundo laboral, los derechos humanos, la salud, el envejecimiento, el territorio y la participación social.</p>
-            <p>Las propuestas elaboradas durante ambas jornadas se sistematizarán en un documento de síntesis denominado <strong>Agenda ACHETSU 2026–2029: desafíos y propuestas para la enseñanza del Trabajo Social en Chile</strong>.</p>
+            <p>Las propuestas elaboradas por los grupos de trabajo durante ambas jornadas se sistematizarán en un documento de síntesis denominado <strong>Agenda ACHETSU 2026–2029: desafíos y propuestas para la enseñanza del Trabajo Social en Chile</strong>, que recogerá los principales acuerdos, preocupaciones y líneas de acción identificadas por las instituciones participantes, mientras que <strong>las ponencias se consolidarán en un producto con formato libro</strong>.</p>
           </div>
 
           <div>
@@ -1161,32 +1586,316 @@
       </div>
     </section>
 
-    <section class="section" id="metodologia" aria-labelledby="method-title">
+    <section class="section" id="expositores" aria-labelledby="speakers-title">
+      <div class="wrap reveal">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Organización y ponencias</span>
+            <h2 id="speakers-title">Equipo ACHETSU y expositoras/es</h2>
+          </div>
+          <p>Equipo directivo organizador, expositoras invitadas y representantes institucionales que presentan ponencias en cada eje temático del Congreso.</p>
+        </div>
+
+        <h3 class="sub-heading">Equipo ACHETSU</h3>
+        <div class="people-grid">
+          <article class="person-card">
+            <div class="person-photo">
+              <img src="assets/congreso/sonia-brito.jpg" alt="Sonia Brito Rodríguez" loading="lazy">
+            </div>
+            <div class="person-info">
+              <span class="person-role">Equipo ACHETSU</span>
+              <h4>Sonia Brito Rodríguez</h4>
+            </div>
+          </article>
+
+          <article class="person-card">
+            <div class="person-photo">
+              <img src="assets/congreso/nelida-ramirez.jpg" alt="Nélida Ramírez Naranjo" loading="lazy">
+            </div>
+            <div class="person-info">
+              <span class="person-role">Equipo ACHETSU</span>
+              <h4>Nélida Ramírez Naranjo</h4>
+            </div>
+          </article>
+
+          <article class="person-card">
+            <div class="person-photo">
+              <img src="assets/congreso/paula-leiva.png" alt="Paula Leiva Sandoval" loading="lazy">
+            </div>
+            <div class="person-info">
+              <span class="person-role">Equipo ACHETSU</span>
+              <h4>Paula Leiva Sandoval</h4>
+            </div>
+          </article>
+
+          <article class="person-card">
+            <div class="person-photo">
+              <img src="assets/congreso/wendy-godoy.jpg" alt="Wendy Godoy Ormazábal" loading="lazy">
+            </div>
+            <div class="person-info">
+              <span class="person-role">Equipo ACHETSU</span>
+              <h4>Wendy Godoy Ormazábal</h4>
+            </div>
+          </article>
+
+          <article class="person-card">
+            <div class="person-photo">
+              <img src="assets/congreso/esteban-cofre.jpg" alt="Esteban Cofré Morales" loading="lazy">
+            </div>
+            <div class="person-info">
+              <span class="person-role">Equipo ACHETSU</span>
+              <h4>Esteban Cofré Morales</h4>
+            </div>
+          </article>
+        </div>
+
+        <h3 class="sub-heading">Expositoras invitadas</h3>
+        <div class="people-grid">
+          <article class="person-card">
+            <div class="person-photo">
+              <img src="assets/congreso/gabriela-rubilar.png" alt="Gabriela Rubilar Donoso" loading="lazy">
+            </div>
+            <div class="person-info">
+              <span class="person-role">Expositora invitada · Martes 24 (14:30)</span>
+              <h4>Gabriela Rubilar Donoso</h4>
+              <p>Presentación: <em>Memorias póstumas</em> (junto a Camila Véliz Bustamante).</p>
+            </div>
+          </article>
+
+          <article class="person-card">
+            <div class="person-photo">
+              <img src="assets/congreso/camila-veliz.jpg" alt="Camila Véliz Bustamante" loading="lazy">
+            </div>
+            <div class="person-info">
+              <span class="person-role">Expositora invitada · Martes 24 (14:30)</span>
+              <h4>Camila Véliz Bustamante</h4>
+              <p>Presentación: <em>Memorias póstumas</em> (junto a Gabriela Rubilar Donoso).</p>
+            </div>
+          </article>
+
+          <article class="person-card">
+            <div class="person-photo">
+              <img src="assets/congreso/sandra-iturrieta.png" alt="Sandra Iturrieta Olivares" loading="lazy">
+            </div>
+            <div class="person-info">
+              <span class="person-role">Expositora invitada · Miércoles 25 (09:45)</span>
+              <h4>Sandra Iturrieta Olivares</h4>
+              <p>Presentación: <em>Promesas espectrales: felicidad, éxito y futuros heredados en el bienestar subjetivo del estudiantado universitario</em>.</p>
+            </div>
+          </article>
+        </div>
+
+        <h3 class="sub-heading">Expositoras y expositores por universidades y ejes</h3>
+
+        <div class="speakers-axis-group">
+          <div class="speakers-axis-header">
+            <span>Eje 1</span>
+            <h3>Formación profesional y nuevas tecnologías</h3>
+          </div>
+          <div class="speakers-grid">
+            <article class="speaker-card">
+              <div class="speaker-media">
+                <img src="assets/congreso/judith-guajardo.jpg" alt="Dra. (c) Judith Guajardo Escobar" loading="lazy">
+              </div>
+              <div class="speaker-body">
+                <span class="speaker-inst">Universidad Central de Chile</span>
+                <h4>Dra. (c) Judith Guajardo Escobar</h4>
+                <p class="speaker-cargo">Directora de Carrera de Trabajo Social</p>
+                <p class="speaker-paper"><strong>Ponencia:</strong> Huellas digitales éticas e inteligencia artificial generativa: desafíos para la formación profesional en Trabajo Social.</p>
+              </div>
+            </article>
+
+            <article class="speaker-card">
+              <div class="speaker-media">
+                <img src="assets/congreso/susana-arancibia.png" alt="Dra. Susana Arancibia Olguín" loading="lazy">
+              </div>
+              <div class="speaker-body">
+                <span class="speaker-inst">Universidad Bernardo O'Higgins</span>
+                <h4>Dra. Susana Arancibia Olguín</h4>
+                <p class="speaker-cargo">Directora de Trabajo Social</p>
+                <p class="speaker-paper"><strong>Ponencia:</strong> Tecnología e innovación en la enseñanza del trabajo social, oportunidades y desafíos.</p>
+              </div>
+            </article>
+
+            <article class="speaker-card">
+              <div class="speaker-media">
+                <img src="assets/congreso/amaris-arroyo.jpg" alt="Dra. (c) Amaris Arroyo Muñoz" loading="lazy">
+              </div>
+              <div class="speaker-body">
+                <span class="speaker-inst">Universidad Andrés Bello · Sede República</span>
+                <h4>Dra. (c) Amaris Arroyo Muñoz</h4>
+                <p class="speaker-cargo">Directora de Trabajo Social</p>
+                <p class="speaker-paper"><strong>Ponencia:</strong> Desafiando la formación profesional.</p>
+              </div>
+            </article>
+
+            <article class="speaker-card">
+              <div class="speaker-media">
+                <img src="assets/congreso/claudia-campillo.jpg" alt="Dra. Claudia Campillo Toledano" loading="lazy">
+              </div>
+              <div class="speaker-body">
+                <span class="speaker-inst">Universidad de Chile</span>
+                <h4>Dra. Claudia Campillo Toledano</h4>
+                <p class="speaker-cargo">Directora del Departamento de Trabajo Social</p>
+                <p class="speaker-paper"><strong>Ponencia:</strong> Pensar, sentir y transformar desde lo público: el sello crítico de la formación en Trabajo Social frente a la incertidumbre de nuestro tiempo.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="speakers-axis-group">
+          <div class="speakers-axis-header">
+            <span>Eje 2</span>
+            <h3>Nuevos campos profesionales y transformaciones del Trabajo Social</h3>
+          </div>
+          <div class="speakers-grid">
+            <article class="speaker-card">
+              <div class="speaker-media">
+                <img src="assets/congreso/ana-maria-gonzalez.jpg" alt="Mg. Ana María González Flores" loading="lazy">
+              </div>
+              <div class="speaker-body">
+                <span class="speaker-inst">Universidad Católica Cardenal Silva Henríquez</span>
+                <h4>Mg. Ana María González Flores</h4>
+                <p class="speaker-cargo">Jefa de Carrera de Trabajo Social</p>
+                <p class="speaker-paper"><strong>Ponencia:</strong> Entre continuidades y transformaciones: configuraciones del campo de intervención social y sus horizontes profesionales.</p>
+              </div>
+            </article>
+
+            <article class="speaker-card">
+              <div class="speaker-media">
+                <img src="assets/congreso/veronica-rubio.jpg" alt="Dra. (c) Verónica Rubio Aguilar" loading="lazy">
+              </div>
+              <div class="speaker-body">
+                <span class="speaker-inst">Universidad Santo Tomás</span>
+                <h4>Dra. (c) Verónica Rubio Aguilar</h4>
+                <p class="speaker-cargo">Directora Nacional de Trabajo Social</p>
+                <p class="speaker-paper"><strong>Ponencia:</strong> Encrucijadas en la formación del Trabajo Social en escenarios convulsos.</p>
+              </div>
+            </article>
+
+            <article class="speaker-card">
+              <div class="speaker-media">
+                <img src="assets/congreso/olaya-grau.jpg" alt="Dra. M. Olaya Grau Rengifo" loading="lazy">
+              </div>
+              <div class="speaker-body">
+                <span class="speaker-inst">Pontificia Universidad Católica de Chile</span>
+                <h4>Dra. M. Olaya Grau Rengifo</h4>
+                <p class="speaker-cargo">Directora de la Escuela de Trabajo Social</p>
+                <p class="speaker-paper"><strong>Ponencia:</strong> Formar sin fragmentar y pensar a largo plazo en Trabajo Social.</p>
+              </div>
+            </article>
+
+            <article class="speaker-card">
+              <div class="speaker-media">
+                <img src="assets/congreso/karina-gatica.jpg" alt="Dra. Karina Gatica Chandía" loading="lazy">
+              </div>
+              <div class="speaker-body">
+                <span class="speaker-inst">Universidad Autónoma de Chile · Sede Santiago</span>
+                <h4>Dra. Karina Gatica Chandía</h4>
+                <p class="speaker-cargo">Directora de Carrera de Trabajo Social</p>
+                <p class="speaker-paper"><strong>Ponencia:</strong> Rumbos de la Intervención Profesional.</p>
+              </div>
+            </article>
+
+            <article class="speaker-card">
+              <div class="speaker-media">
+                <img src="assets/congreso/catalina-bolivar.jpg" alt="Catalina Bolívar Patiño" loading="lazy">
+              </div>
+              <div class="speaker-body">
+                <span class="speaker-inst">Universidad Austral de Chile · Sede Puerto Montt</span>
+                <h4>Catalina Bolívar Patiño</h4>
+                <p class="speaker-cargo">Directora de Escuela de Trabajo Social</p>
+                <p class="speaker-paper"><strong>Ponencia:</strong> Formación práctica e iniciativas estudiantiles en campos profesionales emergentes, en contextos de descentralización. Experiencias desde el sur austral.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="speakers-axis-group">
+          <div class="speakers-axis-header">
+            <span>Eje 3</span>
+            <h3>El futuro de la enseñanza del Trabajo Social y los desafíos para ACHETSU 2026–2029</h3>
+          </div>
+          <div class="speakers-grid">
+            <article class="speaker-card">
+              <div class="speaker-media">
+                <img src="assets/congreso/karen-olivares.png" alt="Dra. Karen Olivares" loading="lazy">
+              </div>
+              <div class="speaker-body">
+                <span class="speaker-inst">Universidad Católica del Maule</span>
+                <h4>Dra. Karen Olivares</h4>
+                <p class="speaker-cargo">Directora de Carrera de Trabajo Social</p>
+                <p class="speaker-paper"><strong>Ponencia:</strong> Repensar el trabajo social desde el género: desafíos contemporáneos para la formación e intervención profesional.</p>
+              </div>
+            </article>
+
+            <article class="speaker-card speaker-duo">
+              <div class="speaker-media duo-split">
+                <img src="assets/congreso/jose-hernandez.png" alt="Mg. José Hernández Zamorano" loading="lazy">
+                <img src="assets/congreso/jose-luis-gomez.png" alt="Mg. José Luis Gómez Catalán" loading="lazy">
+              </div>
+              <div class="speaker-body">
+                <span class="speaker-inst">Universidad Miguel de Cervantes</span>
+                <h4>Mg. José Hernández Zamorano &amp; Mg. José Luis Gómez Catalán</h4>
+                <p class="speaker-cargo">Director (I) de la Escuela de Trabajo Social · Coordinador Académico y docente</p>
+                <p class="speaker-paper"><strong>Ponencia:</strong> Más allá de los nuevos campos de intervención: repensando el trabajo social futuro.</p>
+              </div>
+            </article>
+
+            <article class="speaker-card speaker-duo">
+              <div class="speaker-media">
+                <img src="assets/congreso/paola-rojas-fernando-cofre.jpg" alt="Dra. (c) Paola Rojas Marín y Dr. (c) Fernando Cofré Cerda" loading="lazy">
+              </div>
+              <div class="speaker-body">
+                <span class="speaker-inst">Universidad Academia de Humanismo Cristiano</span>
+                <h4>Dra. (c) Paola Rojas Marín &amp; Dr. (c) Fernando Cofré Cerda</h4>
+                <p class="speaker-cargo">Académica investigadora y representante ACHETSU · Núcleo académico Escuela de Trabajo Social</p>
+                <p class="speaker-paper"><strong>Ponencia:</strong> Ruta para la innovación curricular. Experiencia Escuela de Trabajo Social de la UAHC.</p>
+              </div>
+            </article>
+
+            <article class="speaker-card">
+              <div class="speaker-media">
+                <img src="assets/congreso/rodrigo-cortes.jpg" alt="Dr. Rodrigo Cortés Mancilla" loading="lazy">
+              </div>
+              <div class="speaker-body">
+                <span class="speaker-inst">Universidad Alberto Hurtado</span>
+                <h4>Dr. Rodrigo Cortés Mancilla</h4>
+                <p class="speaker-cargo">Director del Magíster en Intervención Social</p>
+                <p class="speaker-paper"><strong>Ponencia:</strong> La enseñanza del Trabajo Social por venir: entre las herencias del presente y la apertura a lo imposible.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="metodologia" aria-labelledby="method-title">
       <div class="wrap reveal">
         <div class="section-heading">
           <div>
             <span class="section-kicker">Modalidades de participación</span>
             <h2 id="method-title">Metodología del encuentro</h2>
           </div>
-          <p>El Congreso combina cuatro instancias para articular presentación institucional, diálogo transversal, deliberación y construcción de agenda.</p>
+          <p>El Congreso combina presentación institucional, trabajo grupal por eje, conversatorio transversal y plenario de síntesis.</p>
         </div>
 
         <div class="method-grid">
           <article class="method-card">
             <h3>1. Presentación de directoras y directores</h3>
-            <p>Como representantes institucionales, las directoras y directores de departamentos, escuelas o carreras de Trabajo Social realizarán ponencias vinculadas a los tres ejes temáticos.</p>
+            <p>Como representantes institucionales, las directoras, directores y equipos de departamentos, escuelas o carreras de Trabajo Social realizarán las ponencias vinculadas a los tres ejes temáticos.</p>
             <p>Compartirán experiencias académicas, investigaciones, innovaciones curriculares, prácticas pedagógicas y propuestas orientadas a las transformaciones de la formación y del campo profesional.</p>
           </article>
 
           <article class="method-card">
-            <h3>2. Conversatorio</h3>
-            <p>Espacio transversal de diálogo entre representantes de las instituciones participantes, académicas, académicos y socias/os, orientado a problematizar los desafíos actuales de la enseñanza del Trabajo Social y las respuestas que requiere la academia.</p>
-            <p><a href="#conversatorios">Revisar los formularios de preguntas por eje ↓</a></p>
+            <h3>2. Conversatorio transversal</h3>
+            <p>Espacio transversal de diálogo entre representantes de las instituciones participantes, académicas, académicos y socias/os naturales, orientado a problematizar los desafíos actuales de la enseñanza del Trabajo Social y las respuestas que requiere la academia.</p>
+            <p><a href="#conversatorios">Revisar las preguntas orientadoras por eje ↓</a></p>
           </article>
 
           <article class="method-card">
-            <h3>3. Grupos de trabajo</h3>
-            <p>Las personas participantes se distribuirán en grupos asociados a los tres ejes del Congreso para analizar desafíos y elaborar propuestas en torno a tres preguntas guía:</p>
+            <h3>3. Grupos de trabajo (liderados por las 5 universidades de cada eje)</h3>
+            <p>Las personas participantes se distribuirán en grupos de trabajo asociados a los tres ejes del Congreso, liderados por las 5 universidades que componen cada eje, para analizar los desafíos identificados y elaborar propuestas en torno a tres preguntas generales transversales:</p>
             <ul>
               <li>¿Cuáles son los principales desafíos que enfrenta la enseñanza del Trabajo Social?</li>
               <li>¿Qué respuestas y acciones debería promover ACHETSU?</li>
@@ -1195,26 +1904,26 @@
           </article>
 
           <article class="method-card">
-            <h3>4. Plenario y Agenda ACHETSU 2026–2029</h3>
-            <p>El encuentro culmina con la presentación de las conclusiones de los grupos de trabajo y la identificación de prioridades comunes.</p>
-            <p>Sus resultados se sistematizarán en la <strong>Agenda ACHETSU 2026–2029</strong> como hoja de ruta compartida para el trabajo asociativo y la nueva Directiva.</p>
+            <h3>4. Plenario, Agenda 2026–2029 y publicación en libro</h3>
+            <p>El encuentro culmina con la presentación de las propuestas y conclusiones de los grupos de trabajo en el plenario y la identificación de prioridades comunes.</p>
+            <p>Las propuestas se sistematizarán en el documento <strong>Agenda ACHETSU 2026–2029: desafíos y propuestas para la enseñanza del Trabajo Social en Chile</strong>, y las ponencias se consolidarán en una publicación en <strong>formato libro</strong>.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="section section-alt" id="programa" aria-labelledby="program-title">
+    <section class="section" id="programa" aria-labelledby="program-title">
       <div class="wrap reveal">
         <div class="section-heading">
           <div>
             <span class="section-kicker">Agenda de las jornadas</span>
-            <h2 id="program-title">Programa preliminar</h2>
+            <h2 id="program-title">Programa por día</h2>
           </div>
-          <p>Organizado en dos jornadas presenciales en la Universidad Alberto Hurtado (24 y 25 de noviembre de 2026).</p>
+          <p>Organizado en dos jornadas presenciales en la Universidad Alberto Hurtado (martes 24 y miércoles 25 de noviembre de 2026).</p>
         </div>
 
         <div class="schedule-note" role="note">
-          <strong>Programa preliminar:</strong> los bloques, títulos de ponencias y nómina de expositoras/es institucionales pueden presentar ajustes hasta la publicación del programa definitivo.
+          <strong>Acreditación e inscripciones:</strong> la recepción contará con el apoyo de estudiantes con computadores y registro organizado alfabéticamente, facilitando tanto la verificación de personas inscritas como nuevas inscripciones presenciales para quienes lleguen sin inscripción previa.
         </div>
 
         <div class="tab-bar" role="tablist" aria-label="Jornadas del Congreso">
@@ -1227,7 +1936,8 @@
             <li class="schedule-item">
               <span class="schedule-time">09:00 – 09:30</span>
               <div class="schedule-body">
-                <h3>Recepción, acreditación y café</h3>
+                <h3>Recepción, acreditación, entrega de materiales y café</h3>
+                <p>Apoyo de estudiantes a cargo de recibir a las y los asistentes, verificar inscripciones y realizar nuevas inscripciones en caso necesario (registro alfabético en computadores).</p>
               </div>
             </li>
             <li class="schedule-item">
@@ -1240,49 +1950,86 @@
             <li class="schedule-item">
               <span class="schedule-time">09:45 – 10:00</span>
               <div class="schedule-body">
-                <h3>Saludo institucional</h3>
-                <p>Palabras del Rector de la Universidad Alberto Hurtado (UAH).</p>
+                <h3>Palabras del Rector UAH</h3>
+                <p>Saludo institucional de la Universidad Alberto Hurtado.</p>
               </div>
             </li>
             <li class="schedule-item">
-              <span class="schedule-time">10:00 – 10:15</span>
+              <span class="schedule-time">10:00 – 10:10</span>
               <div class="schedule-body">
-                <h3>Historia de ACHETSU — 11 años de historia</h3>
-                <p>Exposición de Ruth Lizana.</p>
+                <h3>11 años de historia ACHETSU</h3>
+                <p>Exposición de <strong>Ruth Lizana Ibaceta</strong> y entrega de certificados de reconocimiento a directivas anteriores de ACHETSU.</p>
               </div>
             </li>
             <li class="schedule-item">
-              <span class="schedule-time">10:15 – 10:25</span>
+              <span class="schedule-time">10:40 – 12:15</span>
               <div class="schedule-body">
-                <h3>Ponencia: Historias póstumas</h3>
-                <p>Exposición de Gabriela Rubilar y Camila Véliz.</p>
+                <h3>Bloque 1 · Ponencias de directoras y directores: La formación profesional frente a las transformaciones actuales</h3>
+                <p>Experiencias y desafíos de las instituciones universitarias:</p>
+                <ul class="schedule-presentations">
+                  <li>
+                    <strong>Presentación 1 · Dra. (c) Judith Guajardo Escobar</strong> — Directora Carrera Trabajo Social, Universidad Central de Chile
+                    <em>«Huellas digitales éticas e inteligencia artificial generativa: desafíos para la formación profesional en Trabajo Social»</em>
+                  </li>
+                  <li>
+                    <strong>Presentación 2 · Dra. Susana Arancibia Olguín</strong> — Directora Trabajo Social, Universidad Bernardo O'Higgins
+                    <em>«Tecnología e innovación en la enseñanza del trabajo social, oportunidades y desafíos»</em>
+                  </li>
+                  <li>
+                    <strong>Presentación 3 · Dra. (c) Amaris Arroyo Muñoz</strong> — Directora Trabajo Social, Universidad Andrés Bello (Sede República)
+                    <em>«Desafiando la formación profesional»</em>
+                  </li>
+                  <li>
+                    <strong>Presentación 4 · Dra. Claudia Campillo Toledano</strong> — Directora Departamento de Trabajo Social, Universidad de Chile
+                    <em>«Pensar, sentir y transformar desde lo público: el sello crítico de la formación en Trabajo Social frente a la incertidumbre de nuestro tiempo»</em>
+                  </li>
+                  <li>
+                    <strong>Presentación 5 · Dra. Karina Gatica Chandía</strong> — Directora Carrera Trabajo Social, Universidad Autónoma de Chile (Sede Santiago)
+                    <em>«Rumbos de la Intervención Profesional»</em>
+                  </li>
+                </ul>
               </div>
             </li>
             <li class="schedule-item">
-              <span class="schedule-time">10:30 – 12:10</span>
+              <span class="schedule-time">12:30 – 14:30</span>
               <div class="schedule-body">
-                <h3>Eje 1 · Ponencias de directoras y directores <span class="tag-pending">Nómina por confirmar</span></h3>
-                <p>Experiencias y desafíos de las instituciones universitarias en torno a la formación profesional (5 presentaciones institucionales).</p>
+                <h3>Almuerzo · Brunch</h3>
+                <p>Brunch para todas las personas asistentes.</p>
               </div>
             </li>
             <li class="schedule-item">
-              <span class="schedule-time">12:10 – 13:30</span>
+              <span class="schedule-time">14:30 – 14:50</span>
               <div class="schedule-body">
-                <h3>Almuerzo <span class="tag-pending">Horario referencial</span></h3>
+                <h3>Expositoras invitadas: Memorias póstumas</h3>
+                <p>Presentación de <strong>Gabriela Rubilar Donoso</strong> y <strong>Camila Véliz Bustamante</strong>.</p>
               </div>
             </li>
             <li class="schedule-item">
-              <span class="schedule-time">13:30 – 15:10</span>
+              <span class="schedule-time">15:00 – 16:30</span>
               <div class="schedule-body">
-                <h3>Eje 2 · Ponencias de directoras y directores <span class="tag-pending">Nómina por confirmar</span></h3>
-                <p>Presentación de experiencias e investigaciones vinculadas con transformación tecnológica, inteligencia artificial, innovación pedagógica y formación profesional (5 presentaciones institucionales).</p>
+                <h3>Bloque 2 · Ponencias de directoras y directores: Formación profesional, nuevos campos y tecnologías</h3>
+                <p>Experiencias y desafíos de las instituciones universitarias:</p>
+                <ul class="schedule-presentations">
+                  <li>
+                    <strong>Presentación 1 · Catalina Bolívar Patiño</strong> — Directora de Escuela de Trabajo Social, Universidad Austral de Chile (Sede Puerto Montt)
+                    <em>«Formación práctica e iniciativas estudiantiles en campos profesionales emergentes, en contextos de descentralización. Experiencias desde el sur austral»</em>
+                  </li>
+                  <li>
+                    <strong>Presentación 2 · Dra. M. Olaya Grau Rengifo</strong> — Directora Escuela de Trabajo Social, Pontificia Universidad Católica de Chile
+                    <em>«Formar sin fragmentar y pensar a largo plazo en Trabajo Social»</em>
+                  </li>
+                  <li>
+                    <strong>Presentación 3 · Mg. Ana María González Flores</strong> — Jefa de Carrera Trabajo Social, Universidad Católica Cardenal Silva Henríquez
+                    <em>«Entre continuidades y transformaciones: configuraciones del campo de intervención social y sus horizontes profesionales»</em>
+                  </li>
+                </ul>
               </div>
             </li>
             <li class="schedule-item">
-              <span class="schedule-time">Cierre de jornada</span>
+              <span class="schedule-time">Cierre Día 1</span>
               <div class="schedule-body">
-                <h3>Conversatorio de proyecciones y presentación de candidaturas a la Directiva</h3>
-                <p>Diálogo con participantes y presentación de la o las candidaturas para conducir ACHETSU en el marco del proceso electoral.</p>
+                <h3>Saludos de colegas de América Latina y el Caribe y cierre musical</h3>
+                <p>Saludos internacionales, espacio asociativo y actividad musical de cierre de la primera jornada.</p>
               </div>
             </li>
           </ol>
@@ -1293,47 +2040,72 @@
             <li class="schedule-item">
               <span class="schedule-time">09:30 – 09:45</span>
               <div class="schedule-body">
-                <h3>Apertura de la jornada</h3>
+                <h3>Apertura de la jornada · Presentación patrimonio Revista Apuntes</h3>
+                <p>Exhibición de video biblioteca y apertura del segundo día.</p>
               </div>
             </li>
             <li class="schedule-item">
               <span class="schedule-time">09:45 – 10:05</span>
               <div class="schedule-body">
-                <h3>Presentación de Sandra Iturrieta <span class="tag-pending">Título por confirmar</span></h3>
+                <h3>Expositora invitada: Sandra Iturrieta Olivares</h3>
+                <p>Ponencia: <em>«Promesas espectrales: felicidad, éxito y futuros heredados en el bienestar subjetivo del estudiantado universitario»</em>.</p>
               </div>
             </li>
             <li class="schedule-item">
-              <span class="schedule-time">10:10 – 11:15</span>
+              <span class="schedule-time">10:10 – 11:50</span>
               <div class="schedule-body">
-                <h3>Ponencias y conversatorio: Nuevos campos profesionales y transformaciones del Trabajo Social <span class="tag-pending">Horario por ajustar</span></h3>
-                <p>Presentación de experiencias institucionales y diálogo abierto en torno a la pregunta: <em>¿Qué Trabajo Social necesitamos formar para los nuevos escenarios?</em></p>
+                <h3>Bloque 3 · Ponencias de directoras y directores: Nuevos campos profesionales, transformaciones y futuro del Trabajo Social</h3>
+                <p>Experiencias y desafíos de las instituciones universitarias:</p>
+                <ul class="schedule-presentations">
+                  <li>
+                    <strong>Presentación 1 · Dra. Karen Olivares</strong> — Directora Carrera Trabajo Social, Universidad Católica del Maule
+                    <em>«Repensar el trabajo social desde el género: desafíos contemporáneos para la formación e intervención profesional»</em>
+                  </li>
+                  <li>
+                    <strong>Presentación 2 · Dra. (c) Verónica Rubio Aguilar</strong> — Directora Nacional Trabajo Social, Universidad Santo Tomás
+                    <em>«Encrucijadas en la formación del Trabajo Social en escenarios convulsos»</em>
+                  </li>
+                  <li>
+                    <strong>Presentación 3 · Mg. José Hernández Zamorano &amp; Mg. José Luis Gómez Catalán</strong> — Director (I) y Coordinador Académico Escuela de Trabajo Social, Universidad Miguel de Cervantes
+                    <em>«Más allá de los nuevos campos de intervención: repensando el trabajo social futuro»</em>
+                  </li>
+                  <li>
+                    <strong>Presentación 4 · Dra. (c) Paola Rojas Marín &amp; Dr. (c) Fernando Cofré Cerda</strong> — Representante ACHETSU y Núcleo Académico Escuela de Trabajo Social, Universidad Academia de Humanismo Cristiano
+                    <em>«Ruta para la innovación curricular. Experiencia Escuela de Trabajo Social de la UAHC»</em>
+                  </li>
+                  <li>
+                    <strong>Presentación 5 · Dr. Rodrigo Cortés Mancilla</strong> — Director Magíster en Intervención Social, Universidad Alberto Hurtado
+                    <em>«La enseñanza del Trabajo Social por venir: entre las herencias del presente y la apertura a lo imposible»</em>
+                  </li>
+                </ul>
               </div>
             </li>
             <li class="schedule-item">
-              <span class="schedule-time">11:15 – 11:30</span>
+              <span class="schedule-time">11:50 – 13:30</span>
               <div class="schedule-body">
-                <h3>Pausa — café</h3>
+                <h3>Conversatorio y grupos de trabajo: ¿Qué Trabajo Social necesitamos formar para los nuevos escenarios?</h3>
+                <p>Trabajo deliberativo con el formulario de preguntas de los tres ejes, liderado por las 5 universidades que componen cada eje.</p>
               </div>
             </li>
             <li class="schedule-item">
-              <span class="schedule-time">11:30 – 12:30</span>
+              <span class="schedule-time">13:30 – 14:30</span>
               <div class="schedule-body">
-                <h3>Grupos de trabajo: desafíos y propuestas para ACHETSU 2026–2029</h3>
-                <p>Trabajo colectivo organizado en torno a los tres ejes temáticos del Congreso.</p>
+                <h3>Brunch</h3>
+                <p>Pausa y almuerzo tipo brunch para las personas participantes.</p>
               </div>
             </li>
             <li class="schedule-item">
-              <span class="schedule-time">12:30 – 12:55</span>
+              <span class="schedule-time">14:30 – 16:00</span>
               <div class="schedule-body">
-                <h3>Plenario: propuestas y prioridades para ACHETSU 2026–2029</h3>
-                <p>Presentación de las conclusiones de los grupos de trabajo y construcción de prioridades comunes.</p>
+                <h3>Plenario: Proyecciones y articulaciones, desafíos y propuestas para ACHETSU 2026–2029</h3>
+                <p>Presentación del trabajo colectivo desarrollado en torno a los tres ejes temáticos del Congreso, recogiendo las principales reflexiones, debates y propuestas surgidas del proceso de intercambio y análisis.</p>
               </div>
             </li>
             <li class="schedule-item">
-              <span class="schedule-time">12:55 – 13:00</span>
+              <span class="schedule-time">16:00</span>
               <div class="schedule-body">
-                <h3>Cierre y elecciones de Directiva</h3>
-                <p>Palabras finales, proyección del trabajo asociativo y desarrollo de votaciones para la renovación de la Directiva de ACHETSU.</p>
+                <h3>Cierre y cóctel</h3>
+                <p>Palabras finales, proyección del trabajo asociativo y cóctel de clausura.</p>
               </div>
             </li>
           </ol>
@@ -1553,7 +2325,139 @@
       </div>
     </section>
 
-    <section class="section" id="instituciones" aria-labelledby="inst-title">
+    <section class="section" id="inscripcion" aria-labelledby="registration-title">
+      <div class="wrap reveal">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Registro de participantes</span>
+            <h2 id="registration-title">Inscripción al Congreso</h2>
+          </div>
+          <p>Formulario de inscripción para personas naturales interesadas en asistir al I Congreso ACHETSU 2026 (24 y 25 de noviembre en la Universidad Alberto Hurtado).</p>
+        </div>
+
+        <div class="reg-layout">
+          <div class="reg-highlights">
+            <article class="reg-highlight-card">
+              <strong>Actividad sin costo</strong>
+              <h3>Asistir al seminario no tiene costo</h3>
+              <p>La participación en todas las ponencias, conversatorios, grupos de trabajo, plenario y espacios de encuentro del I Congreso ACHETSU 2026 es totalmente gratuita para las personas inscritas.</p>
+            </article>
+
+            <article class="reg-highlight-card rust">
+              <strong>Continuidad de las jornadas</strong>
+              <h3>Se prefiere que participen en ambas jornadas</h3>
+              <p>Invitamos y recomendamos asistir tanto el <strong>martes 24</strong> como el <strong>miércoles 25 de noviembre de 2026</strong>, para acompañar íntegramente las ponencias por ejes, el conversatorio deliberativo y el plenario de construcción de la Agenda ACHETSU 2026–2029.</p>
+            </article>
+
+            <article class="reg-highlight-card gold">
+              <strong>Inscripción para personas naturales</strong>
+              <h3>Confirmación automática por correo</h3>
+              <p>Al completar este formulario, tu inscripción quedará registrada automáticamente y recibirás en tu correo electrónico el comprobante oficial con tu folio de acreditación.</p>
+            </article>
+          </div>
+
+          <div class="reg-form-card">
+            <h3>Formulario de inscripción (Personas naturales)</h3>
+            <p>Completa tus datos académicos o institucionales para agilizar tu acreditación presencial el día del evento.</p>
+
+            <form id="congress-registration-form" novalidate>
+              <div class="reg-grid">
+                <label class="reg-field wide">Nombre completo
+                  <input name="fullName" id="reg-fullname" type="text" maxlength="160" autocomplete="name" placeholder="Ej.: María Ignacia Soto Rojas" required>
+                </label>
+
+                <label class="reg-field">Correo electrónico
+                  <input name="email" id="reg-email" type="email" maxlength="254" autocomplete="email" placeholder="nombre@universidad.cl" required>
+                  <small class="reg-hint">Recibirás la confirmación de tu inscripción en este correo.</small>
+                </label>
+
+                <label class="reg-field">Cargo
+                  <select name="role" id="reg-role" required>
+                    <option value="">Selecciona tu cargo</option>
+                    <option value="Académico/a">Académico/a</option>
+                    <option value="Docente colaborador/a">Docente colaborador/a</option>
+                    <option value="Otro">Otro</option>
+                  </select>
+                </label>
+
+                <label class="reg-field wide" id="reg-other-role-wrap" hidden>Especifica tu cargo (opcional)
+                  <input name="otherRole" id="reg-other-role" type="text" maxlength="120" placeholder="Ej.: Investigador/a, Coordinador/a de práctica, Profesional...">
+                </label>
+
+                <label class="reg-field wide">Universidad o institución
+                  <select name="university" id="reg-university" required>
+                    <option value="">Selecciona una de las 14 universidades de ACHETSU u otra institución</option>
+                    <optgroup label="14 Universidades integrantes de ACHETSU">
+                      <option value="Universidad Alberto Hurtado (UAH)">Universidad Alberto Hurtado (UAH)</option>
+                      <option value="Pontificia Universidad Católica de Chile (PUC)">Pontificia Universidad Católica de Chile (PUC)</option>
+                      <option value="Universidad de Chile">Universidad de Chile</option>
+                      <option value="Universidad de Las Américas (UDLA)">Universidad de Las Américas (UDLA)</option>
+                      <option value="Universidad Católica del Maule (UCM)">Universidad Católica del Maule (UCM)</option>
+                      <option value="Universidad Bernardo O'Higgins (UBO)">Universidad Bernardo O'Higgins (UBO)</option>
+                      <option value="Universidad Santo Tomás (UST)">Universidad Santo Tomás (UST)</option>
+                      <option value="Universidad Andrés Bello (UNAB)">Universidad Andrés Bello (UNAB)</option>
+                      <option value="Universidad Autónoma de Chile">Universidad Autónoma de Chile</option>
+                      <option value="Universidad Católica Cardenal Silva Henríquez (UCSH)">Universidad Católica Cardenal Silva Henríquez (UCSH)</option>
+                      <option value="Universidad Austral de Chile (UACh)">Universidad Austral de Chile (UACh)</option>
+                      <option value="Universidad Academia de Humanismo Cristiano (UAHC)">Universidad Academia de Humanismo Cristiano (UAHC)</option>
+                      <option value="Universidad Central de Chile (UCEN)">Universidad Central de Chile (UCEN)</option>
+                      <option value="Universidad Miguel de Cervantes (UMC)">Universidad Miguel de Cervantes (UMC)</option>
+                    </optgroup>
+                    <optgroup label="Otras instituciones">
+                      <option value="Otra institución">Otra institución</option>
+                    </optgroup>
+                  </select>
+                </label>
+
+                <label class="reg-field wide" id="reg-other-institution-wrap" hidden>Nombre de la institución
+                  <input name="otherInstitution" id="reg-other-institution" type="text" maxlength="180" placeholder="Escribe el nombre de tu universidad o institución">
+                </label>
+
+                <label class="reg-field wide">Participación por jornadas
+                  <select name="attendance" id="reg-attendance" required>
+                    <option value="Ambas jornadas (martes 24 y miércoles 25 de noviembre)" selected>Ambas jornadas (martes 24 y miércoles 25 de noviembre) — Preferido</option>
+                    <option value="Solo martes 24 de noviembre">Solo martes 24 de noviembre</option>
+                    <option value="Solo miércoles 25 de noviembre">Solo miércoles 25 de noviembre</option>
+                  </select>
+                  <small class="reg-hint">Se prefiere que las y los participantes asistan en ambas jornadas. Asistir al seminario no tiene costo.</small>
+                </label>
+              </div>
+
+              <label class="reg-trap" aria-hidden="true">No completar
+                <input name="website" tabindex="-1" autocomplete="off">
+              </label>
+
+              <div class="reg-actions">
+                <button class="button" type="submit" id="reg-submit-btn">Confirmar inscripción gratuita</button>
+                <a class="button button-outline" id="reg-direct-link" href="#" target="_blank" rel="noopener" hidden>Abrir formulario directo ↗</a>
+              </div>
+              <p class="reg-error" id="reg-form-error" role="alert"></p>
+            </form>
+
+            <section class="reg-success" id="reg-success-panel" hidden aria-live="polite">
+              <p class="reg-receipt-brand">I CONGRESO ACHETSU 2026 · COMPROBANTE DE INSCRIPCIÓN</p>
+              <h3>Inscripción confirmada</h3>
+              <p id="reg-success-summary">Tu inscripción fue registrada y hemos enviado un correo de confirmación a tu casilla.</p>
+              <dl class="reg-receipt-list">
+                <div><dt>Folio</dt><dd id="reg-rec-folio"></dd></div>
+                <div><dt>Fecha de registro</dt><dd id="reg-rec-date"></dd></div>
+                <div><dt>Modalidad</dt><dd>Persona natural · Sin costo</dd></div>
+                <div><dt>Nombre completo</dt><dd id="reg-rec-name"></dd></div>
+                <div><dt>Correo electrónico</dt><dd id="reg-rec-email"></dd></div>
+                <div><dt>Cargo</dt><dd id="reg-rec-role"></dd></div>
+                <div><dt>Universidad / Institución</dt><dd id="reg-rec-institution"></dd></div>
+                <div><dt>Jornadas</dt><dd id="reg-rec-attendance"></dd></div>
+              </dl>
+              <div class="reg-actions">
+                <button class="button" type="button" id="reg-new-btn">Registrar otra inscripción</button>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="instituciones" aria-labelledby="inst-title">
       <div class="wrap reveal">
         <div class="section-heading">
           <div>
@@ -1594,6 +2498,7 @@
     </div>
   </footer>
 
+  <script src="assets/apps-script-config.js"></script>
   <script>
     (() => {
       const loader = document.getElementById("page-loader");
@@ -1665,6 +2570,170 @@
           });
         }, { rootMargin: "-25% 0px -65% 0px" });
         sections.forEach((section) => navObserver.observe(section));
+      }
+
+      // Formulario de inscripción al Congreso (mediado por Code.gs)
+      const regForm = document.getElementById("congress-registration-form");
+      if (regForm) {
+        const roleSelect = document.getElementById("reg-role");
+        const otherRoleWrap = document.getElementById("reg-other-role-wrap");
+        const otherRoleInput = document.getElementById("reg-other-role");
+        const universitySelect = document.getElementById("reg-university");
+        const otherInstitutionWrap = document.getElementById("reg-other-institution-wrap");
+        const otherInstitutionInput = document.getElementById("reg-other-institution");
+        const submitBtn = document.getElementById("reg-submit-btn");
+        const directLink = document.getElementById("reg-direct-link");
+        const errorBox = document.getElementById("reg-form-error");
+        const successPanel = document.getElementById("reg-success-panel");
+        const newBtn = document.getElementById("reg-new-btn");
+
+        const backendUrl = String(window.ACHETSU_APPS_SCRIPT_URL || "").trim();
+        let publicBackend = null;
+        try {
+          const parsedUrl = new URL(backendUrl);
+          if (parsedUrl.protocol === "https:" &&
+              parsedUrl.hostname === "script.google.com" &&
+              /^\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(parsedUrl.pathname)) {
+            publicBackend = parsedUrl;
+          }
+        } catch (err) {
+          if (backendUrl) console.error("URL de Apps Script no válida:", err);
+        }
+
+        if (publicBackend && directLink) {
+          const viewUrl = new URL(publicBackend);
+          viewUrl.searchParams.set("view", "congreso");
+          directLink.href = viewUrl.toString();
+          directLink.hidden = false;
+        }
+
+        roleSelect.addEventListener("change", () => {
+          const isOther = roleSelect.value === "Otro";
+          otherRoleWrap.hidden = !isOther;
+          if (!isOther) otherRoleInput.value = "";
+        });
+
+        universitySelect.addEventListener("change", () => {
+          const isOther = universitySelect.value === "Otra institución";
+          otherInstitutionWrap.hidden = !isOther;
+          otherInstitutionInput.required = isOther;
+          if (!isOther) otherInstitutionInput.value = "";
+        });
+
+        const showReceipt = (res) => {
+          document.getElementById("reg-rec-folio").textContent = res.folio;
+          document.getElementById("reg-rec-date").textContent = res.receivedAt;
+          document.getElementById("reg-rec-name").textContent = res.fullName;
+          document.getElementById("reg-rec-email").textContent = res.email;
+          document.getElementById("reg-rec-role").textContent = res.role;
+          document.getElementById("reg-rec-institution").textContent = `${res.institution} (${res.institutionType})`;
+          document.getElementById("reg-rec-attendance").textContent = res.attendance;
+          document.getElementById("reg-success-summary").textContent = res.participantEmailSent
+            ? `Hemos enviado la confirmación automática a ${res.email} y notificado a la coordinación del Congreso.`
+            : `Tu inscripción quedó registrada con el folio ${res.folio}.`;
+          regForm.hidden = true;
+          successPanel.hidden = false;
+        };
+
+        regForm.addEventListener("submit", async (event) => {
+          event.preventDefault();
+          errorBox.textContent = "";
+
+          const payload = {
+            action: "registerCongress",
+            fullName: regForm.fullName.value.trim(),
+            email: regForm.email.value.trim(),
+            role: regForm.role.value,
+            otherRole: regForm.otherRole.value.trim(),
+            university: regForm.university.value,
+            otherInstitution: regForm.otherInstitution.value.trim(),
+            attendance: regForm.attendance.value,
+            website: regForm.website.value
+          };
+
+          if (payload.fullName.length < 3) {
+            errorBox.textContent = "Por favor, ingresa tu nombre completo.";
+            regForm.fullName.focus();
+            return;
+          }
+          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+            errorBox.textContent = "Ingresa un correo electrónico válido para recibir tu confirmación.";
+            regForm.email.focus();
+            return;
+          }
+          if (!payload.role) {
+            errorBox.textContent = "Selecciona tu cargo (Académico/a, Docente colaborador/a u Otro).";
+            roleSelect.focus();
+            return;
+          }
+          if (!payload.university) {
+            errorBox.textContent = "Selecciona una de las 14 universidades de ACHETSU o la opción «Otra institución».";
+            universitySelect.focus();
+            return;
+          }
+          if (payload.university === "Otra institución" && payload.otherInstitution.length < 2) {
+            errorBox.textContent = "Por favor, indica el nombre de tu institución.";
+            otherInstitutionInput.focus();
+            return;
+          }
+
+          if (typeof google !== "undefined" && google.script && google.script.run) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Registrando inscripción...";
+            google.script.run
+              .withSuccessHandler((res) => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Confirmar inscripción gratuita";
+                showReceipt(res);
+              })
+              .withFailureHandler((err) => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Confirmar inscripción gratuita";
+                errorBox.textContent = (err && err.message) ? err.message : "No se pudo completar la inscripción.";
+              })
+              .submitCongressRegistration(payload);
+            return;
+          }
+
+          if (!publicBackend) {
+            errorBox.textContent = "El servicio de inscripción de Apps Script aún no está conectado en este entorno. Despliega la versión de Code.gs o configura ACHETSU_APPS_SCRIPT_URL.";
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Registrando inscripción...";
+          try {
+            const response = await fetch(publicBackend.toString(), {
+              method: "POST",
+              headers: { "Content-Type": "text/plain;charset=utf-8" },
+              body: JSON.stringify(payload),
+              redirect: "follow"
+            });
+            const data = await response.json();
+            if (!data || !data.ok) {
+              throw new Error((data && data.error) || "No se pudo registrar la inscripción.");
+            }
+            showReceipt(data.result);
+          } catch (err) {
+            errorBox.textContent = (err && err.message)
+              ? err.message
+              : "No fue posible conectar con el servidor. Puedes usar «Abrir formulario directo ↗».";
+          } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Confirmar inscripción gratuita";
+          }
+        });
+
+        if (newBtn) {
+          newBtn.addEventListener("click", () => {
+            regForm.reset();
+            otherRoleWrap.hidden = true;
+            otherInstitutionWrap.hidden = true;
+            otherInstitutionInput.required = false;
+            successPanel.hidden = true;
+            regForm.hidden = false;
+          });
+        }
       }
     })();
   </script>

@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f7f3e8;
+      --paper-deep: #eee5d3;
+      --ink: #302d2b;
+      --muted: #716961;
+      --rust: #b94f2d;
+      --gold: #d7a93f;
+      --teal: #1c625e;
+      --teal-dark: #174e4b;
+      --line: #dfd4bf;
+      --white: #fffdf8;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 1.35rem;
+      background: var(--paper);
+      color: var(--ink);
+      font: 16px/1.55 "Segoe UI", Arial, sans-serif;
+    }
+    main { max-width: 760px; margin-inline: auto; }
+    h1, h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+      line-height: 1.12;
+    }
+    h1 { margin: 0 0 0.55rem; font-size: clamp(1.85rem, 5vw, 2.75rem); }
+    h2 { margin: 0 0 0.75rem; font-size: 1.55rem; }
+    p { color: #4e4741; }
+
+    .eyebrow {
+      margin: 0 0 0.4rem;
+      color: var(--rust);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .notices {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.9rem;
+      margin: 1.15rem 0 1.4rem;
+    }
+
+    .notice-card {
+      padding: 0.95rem 1.05rem;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--teal);
+      background: var(--white);
+      font-size: 0.88rem;
+      color: #46403a;
+    }
+
+    .notice-card.notice-rust {
+      border-left-color: var(--rust);
+    }
+
+    .notice-card strong {
+      display: block;
+      margin-bottom: 0.2rem;
+      color: var(--teal-dark);
+      font-size: 0.76rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .notice-card.notice-rust strong {
+      color: var(--rust);
+    }
+
+    form {
+      padding: 1.5rem;
+      border: 1px solid var(--line);
+      background: var(--white);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.05rem;
+    }
+
+    label {
+      display: grid;
+      gap: 0.35rem;
+      color: #4a433d;
+      font-size: 0.83rem;
+      font-weight: 700;
+    }
+
+    .wide { grid-column: 1 / -1; }
+    .conditional-field[hidden] { display: none; }
+
+    input, select {
+      width: 100%;
+      min-height: 46px;
+      padding: 0.65rem 0.75rem;
+      border: 1px solid #c9c0b2;
+      border-radius: 0;
+      background: var(--white);
+      color: var(--ink);
+      font: inherit;
+    }
+
+    input:focus-visible,
+    select:focus-visible,
+    button:focus-visible,
+    a:focus-visible {
+      outline: 3px solid var(--rust);
+      outline-offset: 3px;
+    }
+
+    .field-hint {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.81rem;
+      font-weight: 400;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 48px;
+      margin-top: 1.15rem;
+      padding: 0.75rem 1.25rem;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--teal);
+      background: var(--teal);
+      color: var(--white);
+      font: 800 0.84rem "Segoe UI", Arial, sans-serif;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 180ms ease, transform 180ms ease;
+    }
+
+    .button:hover:not([disabled]) {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+    }
+
+    .button[disabled] {
+      opacity: 0.65;
+      cursor: wait;
+    }
+
+    .button-secondary {
+      background: transparent;
+      color: var(--teal-dark);
+    }
+
+    .button-secondary:hover:not([disabled]) {
+      background: var(--teal);
+      color: var(--white);
+    }
+
+    .error {
+      min-height: 1.4em;
+      margin: 0.75rem 0 0;
+      color: #8d321b;
+      font-size: 0.88rem;
+      font-weight: 700;
+    }
+
+    .success {
+      padding: 1.5rem;
+      border: 1px solid var(--teal);
+      background: #e1eee8;
+    }
+
+    .success[hidden] { display: none; }
+
+    .receipt-brand {
+      margin: 0 0 0.45rem;
+      color: var(--teal-dark);
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .receipt-fields { margin: 1.1rem 0; }
+    .receipt-fields div {
+      display: grid;
+      grid-template-columns: minmax(9.5rem, 0.36fr) minmax(0, 1fr);
+      gap: 0.85rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #c3d7ce;
+      font-size: 0.9rem;
+    }
+    .receipt-fields dt { color: #3d5a56; font-weight: 700; }
+    .receipt-fields dd { margin: 0; font-weight: 600; color: var(--ink); overflow-wrap: anywhere; }
+
+    .receipt-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .trap {
+      position: absolute;
+      left: -10000px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 620px) {
+      body { padding: 0.9rem; }
+      .notices, .grid { grid-template-columns: 1fr; }
+      .wide { grid-column: auto; }
+      .receipt-fields div { grid-template-columns: 1fr; gap: 0.2rem; }
+    }
+
+    @media print {
+      @page { margin: 18mm; }
+      body { padding: 0; background: white; }
+      body * { visibility: hidden !important; }
+      #congress-success, #congress-success * { visibility: visible !important; }
+      #congress-success {
+        position: absolute;
+        inset: 0 auto auto 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background: white;
+      }
+      .receipt-actions { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">I Congreso ACHETSU 2026 · 24 y 25 de noviembre</p>
+    <h1>Formulario de inscripción (Personas naturales)</h1>
+    <p>Inscríbete para participar en el I Congreso de la Asociación Chilena de Enseñanza en Trabajo Social Universitario en la Universidad Alberto Hurtado, Santiago.</p>
+
+    <div class="notices" role="note">
+      <div class="notice-card">
+        <strong>Actividad gratuita · Sin costo</strong>
+        Asistir al seminario y a las jornadas del I Congreso ACHETSU 2026 no tiene costo de inscripción.
+      </div>
+      <div class="notice-card notice-rust">
+        <strong>Participación en ambas jornadas</strong>
+        Se prefiere que las personas inscritas participen en ambas jornadas (martes 24 y miércoles 25 de noviembre) para acompañar las ponencias, los grupos de trabajo y el plenario.
+      </div>
+    </div>
+
+    <form id="congress-form" novalidate>
+      <div class="grid">
+        <label class="wide">Nombre completo
+          <input name="fullName" id="full-name" type="text" maxlength="160" autocomplete="name" placeholder="Ej.: María Ignacia Soto Rojas" required>
+        </label>
+
+        <label>Correo electrónico
+          <input name="email" id="email" type="email" maxlength="254" autocomplete="email" placeholder="nombre@universidad.cl" required>
+          <small class="field-hint">Enviaremos el comprobante de confirmación a este correo.</small>
+        </label>
+
+        <label>Cargo
+          <select name="role" id="role" required>
+            <option value="">Selecciona tu cargo</option>
+            <option value="Académico/a">Académico/a</option>
+            <option value="Docente colaborador/a">Docente colaborador/a</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </label>
+
+        <label class="wide conditional-field" id="other-role-wrap" hidden>Especifica tu cargo (opcional)
+          <input name="otherRole" id="other-role" type="text" maxlength="120" placeholder="Ej.: Investigador/a, Coordinador/a de práctica, Profesional...">
+        </label>
+
+        <label class="wide">Universidad o institución
+          <select name="university" id="university" required>
+            <option value="">Selecciona una universidad de ACHETSU u otra institución</option>
+            <optgroup label="14 Universidades integrantes de ACHETSU">
+              <option value="Universidad Alberto Hurtado (UAH)">Universidad Alberto Hurtado (UAH)</option>
+              <option value="Pontificia Universidad Católica de Chile (PUC)">Pontificia Universidad Católica de Chile (PUC)</option>
+              <option value="Universidad de Chile">Universidad de Chile</option>
+              <option value="Universidad de Las Américas (UDLA)">Universidad de Las Américas (UDLA)</option>
+              <option value="Universidad Católica del Maule (UCM)">Universidad Católica del Maule (UCM)</option>
+              <option value="Universidad Bernardo O'Higgins (UBO)">Universidad Bernardo O'Higgins (UBO)</option>
+              <option value="Universidad Santo Tomás (UST)">Universidad Santo Tomás (UST)</option>
+              <option value="Universidad Andrés Bello (UNAB)">Universidad Andrés Bello (UNAB)</option>
+              <option value="Universidad Autónoma de Chile">Universidad Autónoma de Chile</option>
+              <option value="Universidad Católica Cardenal Silva Henríquez (UCSH)">Universidad Católica Cardenal Silva Henríquez (UCSH)</option>
+              <option value="Universidad Austral de Chile (UACh)">Universidad Austral de Chile (UACh)</option>
+              <option value="Universidad Academia de Humanismo Cristiano (UAHC)">Universidad Academia de Humanismo Cristiano (UAHC)</option>
+              <option value="Universidad Central de Chile (UCEN)">Universidad Central de Chile (UCEN)</option>
+              <option value="Universidad Miguel de Cervantes (UMC)">Universidad Miguel de Cervantes (UMC)</option>
+            </optgroup>
+            <optgroup label="Otras instituciones">
+              <option value="Otra institución">Otra institución</option>
+            </optgroup>
+          </select>
+        </label>
+
+        <label class="wide conditional-field" id="other-institution-wrap" hidden>Nombre de la institución
+          <input name="otherInstitution" id="other-institution" type="text" maxlength="180" placeholder="Escribe el nombre completo de tu universidad o institución">
+        </label>
+
+        <label class="wide">Participación por jornadas
+          <select name="attendance" id="attendance" required>
+            <option value="Ambas jornadas (martes 24 y miércoles 25 de noviembre)" selected>Ambas jornadas (martes 24 y miércoles 25 de noviembre) — Preferido</option>
+            <option value="Solo martes 24 de noviembre">Solo martes 24 de noviembre</option>
+            <option value="Solo miércoles 25 de noviembre">Solo miércoles 25 de noviembre</option>
+          </select>
+          <small class="field-hint">Se prefiere la asistencia en ambas jornadas para dar continuidad al trabajo por ejes y a la construcción de la Agenda ACHETSU 2026–2029.</small>
+        </label>
+      </div>
+
+      <label class="trap" aria-hidden="true">No completar
+        <input name="website" tabindex="-1" autocomplete="off">
+      </label>
+
+      <button class="button" type="submit" id="submit-btn">Confirmar inscripción gratuita</button>
+      <p class="error" id="form-error" role="alert"></p>
+    </form>
+
+    <section class="success" id="congress-success" hidden aria-live="polite">
+      <p class="receipt-brand">I CONGRESO ACHETSU 2026 · COMPROBANTE DE INSCRIPCIÓN</p>
+      <h2>Inscripción registrada con éxito</h2>
+      <p id="success-summary">Hemos enviado un correo de confirmación a tu dirección electrónica.</p>
+      <dl class="receipt-fields">
+        <div><dt>Folio</dt><dd id="rec-folio"></dd></div>
+        <div><dt>Fecha de inscripción</dt><dd id="rec-date"></dd></div>
+        <div><dt>Modalidad</dt><dd>Persona natural · Sin costo</dd></div>
+        <div><dt>Nombre completo</dt><dd id="rec-name"></dd></div>
+        <div><dt>Correo electrónico</dt><dd id="rec-email"></dd></div>
+        <div><dt>Cargo</dt><dd id="rec-role"></dd></div>
+        <div><dt>Universidad / Institución</dt><dd id="rec-institution"></dd></div>
+        <div><dt>Jornadas</dt><dd id="rec-attendance"></dd></div>
+      </dl>
+      <div class="receipt-actions">
+        <button class="button" type="button" id="print-btn">Guardar comprobante en PDF</button>
+        <button class="button button-secondary" type="button" id="new-btn">Inscribir a otra persona</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const form = document.getElementById("congress-form");
+      const roleSelect = document.getElementById("role");
+      const otherRoleWrap = document.getElementById("other-role-wrap");
+      const otherRoleInput = document.getElementById("other-role");
+      const universitySelect = document.getElementById("university");
+      const otherInstitutionWrap = document.getElementById("other-institution-wrap");
+      const otherInstitutionInput = document.getElementById("other-institution");
+      const submitBtn = document.getElementById("submit-btn");
+      const errorBox = document.getElementById("form-error");
+      const successBox = document.getElementById("congress-success");
+
+      roleSelect.addEventListener("change", () => {
+        const isOther = roleSelect.value === "Otro";
+        otherRoleWrap.hidden = !isOther;
+        if (!isOther) otherRoleInput.value = "";
+      });
+
+      universitySelect.addEventListener("change", () => {
+        const isOther = universitySelect.value === "Otra institución";
+        otherInstitutionWrap.hidden = !isOther;
+        otherInstitutionInput.required = isOther;
+        if (!isOther) otherInstitutionInput.value = "";
+      });
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        errorBox.textContent = "";
+
+        const payload = {
+          fullName: form.fullName.value.trim(),
+          email: form.email.value.trim(),
+          role: form.role.value,
+          otherRole: form.otherRole.value.trim(),
+          university: form.university.value,
+          otherInstitution: form.otherInstitution.value.trim(),
+          attendance: form.attendance.value,
+          website: form.website.value
+        };
+
+        if (payload.fullName.length < 3) {
+          errorBox.textContent = "Por favor, ingresa tu nombre completo.";
+          form.fullName.focus();
+          return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
+          errorBox.textContent = "Ingresa un correo electrónico válido para enviarte la confirmación.";
+          form.email.focus();
+          return;
+        }
+        if (!payload.role) {
+          errorBox.textContent = "Selecciona tu cargo (Académico/a, Docente colaborador/a u Otro).";
+          roleSelect.focus();
+          return;
+        }
+        if (!payload.university) {
+          errorBox.textContent = "Selecciona una de las 14 universidades de ACHETSU o «Otra institución».";
+          universitySelect.focus();
+          return;
+        }
+        if (payload.university === "Otra institución" && payload.otherInstitution.length < 2) {
+          errorBox.textContent = "Indica el nombre de tu institución.";
+          otherInstitutionInput.focus();
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Registrando inscripción...";
+
+        google.script.run
+          .withSuccessHandler((res) => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Confirmar inscripción gratuita";
+            document.getElementById("rec-folio").textContent = res.folio;
+            document.getElementById("rec-date").textContent = res.receivedAt;
+            document.getElementById("rec-name").textContent = res.fullName;
+            document.getElementById("rec-email").textContent = res.email;
+            document.getElementById("rec-role").textContent = res.role;
+            document.getElementById("rec-institution").textContent = `${res.institution} (${res.institutionType})`;
+            document.getElementById("rec-attendance").textContent = res.attendance;
+            document.getElementById("success-summary").textContent = res.participantEmailSent
+              ? `Hemos enviado un correo de confirmación a ${res.email} y notificado a la coordinación del Congreso.`
+              : `Tu inscripción quedó registrada con el folio ${res.folio}. Guarda o imprime este comprobante.`;
+            form.hidden = true;
+            successBox.hidden = false;
+          })
+          .withFailureHandler((err) => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Confirmar inscripción gratuita";
+            errorBox.textContent = (err && err.message) ? err.message : "No se pudo completar la inscripción. Intenta nuevamente.";
+          })
+          .submitCongressRegistration(payload);
+      });
+
+      document.getElementById("print-btn").addEventListener("click", () => window.print());
+      document.getElementById("new-btn").addEventListener("click", () => {
+        form.reset();
+        otherRoleWrap.hidden = true;
+        otherInstitutionWrap.hidden = true;
+        otherInstitutionInput.required = false;
+        successBox.hidden = true;
+        form.hidden = false;
+      });
+    })();
+  </script>
+</body>
+</html>
