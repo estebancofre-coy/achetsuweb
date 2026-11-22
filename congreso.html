@@ -275,13 +275,6 @@
       font-size: 0.96rem;
     }
 
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.85rem;
-      margin-top: 1.8rem;
-    }
-
     .button {
       display: inline-flex;
       min-height: 46px;
@@ -1618,6 +1611,7 @@
         <span class="brand-name">ACHETSU<small>I Congreso 2026</small></span>
       </a>
       <nav class="site-nav" aria-label="Navegación del Congreso">
+        <a class="nav-cta" href="#inscripcion">Inscripción al Congreso</a>
         <a href="#presentacion">Presentación</a>
         <a href="#ejes">Ejes</a>
         <a href="#expositores">Expositores</a>
@@ -1626,7 +1620,6 @@
         <a href="#ponencias">Ponencias</a>
         <a href="#conversatorios">Conversatorios</a>
         <a href="#instituciones">Instituciones</a>
-        <a class="nav-cta" href="#inscripcion">Inscribirse</a>
         <a class="nav-back" href="index.html">← Sitio principal</a>
       </nav>
     </div>
@@ -1676,6 +1669,137 @@
           <div class="status-banner" role="note">
             <span class="badge">Información</span>
             <p><strong>Programación y nómina actualizada:</strong> esta página incorpora el equipo organizador de ACHETSU, las expositoras invitadas, las ponencias de directoras, directores y representantes por universidad en los tres ejes temáticos, y el programa detallado para el martes 24 y miércoles 25 de noviembre de 2026.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="inscripcion" aria-labelledby="registration-title">
+      <div class="wrap reveal">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">Registro de participantes</span>
+            <h2 id="registration-title">Inscripción al Congreso</h2>
+          </div>
+          <p>Formulario de inscripción para personas naturales interesadas en asistir al I Congreso ACHETSU 2026 (24 y 25 de noviembre en la Universidad Alberto Hurtado).</p>
+        </div>
+
+        <div class="reg-layout">
+          <div class="reg-highlights">
+            <article class="reg-highlight-card">
+              <strong>Actividad sin costo</strong>
+              <h3>Asistir al seminario no tiene costo</h3>
+              <p>La participación en todas las ponencias, conversatorios, grupos de trabajo, plenario y espacios de encuentro del I Congreso ACHETSU 2026 es totalmente gratuita para las personas inscritas.</p>
+            </article>
+
+            <article class="reg-highlight-card rust">
+              <strong>Continuidad de las jornadas</strong>
+              <h3>Se prefiere que participen en ambas jornadas</h3>
+              <p>Invitamos y recomendamos asistir tanto el <strong>martes 24</strong> como el <strong>miércoles 25 de noviembre de 2026</strong>, para acompañar íntegramente las ponencias por ejes, el conversatorio deliberativo y el plenario de construcción de la Agenda ACHETSU 2026–2029.</p>
+            </article>
+
+            <article class="reg-highlight-card gold">
+              <strong>Inscripción para personas naturales</strong>
+              <h3>Confirmación automática por correo</h3>
+              <p>Al completar este formulario, tu inscripción quedará registrada automáticamente y recibirás en tu correo electrónico el comprobante oficial con tu folio de acreditación.</p>
+            </article>
+          </div>
+
+          <div class="reg-form-card">
+            <h3>Formulario de inscripción (Personas naturales)</h3>
+            <p>Completa tus datos académicos o institucionales para agilizar tu acreditación presencial el día del evento.</p>
+
+            <form id="congress-registration-form" novalidate>
+              <div class="reg-grid">
+                <label class="reg-field wide">Nombre completo
+                  <input name="fullName" id="reg-fullname" type="text" maxlength="160" autocomplete="name" placeholder="Ej.: María Ignacia Soto Rojas" required>
+                </label>
+
+                <label class="reg-field">Correo electrónico
+                  <input name="email" id="reg-email" type="email" maxlength="254" autocomplete="email" placeholder="nombre@universidad.cl" required>
+                  <small class="reg-hint">Recibirás la confirmación de tu inscripción en este correo.</small>
+                </label>
+
+                <label class="reg-field">Cargo
+                  <select name="role" id="reg-role" required>
+                    <option value="">Selecciona tu cargo</option>
+                    <option value="Académico/a">Académico/a</option>
+                    <option value="Docente colaborador/a">Docente colaborador/a</option>
+                    <option value="Otro">Otro</option>
+                  </select>
+                </label>
+
+                <label class="reg-field wide" id="reg-other-role-wrap" hidden>Especifica tu cargo (opcional)
+                  <input name="otherRole" id="reg-other-role" type="text" maxlength="120" placeholder="Ej.: Investigador/a, Coordinador/a de práctica, Profesional...">
+                </label>
+
+                <label class="reg-field wide">Universidad o institución
+                  <select name="university" id="reg-university" required>
+                    <option value="">Selecciona una de las 14 universidades de ACHETSU u otra institución</option>
+                    <optgroup label="14 Universidades integrantes de ACHETSU">
+                      <option value="Universidad Alberto Hurtado (UAH)">Universidad Alberto Hurtado (UAH)</option>
+                      <option value="Pontificia Universidad Católica de Chile (PUC)">Pontificia Universidad Católica de Chile (PUC)</option>
+                      <option value="Universidad de Chile">Universidad de Chile</option>
+                      <option value="Universidad de Las Américas (UDLA)">Universidad de Las Américas (UDLA)</option>
+                      <option value="Universidad Católica del Maule (UCM)">Universidad Católica del Maule (UCM)</option>
+                      <option value="Universidad Bernardo O'Higgins (UBO)">Universidad Bernardo O'Higgins (UBO)</option>
+                      <option value="Universidad Santo Tomás (UST)">Universidad Santo Tomás (UST)</option>
+                      <option value="Universidad Andrés Bello (UNAB)">Universidad Andrés Bello (UNAB)</option>
+                      <option value="Universidad Autónoma de Chile">Universidad Autónoma de Chile</option>
+                      <option value="Universidad Católica Cardenal Silva Henríquez (UCSH)">Universidad Católica Cardenal Silva Henríquez (UCSH)</option>
+                      <option value="Universidad Austral de Chile (UACh)">Universidad Austral de Chile (UACh)</option>
+                      <option value="Universidad Academia de Humanismo Cristiano (UAHC)">Universidad Academia de Humanismo Cristiano (UAHC)</option>
+                      <option value="Universidad Central de Chile (UCEN)">Universidad Central de Chile (UCEN)</option>
+                      <option value="Universidad Miguel de Cervantes (UMC)">Universidad Miguel de Cervantes (UMC)</option>
+                    </optgroup>
+                    <optgroup label="Otras instituciones">
+                      <option value="Otra institución">Otra institución</option>
+                    </optgroup>
+                  </select>
+                </label>
+
+                <label class="reg-field wide" id="reg-other-institution-wrap" hidden>Nombre de la institución
+                  <input name="otherInstitution" id="reg-other-institution" type="text" maxlength="180" placeholder="Escribe el nombre de tu universidad o institución">
+                </label>
+
+                <label class="reg-field wide">Participación por jornadas
+                  <select name="attendance" id="reg-attendance" required>
+                    <option value="Ambas jornadas (martes 24 y miércoles 25 de noviembre)" selected>Ambas jornadas (martes 24 y miércoles 25 de noviembre) — Preferido</option>
+                    <option value="Solo martes 24 de noviembre">Solo martes 24 de noviembre</option>
+                    <option value="Solo miércoles 25 de noviembre">Solo miércoles 25 de noviembre</option>
+                  </select>
+                  <small class="reg-hint">Se prefiere que las y los participantes asistan en ambas jornadas. Asistir al seminario no tiene costo.</small>
+                </label>
+              </div>
+
+              <label class="reg-trap" aria-hidden="true">No completar
+                <input name="website" tabindex="-1" autocomplete="off">
+              </label>
+
+              <div class="reg-actions">
+                <button class="button button-cta" type="submit" id="reg-submit-btn">Confirmar inscripción gratuita</button>
+              </div>
+              <p class="reg-error" id="reg-form-error" role="alert"></p>
+            </form>
+
+            <section class="reg-success" id="reg-success-panel" hidden aria-live="polite">
+              <p class="reg-receipt-brand">I CONGRESO ACHETSU 2026 · COMPROBANTE DE INSCRIPCIÓN</p>
+              <h3>Inscripción confirmada</h3>
+              <p id="reg-success-summary">Tu inscripción fue registrada y hemos enviado un correo de confirmación a tu casilla.</p>
+              <dl class="reg-receipt-list">
+                <div><dt>Folio</dt><dd id="reg-rec-folio"></dd></div>
+                <div><dt>Fecha de registro</dt><dd id="reg-rec-date"></dd></div>
+                <div><dt>Modalidad</dt><dd>Persona natural · Sin costo</dd></div>
+                <div><dt>Nombre completo</dt><dd id="reg-rec-name"></dd></div>
+                <div><dt>Correo electrónico</dt><dd id="reg-rec-email"></dd></div>
+                <div><dt>Cargo</dt><dd id="reg-rec-role"></dd></div>
+                <div><dt>Universidad / Institución</dt><dd id="reg-rec-institution"></dd></div>
+                <div><dt>Jornadas</dt><dd id="reg-rec-attendance"></dd></div>
+              </dl>
+              <div class="reg-actions">
+                <button class="button" type="button" id="reg-new-btn">Registrar otra inscripción</button>
+              </div>
+            </section>
           </div>
         </div>
       </div>
@@ -2429,139 +2553,7 @@
       </div>
     </section>
 
-    <section class="section" id="inscripcion" aria-labelledby="registration-title">
-      <div class="wrap reveal">
-        <div class="section-heading">
-          <div>
-            <span class="section-kicker">Registro de participantes</span>
-            <h2 id="registration-title">Inscripción al Congreso</h2>
-          </div>
-          <p>Formulario de inscripción para personas naturales interesadas en asistir al I Congreso ACHETSU 2026 (24 y 25 de noviembre en la Universidad Alberto Hurtado).</p>
-        </div>
-
-        <div class="reg-layout">
-          <div class="reg-highlights">
-            <article class="reg-highlight-card">
-              <strong>Actividad sin costo</strong>
-              <h3>Asistir al seminario no tiene costo</h3>
-              <p>La participación en todas las ponencias, conversatorios, grupos de trabajo, plenario y espacios de encuentro del I Congreso ACHETSU 2026 es totalmente gratuita para las personas inscritas.</p>
-            </article>
-
-            <article class="reg-highlight-card rust">
-              <strong>Continuidad de las jornadas</strong>
-              <h3>Se prefiere que participen en ambas jornadas</h3>
-              <p>Invitamos y recomendamos asistir tanto el <strong>martes 24</strong> como el <strong>miércoles 25 de noviembre de 2026</strong>, para acompañar íntegramente las ponencias por ejes, el conversatorio deliberativo y el plenario de construcción de la Agenda ACHETSU 2026–2029.</p>
-            </article>
-
-            <article class="reg-highlight-card gold">
-              <strong>Inscripción para personas naturales</strong>
-              <h3>Confirmación automática por correo</h3>
-              <p>Al completar este formulario, tu inscripción quedará registrada automáticamente y recibirás en tu correo electrónico el comprobante oficial con tu folio de acreditación.</p>
-            </article>
-          </div>
-
-          <div class="reg-form-card">
-            <h3>Formulario de inscripción (Personas naturales)</h3>
-            <p>Completa tus datos académicos o institucionales para agilizar tu acreditación presencial el día del evento.</p>
-
-            <form id="congress-registration-form" novalidate>
-              <div class="reg-grid">
-                <label class="reg-field wide">Nombre completo
-                  <input name="fullName" id="reg-fullname" type="text" maxlength="160" autocomplete="name" placeholder="Ej.: María Ignacia Soto Rojas" required>
-                </label>
-
-                <label class="reg-field">Correo electrónico
-                  <input name="email" id="reg-email" type="email" maxlength="254" autocomplete="email" placeholder="nombre@universidad.cl" required>
-                  <small class="reg-hint">Recibirás la confirmación de tu inscripción en este correo.</small>
-                </label>
-
-                <label class="reg-field">Cargo
-                  <select name="role" id="reg-role" required>
-                    <option value="">Selecciona tu cargo</option>
-                    <option value="Académico/a">Académico/a</option>
-                    <option value="Docente colaborador/a">Docente colaborador/a</option>
-                    <option value="Otro">Otro</option>
-                  </select>
-                </label>
-
-                <label class="reg-field wide" id="reg-other-role-wrap" hidden>Especifica tu cargo (opcional)
-                  <input name="otherRole" id="reg-other-role" type="text" maxlength="120" placeholder="Ej.: Investigador/a, Coordinador/a de práctica, Profesional...">
-                </label>
-
-                <label class="reg-field wide">Universidad o institución
-                  <select name="university" id="reg-university" required>
-                    <option value="">Selecciona una de las 14 universidades de ACHETSU u otra institución</option>
-                    <optgroup label="14 Universidades integrantes de ACHETSU">
-                      <option value="Universidad Alberto Hurtado (UAH)">Universidad Alberto Hurtado (UAH)</option>
-                      <option value="Pontificia Universidad Católica de Chile (PUC)">Pontificia Universidad Católica de Chile (PUC)</option>
-                      <option value="Universidad de Chile">Universidad de Chile</option>
-                      <option value="Universidad de Las Américas (UDLA)">Universidad de Las Américas (UDLA)</option>
-                      <option value="Universidad Católica del Maule (UCM)">Universidad Católica del Maule (UCM)</option>
-                      <option value="Universidad Bernardo O'Higgins (UBO)">Universidad Bernardo O'Higgins (UBO)</option>
-                      <option value="Universidad Santo Tomás (UST)">Universidad Santo Tomás (UST)</option>
-                      <option value="Universidad Andrés Bello (UNAB)">Universidad Andrés Bello (UNAB)</option>
-                      <option value="Universidad Autónoma de Chile">Universidad Autónoma de Chile</option>
-                      <option value="Universidad Católica Cardenal Silva Henríquez (UCSH)">Universidad Católica Cardenal Silva Henríquez (UCSH)</option>
-                      <option value="Universidad Austral de Chile (UACh)">Universidad Austral de Chile (UACh)</option>
-                      <option value="Universidad Academia de Humanismo Cristiano (UAHC)">Universidad Academia de Humanismo Cristiano (UAHC)</option>
-                      <option value="Universidad Central de Chile (UCEN)">Universidad Central de Chile (UCEN)</option>
-                      <option value="Universidad Miguel de Cervantes (UMC)">Universidad Miguel de Cervantes (UMC)</option>
-                    </optgroup>
-                    <optgroup label="Otras instituciones">
-                      <option value="Otra institución">Otra institución</option>
-                    </optgroup>
-                  </select>
-                </label>
-
-                <label class="reg-field wide" id="reg-other-institution-wrap" hidden>Nombre de la institución
-                  <input name="otherInstitution" id="reg-other-institution" type="text" maxlength="180" placeholder="Escribe el nombre de tu universidad o institución">
-                </label>
-
-                <label class="reg-field wide">Participación por jornadas
-                  <select name="attendance" id="reg-attendance" required>
-                    <option value="Ambas jornadas (martes 24 y miércoles 25 de noviembre)" selected>Ambas jornadas (martes 24 y miércoles 25 de noviembre) — Preferido</option>
-                    <option value="Solo martes 24 de noviembre">Solo martes 24 de noviembre</option>
-                    <option value="Solo miércoles 25 de noviembre">Solo miércoles 25 de noviembre</option>
-                  </select>
-                  <small class="reg-hint">Se prefiere que las y los participantes asistan en ambas jornadas. Asistir al seminario no tiene costo.</small>
-                </label>
-              </div>
-
-              <label class="reg-trap" aria-hidden="true">No completar
-                <input name="website" tabindex="-1" autocomplete="off">
-              </label>
-
-              <div class="reg-actions">
-                <button class="button button-cta" type="submit" id="reg-submit-btn">Confirmar inscripción gratuita</button>
-                <a class="button button-outline" id="reg-direct-link" href="#" target="_blank" rel="noopener" hidden>Abrir formulario directo ↗</a>
-              </div>
-              <p class="reg-error" id="reg-form-error" role="alert"></p>
-            </form>
-
-            <section class="reg-success" id="reg-success-panel" hidden aria-live="polite">
-              <p class="reg-receipt-brand">I CONGRESO ACHETSU 2026 · COMPROBANTE DE INSCRIPCIÓN</p>
-              <h3>Inscripción confirmada</h3>
-              <p id="reg-success-summary">Tu inscripción fue registrada y hemos enviado un correo de confirmación a tu casilla.</p>
-              <dl class="reg-receipt-list">
-                <div><dt>Folio</dt><dd id="reg-rec-folio"></dd></div>
-                <div><dt>Fecha de registro</dt><dd id="reg-rec-date"></dd></div>
-                <div><dt>Modalidad</dt><dd>Persona natural · Sin costo</dd></div>
-                <div><dt>Nombre completo</dt><dd id="reg-rec-name"></dd></div>
-                <div><dt>Correo electrónico</dt><dd id="reg-rec-email"></dd></div>
-                <div><dt>Cargo</dt><dd id="reg-rec-role"></dd></div>
-                <div><dt>Universidad / Institución</dt><dd id="reg-rec-institution"></dd></div>
-                <div><dt>Jornadas</dt><dd id="reg-rec-attendance"></dd></div>
-              </dl>
-              <div class="reg-actions">
-                <button class="button" type="button" id="reg-new-btn">Registrar otra inscripción</button>
-              </div>
-            </section>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section section-alt" id="instituciones" aria-labelledby="inst-title">
+    <section class="section" id="instituciones" aria-labelledby="inst-title">
       <div class="wrap reveal">
         <div class="section-heading">
           <div>
@@ -2694,7 +2686,6 @@
         const otherInstitutionWrap = document.getElementById("reg-other-institution-wrap");
         const otherInstitutionInput = document.getElementById("reg-other-institution");
         const submitBtn = document.getElementById("reg-submit-btn");
-        const directLink = document.getElementById("reg-direct-link");
         const errorBox = document.getElementById("reg-form-error");
         const successPanel = document.getElementById("reg-success-panel");
         const newBtn = document.getElementById("reg-new-btn");
@@ -2710,13 +2701,6 @@
           }
         } catch (err) {
           if (backendUrl) console.error("URL de Apps Script no válida:", err);
-        }
-
-        if (publicBackend && directLink) {
-          const viewUrl = new URL(publicBackend);
-          viewUrl.searchParams.set("view", "congreso");
-          directLink.href = viewUrl.toString();
-          directLink.hidden = false;
         }
 
         roleSelect.addEventListener("change", () => {
@@ -2829,7 +2813,7 @@
           } catch (err) {
             errorBox.textContent = (err && err.message)
               ? err.message
-              : "No fue posible conectar con el servidor. Puedes usar «Abrir formulario directo ↗».";
+              : "No fue posible conectar con el servidor.";
           } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = "Confirmar inscripción gratuita";
