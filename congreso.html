@@ -1709,97 +1709,15 @@
             <h3>Formulario de inscripción (Personas naturales)</h3>
             <p>Completa tus datos académicos o institucionales para agilizar tu acreditación presencial el día del evento.</p>
 
-            <form id="congress-registration-form" novalidate>
-              <div class="reg-grid">
-                <label class="reg-field wide">Nombre completo
-                  <input name="fullName" id="reg-fullname" type="text" maxlength="160" autocomplete="name" placeholder="Ej.: María Ignacia Soto Rojas" required>
-                </label>
-
-                <label class="reg-field">Correo electrónico
-                  <input name="email" id="reg-email" type="email" maxlength="254" autocomplete="email" placeholder="nombre@universidad.cl" required>
-                  <small class="reg-hint">Recibirás la confirmación de tu inscripción en este correo.</small>
-                </label>
-
-                <label class="reg-field">Cargo
-                  <select name="role" id="reg-role" required>
-                    <option value="">Selecciona tu cargo</option>
-                    <option value="Académico/a">Académico/a</option>
-                    <option value="Docente colaborador/a">Docente colaborador/a</option>
-                    <option value="Otro">Otro</option>
-                  </select>
-                </label>
-
-                <label class="reg-field wide" id="reg-other-role-wrap" hidden>Especifica tu cargo (opcional)
-                  <input name="otherRole" id="reg-other-role" type="text" maxlength="120" placeholder="Ej.: Investigador/a, Coordinador/a de práctica, Profesional...">
-                </label>
-
-                <label class="reg-field wide">Universidad o institución
-                  <select name="university" id="reg-university" required>
-                    <option value="">Selecciona una de las 14 universidades de ACHETSU u otra institución</option>
-                    <optgroup label="14 Universidades integrantes de ACHETSU">
-                      <option value="Universidad Alberto Hurtado (UAH)">Universidad Alberto Hurtado (UAH)</option>
-                      <option value="Pontificia Universidad Católica de Chile (PUC)">Pontificia Universidad Católica de Chile (PUC)</option>
-                      <option value="Universidad de Chile">Universidad de Chile</option>
-                      <option value="Universidad de Las Américas (UDLA)">Universidad de Las Américas (UDLA)</option>
-                      <option value="Universidad Católica del Maule (UCM)">Universidad Católica del Maule (UCM)</option>
-                      <option value="Universidad Bernardo O'Higgins (UBO)">Universidad Bernardo O'Higgins (UBO)</option>
-                      <option value="Universidad Santo Tomás (UST)">Universidad Santo Tomás (UST)</option>
-                      <option value="Universidad Andrés Bello (UNAB)">Universidad Andrés Bello (UNAB)</option>
-                      <option value="Universidad Autónoma de Chile">Universidad Autónoma de Chile</option>
-                      <option value="Universidad Católica Cardenal Silva Henríquez (UCSH)">Universidad Católica Cardenal Silva Henríquez (UCSH)</option>
-                      <option value="Universidad Austral de Chile (UACh)">Universidad Austral de Chile (UACh)</option>
-                      <option value="Universidad Academia de Humanismo Cristiano (UAHC)">Universidad Academia de Humanismo Cristiano (UAHC)</option>
-                      <option value="Universidad Central de Chile (UCEN)">Universidad Central de Chile (UCEN)</option>
-                      <option value="Universidad Miguel de Cervantes (UMC)">Universidad Miguel de Cervantes (UMC)</option>
-                    </optgroup>
-                    <optgroup label="Otras instituciones">
-                      <option value="Otra institución">Otra institución</option>
-                    </optgroup>
-                  </select>
-                </label>
-
-                <label class="reg-field wide" id="reg-other-institution-wrap" hidden>Nombre de la institución
-                  <input name="otherInstitution" id="reg-other-institution" type="text" maxlength="180" placeholder="Escribe el nombre de tu universidad o institución">
-                </label>
-
-                <label class="reg-field wide">Participación por jornadas
-                  <select name="attendance" id="reg-attendance" required>
-                    <option value="Ambas jornadas (martes 24 y miércoles 25 de noviembre)" selected>Ambas jornadas (martes 24 y miércoles 25 de noviembre) — Preferido</option>
-                    <option value="Solo martes 24 de noviembre">Solo martes 24 de noviembre</option>
-                    <option value="Solo miércoles 25 de noviembre">Solo miércoles 25 de noviembre</option>
-                  </select>
-                  <small class="reg-hint">Se prefiere que las y los participantes asistan en ambas jornadas. Asistir al seminario no tiene costo.</small>
-                </label>
-              </div>
-
-              <label class="reg-trap" aria-hidden="true">No completar
-                <input name="website" tabindex="-1" autocomplete="off">
-              </label>
-
-              <div class="reg-actions">
-                <button class="button button-cta" type="submit" id="reg-submit-btn">Confirmar inscripción gratuita</button>
-              </div>
-              <p class="reg-error" id="reg-form-error" role="alert"></p>
-            </form>
-
-            <section class="reg-success" id="reg-success-panel" hidden aria-live="polite">
-              <p class="reg-receipt-brand">I CONGRESO ACHETSU 2026 · COMPROBANTE DE INSCRIPCIÓN</p>
-              <h3>Inscripción confirmada</h3>
-              <p id="reg-success-summary">Tu inscripción fue registrada y hemos enviado un correo de confirmación a tu casilla.</p>
-              <dl class="reg-receipt-list">
-                <div><dt>Folio</dt><dd id="reg-rec-folio"></dd></div>
-                <div><dt>Fecha de registro</dt><dd id="reg-rec-date"></dd></div>
-                <div><dt>Modalidad</dt><dd>Persona natural · Sin costo</dd></div>
-                <div><dt>Nombre completo</dt><dd id="reg-rec-name"></dd></div>
-                <div><dt>Correo electrónico</dt><dd id="reg-rec-email"></dd></div>
-                <div><dt>Cargo</dt><dd id="reg-rec-role"></dd></div>
-                <div><dt>Universidad / Institución</dt><dd id="reg-rec-institution"></dd></div>
-                <div><dt>Jornadas</dt><dd id="reg-rec-attendance"></dd></div>
-              </dl>
-              <div class="reg-actions">
-                <button class="button" type="button" id="reg-new-btn">Registrar otra inscripción</button>
-              </div>
-            </section>
+            <div id="congress-registration-iframe-wrapper" style="min-height: 800px; border: 1px solid #ddd; border-radius: 4px; overflow: hidden;">
+              <iframe 
+                id="congress-registration-iframe"
+                src="https://script.google.com/macros/s/AKfycbwnZH1mVB3KbnLuYxggbzM5IYkapfMHcPW3jSUqRhreS9QB6e5_h7L9xbrGHannZ6ja/exec?view=congreso"
+                style="width: 100%; height: 100%; border: none; display: block;"
+                allow="payment"
+                title="Formulario de inscripción al I Congreso ACHETSU 2026"
+              ></iframe>
+            </div>
           </div>
         </div>
       </div>
@@ -2717,160 +2635,13 @@
         sections.forEach((section) => navObserver.observe(section));
       }
 
-      // Formulario de inscripción al Congreso (mediado por Code.gs)
+      // Formulario de inscripción al Congreso: ahora usa iframe que apunta a Apps Script
+      // Esto evita problemas de CORS que ocurrían con fetch() desde achetsu.cl
       const regForm = document.getElementById("congress-registration-form");
       if (regForm) {
-        const roleSelect = document.getElementById("reg-role");
-        const otherRoleWrap = document.getElementById("reg-other-role-wrap");
-        const otherRoleInput = document.getElementById("reg-other-role");
-        const universitySelect = document.getElementById("reg-university");
-        const otherInstitutionWrap = document.getElementById("reg-other-institution-wrap");
-        const otherInstitutionInput = document.getElementById("reg-other-institution");
-        const submitBtn = document.getElementById("reg-submit-btn");
-        const errorBox = document.getElementById("reg-form-error");
-        const successPanel = document.getElementById("reg-success-panel");
-        const newBtn = document.getElementById("reg-new-btn");
-
-        const backendUrl = String(window.ACHETSU_CONGRESS_SCRIPT_URL || "https://script.google.com/macros/s/AKfycbwnZH1mVB3KbnLuYxggbzM5IYkapfMHcPW3jSUqRhreS9QB6e5_h7L9xbrGHannZ6ja/exec" || window.ACHETSU_APPS_SCRIPT_URL || "").trim();
-        let publicBackend = null;
-        try {
-          const parsedUrl = new URL(backendUrl);
-          if (parsedUrl.protocol === "https:" &&
-              parsedUrl.hostname === "script.google.com" &&
-              /^\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(parsedUrl.pathname)) {
-            publicBackend = parsedUrl;
-          }
-        } catch (err) {
-          if (backendUrl) console.error("URL de Apps Script no válida:", err);
-        }
-
-        roleSelect.addEventListener("change", () => {
-          const isOther = roleSelect.value === "Otro";
-          otherRoleWrap.hidden = !isOther;
-          if (!isOther) otherRoleInput.value = "";
-        });
-
-        universitySelect.addEventListener("change", () => {
-          const isOther = universitySelect.value === "Otra institución";
-          otherInstitutionWrap.hidden = !isOther;
-          otherInstitutionInput.required = isOther;
-          if (!isOther) otherInstitutionInput.value = "";
-        });
-
-        const showReceipt = (res) => {
-          document.getElementById("reg-rec-folio").textContent = res.folio;
-          document.getElementById("reg-rec-date").textContent = res.receivedAt;
-          document.getElementById("reg-rec-name").textContent = res.fullName;
-          document.getElementById("reg-rec-email").textContent = res.email;
-          document.getElementById("reg-rec-role").textContent = res.role;
-          document.getElementById("reg-rec-institution").textContent = `${res.institution} (${res.institutionType})`;
-          document.getElementById("reg-rec-attendance").textContent = res.attendance;
-          document.getElementById("reg-success-summary").textContent = res.participantEmailSent
-            ? `Hemos enviado la confirmación automática a ${res.email} y notificado a la coordinación del Congreso.`
-            : `Tu inscripción quedó registrada con el folio ${res.folio}.`;
-          regForm.hidden = true;
-          successPanel.hidden = false;
-        };
-
-        regForm.addEventListener("submit", async (event) => {
-          event.preventDefault();
-          errorBox.textContent = "";
-
-          const payload = {
-            action: "registerCongress",
-            fullName: regForm.fullName.value.trim(),
-            email: regForm.email.value.trim(),
-            role: regForm.role.value,
-            otherRole: regForm.otherRole.value.trim(),
-            university: regForm.university.value,
-            otherInstitution: regForm.otherInstitution.value.trim(),
-            attendance: regForm.attendance.value,
-            website: regForm.website.value
-          };
-
-          if (payload.fullName.length < 3) {
-            errorBox.textContent = "Por favor, ingresa tu nombre completo.";
-            regForm.fullName.focus();
-            return;
-          }
-          if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(payload.email)) {
-            errorBox.textContent = "Ingresa un correo electrónico válido para recibir tu confirmación.";
-            regForm.email.focus();
-            return;
-          }
-          if (!payload.role) {
-            errorBox.textContent = "Selecciona tu cargo (Académico/a, Docente colaborador/a u Otro).";
-            roleSelect.focus();
-            return;
-          }
-          if (!payload.university) {
-            errorBox.textContent = "Selecciona una de las 14 universidades de ACHETSU o la opción «Otra institución».";
-            universitySelect.focus();
-            return;
-          }
-          if (payload.university === "Otra institución" && payload.otherInstitution.length < 2) {
-            errorBox.textContent = "Por favor, indica el nombre de tu institución.";
-            otherInstitutionInput.focus();
-            return;
-          }
-
-          if (typeof google !== "undefined" && google.script && google.script.run) {
-            submitBtn.disabled = true;
-            submitBtn.textContent = "Registrando inscripción...";
-            google.script.run
-              .withSuccessHandler((res) => {
-                submitBtn.disabled = false;
-                submitBtn.textContent = "Confirmar inscripción gratuita";
-                showReceipt(res);
-              })
-              .withFailureHandler((err) => {
-                submitBtn.disabled = false;
-                submitBtn.textContent = "Confirmar inscripción gratuita";
-                errorBox.textContent = (err && err.message) ? err.message : "No se pudo completar la inscripción.";
-              })
-              .submitCongressRegistration(payload);
-            return;
-          }
-
-          if (!publicBackend) {
-            errorBox.textContent = "El servicio de inscripción de Apps Script aún no está conectado en este entorno. Despliega la versión de Code.gs o configura ACHETSU_APPS_SCRIPT_URL.";
-            return;
-          }
-
-          submitBtn.disabled = true;
-          submitBtn.textContent = "Registrando inscripción...";
-          try {
-            const response = await fetch(publicBackend.toString(), {
-              method: "POST",
-              headers: { "Content-Type": "text/plain;charset=utf-8" },
-              body: JSON.stringify(payload),
-              redirect: "follow"
-            });
-            const data = await response.json();
-            if (!data || !data.ok) {
-              throw new Error((data && data.error) || "No se pudo registrar la inscripción.");
-            }
-            showReceipt(data.result);
-          } catch (err) {
-            errorBox.textContent = (err && err.message)
-              ? err.message
-              : "No fue posible conectar con el servidor.";
-          } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = "Confirmar inscripción gratuita";
-          }
-        });
-
-        if (newBtn) {
-          newBtn.addEventListener("click", () => {
-            regForm.reset();
-            otherRoleWrap.hidden = true;
-            otherInstitutionWrap.hidden = true;
-            otherInstitutionInput.required = false;
-            successPanel.hidden = true;
-            regForm.hidden = false;
-          });
-        }
+        // El formulario anterior ha sido reemplazado con un iframe
+        // que carga el formulario directamente desde Google Apps Script (Congreso.html)
+        // No se necesita código adicional aquí
       }
 
       const mobileCtaBar = document.getElementById("mobile-cta-bar");
