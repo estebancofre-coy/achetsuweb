@@ -2731,7 +2731,7 @@
         const successPanel = document.getElementById("reg-success-panel");
         const newBtn = document.getElementById("reg-new-btn");
 
-        const backendUrl = String(window.ACHETSU_APPS_SCRIPT_URL || "").trim();
+        const backendUrl = String(window.ACHETSU_CONGRESS_SCRIPT_URL || "https://script.google.com/macros/s/AKfycbwnZH1mVB3KbnLuYxggbzM5IYkapfMHcPW3jSUqRhreS9QB6e5_h7L9xbrGHannZ6ja/exec" || window.ACHETSU_APPS_SCRIPT_URL || "").trim();
         let publicBackend = null;
         try {
           const parsedUrl = new URL(backendUrl);
