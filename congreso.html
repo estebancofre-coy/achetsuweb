@@ -1712,11 +1712,22 @@
             <div id="congress-registration-iframe-wrapper" style="position: relative; width: 100%; margin: 0 auto; border: none; border-radius: 4px; overflow: hidden; min-height: 600px; aspect-ratio: auto;">
               <iframe 
                 id="congress-registration-iframe"
-                src="https://script.google.com/macros/s/AKfycbwnZH1mVB3KbnLuYxggbzM5IYkapfMHcPW3jSUqRhreS9QB6e5_h7L9xbrGHannZ6ja/exec?view=congreso"
+                src="https://script.google.com/macros/s/AKfycbwnZH1mVB3KbnLuYxggbzM5IYkapfMHcPW3jSUqRhreS9QB6e5_h7L9xbrGHannZ6ja/exec?view=congreso&_cache="
                 style="width: 100%; height: 100%; border: none; display: block; min-height: 600px;"
                 allow="payment"
                 title="Formulario de inscripción al I Congreso ACHETSU 2026"
               ></iframe>
+              
+              <div id="congress-registration-fallback" style="display: none; padding: 2rem 1.5rem; background: #fff8f3; border: 1px solid #dcc9b6; border-radius: 4px; text-align: center;">
+                <p style="color: #b94f2d; font-weight: bold; margin: 0 0 0.75rem;">El formulario no se pudo cargar correctamente</p>
+                <p style="color: #716961; font-size: 0.95rem; margin: 0 0 1.25rem;">Esto ocurre cuando tu navegador tiene datos en caché. Por favor, intenta uno de estos pasos:</p>
+                <ol style="text-align: left; color: #4a433d; font-size: 0.95rem; margin: 0 0 1rem; max-width: 400px; margin-left: auto; margin-right: auto;">
+                  <li style="margin-bottom: 0.5rem;"><strong>Opción 1 (más rápido):</strong> Abre esta página en una <strong>pestaña incógnita/privada</strong> (Ctrl+Shift+N o Cmd+Shift+N)</li>
+                  <li style="margin-bottom: 0.5rem;"><strong>Opción 2:</strong> Recarga la página con <strong>Ctrl+Shift+R</strong> (Windows) o <strong>Cmd+Shift+R</strong> (Mac) para limpiar caché</li>
+                  <li><strong>Opción 3:</strong> Contacta a coordinacion@achetsu.cl si el problema persiste</li>
+                </ol>
+                <button id="congress-registration-retry-btn" style="margin-top: 1rem; padding: 0.6rem 1.2rem; background: #1c625e; color: white; border: none; border-radius: 3px; font-size: 0.95rem; cursor: pointer; font-weight: 600;">Reintentar cargar formulario</button>
+              </div>
             </div>
           </div>
         </div>
@@ -2642,6 +2653,47 @@
         // El formulario anterior ha sido reemplazado con un iframe
         // que carga el formulario directamente desde Google Apps Script (Congreso.html)
         // No se necesita código adicional aquí
+      }
+
+      // Manejo de cache busting y errores del iframe de inscripción
+      const iframe = document.getElementById("congress-registration-iframe");
+      const fallback = document.getElementById("congress-registration-fallback");
+      const retryBtn = document.getElementById("congress-registration-retry-btn");
+      
+      if (iframe && fallback && retryBtn) {
+        // Agregar timestamp para cache busting (evita caché corrupto)
+        const iframeSrc = iframe.src.replace("_cache=", "_cache=" + Date.now());
+        iframe.src = iframeSrc;
+        
+        // Detectar si el iframe falla a cargar
+        let iframeLoaded = false;
+        const timeoutId = setTimeout(() => {
+          if (!iframeLoaded) {
+            iframe.style.display = "none";
+            fallback.style.display = "block";
+          }
+        }, 8000); // 8 segundos de timeout
+        
+        iframe.addEventListener("load", () => {
+          iframeLoaded = true;
+          clearTimeout(timeoutId);
+          fallback.style.display = "none";
+          iframe.style.display = "block";
+        });
+        
+        iframe.addEventListener("error", () => {
+          iframe.style.display = "none";
+          fallback.style.display = "block";
+        });
+        
+        // Botón de reintento: recarga el iframe con nuevo timestamp
+        retryBtn.addEventListener("click", () => {
+          iframeLoaded = false;
+          fallback.style.display = "none";
+          iframe.style.display = "block";
+          const newSrc = iframe.src.split("_cache=")[0] + "_cache=" + Date.now();
+          iframe.src = newSrc;
+        });
       }
 
       const mobileCtaBar = document.getElementById("mobile-cta-bar");
